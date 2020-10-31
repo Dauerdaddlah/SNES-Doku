@@ -1,0 +1,81 @@
+
+<p>
+<a href="https://wiki.superfamicom.org/timing" class="urlextern" title="https://wiki.superfamicom.org/timing" rel="ugc nofollow">https://wiki.superfamicom.org/timing</a>
+</p>
+
+<p>
+HCounter ist bei startup auf 46 (186 Cycles)
+</p>
+
+<p>
+VBlank bei VCounter 225
+</p>
+
+<p>
+VBlank ist 38 Scanlines
+</p>
+
+<p>
+HBlank bei HCounter 274
+</p>
+
+<p>
+erste sichtbare scanline: 1 - letzte: 224/239 - letze: 261/311
+</p>
+
+<p>
+erste sichtbar hPo: 22 - letzte 277 - allerletzte 339
+</p>
+
+<p>
+NTSC:
+</p>
+<ul>
+<li class="level1"><div class="li"> 60.098813897441 Hz</div>
+</li>
+<li class="level1"><div class="li"> Frame: 16.64ms</div>
+</li>
+<li class="level1"><div class="li"> Display: 224/262 - 14.32ms</div>
+</li>
+<li class="level1"><div class="li"> Scanline: 63.51 ys</div>
+</li>
+<li class="level1"><div class="li"> HBlank: 84/340 - 15.69ys</div>
+</li>
+</ul>
+
+<p>
+PAL
+</p>
+<ul>
+<li class="level1"><div class="li"> 50.006978908189 Hz</div>
+</li>
+<li class="level1"><div class="li"> Frame 20.00ms</div>
+</li>
+<li class="level1"><div class="li"> Display: 239/312 - 15.32ms</div>
+</li>
+<li class="level1"><div class="li"> Scanline: 64.09ys</div>
+</li>
+<li class="level1"><div class="li"> HBlank: 84/340 - 15.83 ys</div>
+</li>
+</ul>
+
+<p>
+Im Schnitt brauch 1 Dot gerundet 4 Master cycle. (master Cycles je Sekunde / Frames je Sekunde / Scanlines / Dots per Scanline)
+</p>
+
+<p>
+1 Scanline braucht 1360 Cycles
+</p>
+
+<p>
+CPU-Instructions brauchen 6 Cycle.
+IO-Operationen brauchen 6, 8, oder 12 Cycle
+</p>
+
+<p>
+auto joypad read at 32.5 and 95.5 in first scanline of v-blank
+</p>
+
+<p>
+at beginning of v-blank, oam-internal-address is reset to 2102-2103
+</p>

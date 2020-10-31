@@ -1,0 +1,38 @@
+[[https://wiki.superfamicom.org/timing]]
+
+HCounter ist bei startup auf 46 (186 Cycles)
+
+VBlank bei VCounter 225
+
+VBlank ist 38 Scanlines
+
+HBlank bei HCounter 274
+
+erste sichtbare scanline: 1 - letzte: 224/239 - letze: 261/311
+
+erste sichtbar hPo: 22 - letzte 277 - allerletzte 339
+
+NTSC:
+  * 60.098813897441 Hz
+  * Frame: 16.64ms
+  * Display: 224/262 - 14.32ms
+  * Scanline: 63.51 ys
+  * HBlank: 84/340 - 15.69ys
+
+PAL
+  * 50.006978908189 Hz
+  * Frame 20.00ms
+  * Display: 239/312 - 15.32ms
+  * Scanline: 64.09ys
+  * HBlank: 84/340 - 15.83 ys
+
+Im Schnitt brauch 1 Dot gerundet 4 Master cycle. (master Cycles je Sekunde / Frames je Sekunde / Scanlines / Dots per Scanline)
+
+1 Scanline braucht 1360 Cycles
+
+CPU-Instructions brauchen 6 Cycle.
+IO-Operationen brauchen 6, 8, oder 12 Cycle
+
+auto joypad read at 32.5 and 95.5 in first scanline of v-blank
+
+at beginning of v-blank, oam-internal-address is reset to 2102-2103
