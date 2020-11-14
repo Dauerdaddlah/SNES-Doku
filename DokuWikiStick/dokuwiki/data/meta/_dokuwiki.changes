@@ -18,3 +18,9 @@
 1602359022	::1	E	memory_map				696
 1602361679	::1	E	memory_map				2202
 1603737136	127.0.0.1	C	start		created		8
+1605373104	127.0.0.1	E	processor				1085
+1605373882	127.0.0.1	E	processor		[Addressmodes] 		1029
+1605379214	127.0.0.1	E	processor		[Addressmodes] 		9858
+1605379638	127.0.0.1	E	processor		[Addressmodes] 		1330
+1605379682	127.0.0.1	E	processor		[Andere Addressmodes] 		-2
+1605379864	127.0.0.1	E	processor				54

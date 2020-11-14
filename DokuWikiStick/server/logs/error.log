@@ -80,3 +80,21 @@ pm_winnt:notice] [pid 4416:tid 716] AH00354: Child: Starting 64 worker threads.
 [Sat Oct 31 11:00:15.942077 2020] [core:notice] [pid 7620:tid 596] AH00094: Command line: 'mapache.exe -d C:/workspace/SNES/SNES-Emulator/doku/DokuWikiStick/server'
 [Sat Oct 31 11:00:15.948086 2020] [mpm_winnt:notice] [pid 7620:tid 596] AH00418: Parent: Created child process 7912
 [Sat Oct 31 11:00:17.108763 2020] [mpm_winnt:notice] [pid 7912:tid 608] AH00354: Child: Starting 64 worker threads.
+[Sat Oct 31 17:56:39.283420 2020] [core:warn] [pid 12596:tid 88] AH00098: pid file C:/workspace/SNES/SNES-Doku/DokuWikiStick/server/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Sat Oct 31 17:56:39.342384 2020] [mpm_winnt:notice] [pid 12596:tid 88] AH00455: Apache/2.4.25 (Win32) PHP/5.6.30 configured -- resuming normal operations
+[Sat Oct 31 17:56:39.342384 2020] [mpm_winnt:notice] [pid 12596:tid 88] AH00456: Apache Lounge VC11 Server built: Dec 20 2016 13:02:04
+[Sat Oct 31 17:56:39.343382 2020] [core:notice] [pid 12596:tid 88] AH00094: Command line: 'mapache.exe -d C:/workspace/SNES/SNES-Doku/DokuWikiStick/server'
+[Sat Oct 31 17:56:39.346380 2020] [mpm_winnt:notice] [pid 12596:tid 88] AH00418: Parent: Created child process 9788
+[Sat Oct 31 17:56:40.154342 2020] [mpm_winnt:notice] [pid 9788:tid 608] AH00354: Child: Starting 64 worker threads.
+[Sun Nov 01 18:13:16.638143 2020] [core:warn] [pid 8036:tid 648] AH00098: pid file C:/workspace/SNES/SNES-Doku/DokuWikiStick/server/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Sun Nov 01 18:13:17.033519 2020] [mpm_winnt:notice] [pid 8036:tid 648] AH00455: Apache/2.4.25 (Win32) PHP/5.6.30 configured -- resuming normal operations
+[Sun Nov 01 18:13:17.033519 2020] [mpm_winnt:notice] [pid 8036:tid 648] AH00456: Apache Lounge VC11 Server built: Dec 20 2016 13:02:04
+[Sun Nov 01 18:13:17.033519 2020] [core:notice] [pid 8036:tid 648] AH00094: Command line: 'mapache.exe -d C:/workspace/SNES/SNES-Doku/DokuWikiStick/server'
+[Sun Nov 01 18:13:17.037506 2020] [mpm_winnt:notice] [pid 8036:tid 648] AH00418: Parent: Created child process 476
+[Sun Nov 01 18:13:17.815082 2020] [mpm_winnt:notice] [pid 476:tid 560] AH00354: Child: Starting 64 worker threads.
+[Sat Nov 14 10:56:43.665542 2020] [core:warn] [pid 7620:tid 576] AH00098: pid file C:/workspace/SNES/SNES-Doku/DokuWikiStick/server/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Sat Nov 14 10:56:44.403004 2020] [mpm_winnt:notice] [pid 7620:tid 576] AH00455: Apache/2.4.25 (Win32) PHP/5.6.30 configured -- resuming normal operations
+[Sat Nov 14 10:56:44.403004 2020] [mpm_winnt:notice] [pid 7620:tid 576] AH00456: Apache Lounge VC11 Server built: Dec 20 2016 13:02:04
+[Sat Nov 14 10:56:44.403004 2020] [core:notice] [pid 7620:tid 576] AH00094: Command line: 'mapache.exe -d C:/workspace/SNES/SNES-Doku/DokuWikiStick/server'
+[Sat Nov 14 10:56:44.407002 2020] [mpm_winnt:notice] [pid 7620:tid 576] AH00418: Parent: Created child process 9692
+[Sat Nov 14 10:56:45.220644 2020] [mpm_winnt:notice] [pid 9692:tid 696] AH00354: Child: Starting 64 worker threads.

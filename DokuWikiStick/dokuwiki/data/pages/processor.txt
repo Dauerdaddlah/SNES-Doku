@@ -146,3 +146,279 @@ Folgende Werte werden in dieser Reihenfolge gepusht und bei rti umgedreht gepull
 
 Ein Interrupt findet nicht statt, wenn das IRQ-Disable flag true ist.
 Ausnahme hiervon ist der NMI, welcher nicht über P verhindert werden kann.
+
+====== Operationen ======
+
+====== Addressmodes ======
+
+Der AddressMode zeigt an, welche Daten eine Operation nutzt, bzw. wie die Daten ermittelt werden.
+Es gibt für das SNES folgende Addressmodes:
+^ Addressmode ^ Schema ^ Bytes ^ Bank ^ Operationen ^
+| absolute | a | 2 | DBR | ADC, AND, ASL, BIT, CMP, CPX, CPY, DEC, EOR, INC, JMP, JSR, LDA, LDX, LDY, LSR, ORA, ROL, ROR, SBC, STA, STX, STY, STZ, TRB, TSB  |
+| absolute indexed indirect | (a,x) | 2 | PBR | JMP, JSR  |
+| absolute indexed with x | a,x | 2 | DBR | ADC, AND, ASL, BIT, CMP, DEC, EOR, INC, LDA, LDY, LSR, ORA, ROL, ROR, SBC, STA, STZ  |
+| absolute indexed with Y | a,y | 2 | DBR | ADC, AND, CMP, EOR, LDA, LDX, ORA, SBC, STA  |
+| absolute indirect/absolute indirect long | (a)/(al) | 2/3 | 00/Param | JML, JMP |
+| absolute long indexed with x | al,x | 3 | Caluculated | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
+| absolute long | al | 3 | Param | ADC, AND, CMP, EOR, JMP, JSR, LDA, ORA, SBC, STA |
+| Accumulator | A | 0 | | ASL, DEA, DEC, INA, INC, LSR, ROL, ROR |
+| Block Move | xyc | 2 | | MVN, MVP |
+| direct indexed indirect | (d,x) | 1 | DBR | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA  |
+| direct indexed with X | d,x | 1 | 00 | ADC, AND, ASL, BIT, CMP, DEC, EOR, INC, LDA, LDY, LSR, ORA, ROL, ROR, SBC, STA, STY, STZ |
+| direct indexed with Y | d,y | 1 | 00 | LDX, STX |
+| direct indirect indexed | (d),y | 1 | calculated | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
+| direct indirect long indexed | [d],y | 1 | calculated | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
+| direct indirect long | [d] | 1 | loaded | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
+| direct indirect | (d) | 1 | DBR | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
+| direct | d | 1 | 00 | ADC, AND, ASL, BIT, CMP, CPX, CPY, DEC, EOR, INC, LDA, LDX, LDY, LSR, ORA, ROL, ROR, SBC, STA, STX, STY, STZ, TRB, TSB |
+| immediate | # | 1/2 | | ADC, AND, BIT, CMP, CPX, CPY, EOR, LDA, LDX, LDY, ORA, REP, SBC, SEP |
+| implied | i | 0 | | CLC, CLD, CLI, CLV, DEX, DEY, INX, INY, NOP, SEC, SED, SEI, STP, TAX, TAY, TCD, TCS, TDC, TSC, TSX, TXA, TXS, TXY, TYA, TYX, WAI, XBA, XCE |
+| program counter relative long | rl | 2 | PBR | BRL |
+| program counter relative | r | 1 | PBR | BCC, BCS, BEQ, BMI, BNE, BPL, BRA, BVC, BVS |
+| Stack | s | 0 | | BRK, COP, PEA, PEI, PER, PHA, PHB, PHD, PHK, PHP, PHX, PHY, PLA, PLB, PLD, PLP, PLX, PLY, RTI, RTL, RTS |
+| stack relative | d,s | 1 | 00 | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
+| stack relative indirect indexed | (d,s),y | 1 | Calculated | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
+
+Hierzu einige Regeln, welche man hieraus ableiten kann:
+  * a (für absolute) heißt das die kommenden Bytes direkt genommen und ausgewertet werden 
+  * d (für direct) im Vergleich zu a heißt immer, dass nur 1 Byte gebraucht wird und ein Register als 'Page' draufgerechnet wird. Dieses Register ist immer D ausßer bei (d,s),y wo es S ist.
+  * eine Klammerung steht immer für einen Indirect-Zugriff. Das heißt es wird mit den Bytes eine Adresse aufgelöst, deren Inhalt wird als weitere Addresse verwendet, um den endgültigen Wert zu bestimmen.
+  * Die eckigen Klammern [] wurden verwendet um bei direct zwischen der normalen () und der long [] Variante zu unterschieden. Hier hätte man auch alternative dl verwenden können anstelle einer neuen Klammerart
+  * Ein Komma , bedeutet immer, dass das Register nach dem Komma auf den WErt aufgerechnet wird.
+  * Die Darstellung zeigt den Ablauf der Auflösung z. B (a,x) heißt, es wird zuerst x aufgerechnet und dann die indirekte Auslösung, während (d),y umgekehrt arbeitet
+
+===== Absolute Addresmodes =====
+
+Bei Absolute AddressModes werden immer 2 oder 3 Bytes gelesen und weiterverarbeitet.
+Dies sind generell die am einfachsten zu verstehenden Modi.
+Die Varianten mit 3 Bytes werden dabei in der Regel mit dem Kürzel Long gekennzeichnet.
+
+==== Absolute - a ====
+
+Bei Absolute Addressing werden die kommenden 2 Bytes direkt als Addresse genommen.
+Der DBR enthält dabei die Bank.
+
+{{ ::addressmode_absolute.png?direct&400 |}}
+
+Verwendende Operationen: ADC, AND, ASL, BIT, CMP, CPX, CPY, DEC, EOR, INC, JMP, JSR, LDA, LDX, LDY, LSR, ORA, ROL, ROR, SBC, STA, STX, STY, STZ, TRB, TSB
+
+==== Absolute indexed indirect - (a,x) ====
+
+Bei der Absolute indexed Indirect Adressierung werden die kommenden 2 Bytes als Basis genommen.
+Auf diese Adresse wird dann das X-Register aufgerechnet.
+Die Bank ist der PBR.
+
+{{ ::addressmode_absoluteindexedindirect.png?direct&400 |}}
+
+verwendende Operationen: JMP, JSR
+
+==== Absolute Indexed with X - a,x ====
+Bei Absolute Indexed with X-Addressing werden die kommenden 2 Byte als Basis genommen.
+Auf diese wird das X-Register aufgerechnet.
+Die Bank ist der DBR.
+
+{{ ::addressmode_absoluteindexedwithx.png?direct&400 |}}
+
+Verwendende Operationen: ADC, AND, ASL, BIT, CMP, DEC, EOR, INC, LDA, LDY, LSR, ORA, ROL, ROR, SBC, STA, STZ
+
+==== Absolute Indexed with Y - a,y ====
+Bei Absolute Indexed with Y-Addressing werden die kommenden 2 Byte als Basis genommen.
+Auf diese wird das Y-Register aufgerechnet.
+Die Bank ist der DBR.
+
+{{ ::addressmode_absoluteindexedwithy.png?direct&400 |}}
+
+Verwendende Operationen: ADC, AND, CMP, EOR, LDA, LDX, ORA, SBC, STA
+
+==== Absolute indirect/Absolute indirect Long - (a)/(al) ====
+
+Bei Absolute indirect-Addressing wird aus den nächsten 2 Byte die Basisaddresse gebildet.
+Bei Absolute indirect Addressing ist die Bank 0, bei Absolute indirect long addressing wird sie durch das 3. kommende Byte bestimmt.
+
+Je nach  Dokument wird nicht zwischen diesen beiden unterschieden.
+Die Instruktion 6c entspricht einem JMP mit Absolute Indirect.
+Die Instruktion dc entspricht einem JMP mit Absolute Indirect Long (in diesem Fall dir die Operation häufig auch JML genannt)
+
+{{ ::addressmode_absoluteindirect.png?direct&400 |}}
+
+verwendende Operationen: JML, JMP
+
+==== Absolute long indexed with X - al,x ====
+
+Bei Absolute Long indexed with X-Addressing wird eine effektive Address aus den kommenden 3 Bytes gebildet.
+Auf dieses wird das X-Register aufgerechnet.
+Durch diese Rechnung kann sich die Bank der Addresse verändern (Sie ist nicht fest definiert).
+
+{{ ::addressmode_absolutelongindexedwithx.png?direct&400 |}}
+
+verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
+
+==== Absolute Long - al ====
+
+Bei absolute Long-Addressing bildet sich die Addresse aus den kommenden 3 Parametern.
+
+{{ ::addressmode_absolutelong.png?direct&400 |}}
+
+verwendende Operationen: ADC, AND, CMP, EOR, JMP, JSR, LDA, ORA, SBC, STA
+
+===== Direct addressmodes =====
+
+Direct Addressmodes zeichnen sich dadurch aus, dass immer nur ein Byte als Parameter vorhanden ist und der Inhalt des D-Registers als Page verwendet wird.
+Hierbei fällt auf, dass das D-Register 16-Bit groß ist und nicht 8.
+Enthält das D-Register einen Wert != 0 im low-Byte so führt dies immer zu einem extra Cycle bei der Auswertung.
+
+==== Direct indexed indirect - (d,x) ====
+
+Bei Direct Indexed Indirect wird der Parameter mit D und X verrechnet.
+Dies bildet die unteren 16-Bit einer effektiven Addresse mit der Bank 00 (bis hier genau wie bei (d,x)).
+Aus dieser Addresse werden 2 Byte gelesen, welche mit dem DBR die Addresse bilden.
+
+{{ ::addressmode_directindexedindirect.png?direct&400 |}}
+
+verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
+
+==== Direct indexed with X - (d,x) ====
+
+Bei Direct Indexed With X werden die unteren 16-Bit gebildet, indem der Parameter mit D und X verrechnet wird.
+Die Bank ist 00.
+
+{{ ::addressmode_directindexedwithx.png?direct&400 |}}
+
+verwendende Operationen: ADC, AND, ASL, BIT, CMP, DEC, EOR, INC, LDA, LDY, LSR, ORA, ROL, ROR, SBC, STA, STY, STZ
+
+==== Direct indexed with Y - d,y ====
+
+Bei Direct Indexed With Y werden die unteren 16-Bit gebildet, indem der Parameter mit D und Y verrechnet wird.
+Die Bank ist 00.
+
+{{ ::addressmode_directindexedwithy.png?direct&400 |}}
+
+verwendende Operationen: LDX, STX
+
+==== Direct indirect indexed - (d),y ====
+
+Bei Direct Indirect Indexed-Addressing wird zuerst der Parameter mit D verrechnet um einen Pointer in der Bank 0 zu formen.
+Von dieser Addresse werden anschließend 16 Bit geladen mit dem DBR als Bank.
+Hierauf wird dann Y addiert.
+Dadurch kann sich die Bank ändern (Sie ist nicht genau definiert).
+
+Dieser Modus ist identisch mit [d],y mit der Ausnahme, dass DBR als Bank genutzt wird.
+
+{{ ::addressmode_directindirectindexed.png?direct&400 |}}
+
+verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
+
+==== Direct Indirect Long Indexed - [d],y ====
+
+Bei Direct Indirect Long Indexed-Addressing wird zuerst der Parameter mit D verrechnet um einen Pointer in der Bank 0 zu formen.
+Von dieser Addresse werden anschließend eine effektive Addresse geladen (3 Byte) (Bis hierhin identisch mit [d]).
+Hierauf wird zuletzt Y addiert.
+Dadurch kann sich die Bank ändern (Sie ist nicht genau definiert).
+
+Dieser Modus ist identisch mit (d),y mit der Ausnahme, dass eine effektive Addresse geladen wird udn nicht nur 2 Byte.
+
+{{ ::addressmode_directindirectlongindexed.png?direct&400 |}}
+
+verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
+
+==== Direct indirect Long - [d] ====
+
+Bei Direct indirect long-indexing wird ein Pointer in Bank 0 gebildet, indem der Parameter mit D verrechnet wird.
+Aus dieser Address wird eine neue Addresse geladen (3 Byte).
+
+{{ ::addressmode_directindirectlong.png?direct&400 |}}
+
+verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
+
+==== Direct indirect - (d) ====
+
+Bei der Direct Indirect-Addressierung wird der Parameter mit D verrechnet und als Basis für einen Point in der Pank 0 genutzt.
+Aus dieser Addresse werden 126 Bit geladen, welche mit dem DBR als Bank die endgültige Addresse bilden.
+
+{{ ::addressmode_directindirect.png?direct&400 |}}
+
+verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
+
+==== Direct - d ====
+
+Bei Direct-Addressing bildet D zusammen mit dem Parameter die Addresse in der Bank 0.
+
+{{ ::addressmode_direct.png?direct&400 |}}
+
+verwendende Operationen: ADC, AND, ASL, BIT, CMP, CPX, CPY, DEC, EOR, INC, LDA, LDX, LDY, LSR, ORA, ROL, ROR, SBC, STA, STX, STY, STZ, TRB, TSB
+
+===== Andere Addressmodes =====
+
+==== Accumulator - A ====
+
+Der Parameter ist der Wert des A-Registers.
+
+verwendende Operationen: ASL, DEA, DEC, INA, INC, LSR, ROL, ROR
+
+==== Block Move - xyc ====
+
+Block Move-Addressing ist ein spezieller Addressmode, welche mit den MVN und MVP Operationen verwendet wird.
+Das erste folgende Byte wird dabei in den DBR kopiert und dient als Zielbank mit Y als Addresse.
+Das zweite folgende Byte dient als Quellbank und wir mit X als Addresse verwendet.
+
+{{ ::addressmode_blockmove.png?direct&400 |}}
+
+verwendende Operationen: MVN, MVP
+
+==== Immediate - # ====
+
+Bei Immediate werden die kommenden Bytes direkt als Wert an die Operation weitergegeben ohne Verrechnung.
+Je nach Instruktion werden hierfür entweder die nächsten 2 oder nur das nächste 1 Byte geladen.
+Für P-Operationen (REP, SEP) wird immer nur 1 Byte geladen.
+Operationen auf X oder Y (CPX, CPY, LDX, LDY) brauchen 1 Byte, wenn das jeweilige Register im 8-Bit-Modus ist, ansonsten 2 Byte.
+Alle anderen Operationen beziehen sich auf A und brauchen entsprechend der größe von A.
+
+verwendende Operationen: ADC, AND, BIT, CMP, CPX, CPY, EOR, LDA, LDX, LDY, ORA, REP, SBC, SEP
+
+==== Implied - i ====
+
+Mit implied sind alle Operationen gekennzeichnet, welche keine weiteren Parameter brauchen, da sich alle benötigten Daten aus der Operation selbst ergeben.
+
+verwendende Operationen: CLC, CLD, CLI, CLV, DEX, DEY, INX, INY, NOP, SEC, SED, SEI, STP, TAX, TAY, TCD, TCS, TDC, TSC, TSX, TXA, TXS, TXY, TYA, TYX, WAI, XBA, XCE
+
+==== Program counter relative long - rl ====
+
+Bei der Program counter relative long-Addressierung werden die nächsten 2 Byte geladen und als vorzeichenbelastete Zahl gewertet.
+Diese Zahl ist ein Offset, welcher auf dern PC gerechnet wird, welcher bereits auf die nächte Instruktion zeigt.
+
+verwendende Operationen: BRL
+
+==== Program counter relative - r ====
+
+Bei der Program counter relative long-Addressierung werden das nächste 1 Byte geladen und als vorzeichenbelastete Zahl gewertet.
+Diese Zahl ist ein Offset, welcher auf dern PC gerechnet wird, welcher bereits auf die nächte Instruktion zeigt.
+
+verwendende Operationen: BCC, BCS, BEQ, BMI, BNE, BPL, BRA, BVC, BVS
+
+==== Stack - s ====
+
+Mit Stack werden alle Operationen gekennzeichnet, welche auf dem stack operieren.
+
+verwendende Operationen: BRK, COP, PEA, PEI, PER, PHA, PHB, PHD, PHK, PHP, PHX, PHY, PLA, PLB, PLD, PLP, PLX, PLY, RTI, RTL, RTS
+
+==== Stack relative - d,s ====
+
+Stack relative-Addressing ist eine Sonderform des Direct-Addressing, bei dem S anstelle von D verwendet wird.
+Der Parameter (1 Byte) wird mit S addiert und die Bank ist 00.
+
+{{ ::addressmode_stackrelative.png?direct&400 |}}
+
+verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
+
+==== Stack relative indirect indexed - (d,s),y ====
+
+S wird mit dem nächsten Byte verrechnet, um einen Pointer in Bank 00 zu formen.
+Hier werden 16 Bit ausgelesen, welche die Basisadresse in Bank DBR bilden.
+Diese Addresse wird abschließend mit Y verrechnet.
+Dadurch kann sich die Bank ändern (Die Bank ist nicht genau definiert)
+
+{{ ::addressmode_stackrelativeindirectindexed.png?direct&400 |}}
+
+verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
+
+====== Instructions ======
