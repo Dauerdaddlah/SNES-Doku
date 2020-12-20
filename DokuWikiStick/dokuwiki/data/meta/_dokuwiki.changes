@@ -1,19 +1,3 @@
-1601821734	127.0.0.1	E	processor		external edit		83
-1601827329	::1	C	misc		created		486
-1601829559	::1	E	general				-34
-1601829907	::1	E	misc				283
-1602268035	127.0.0.1	E	misc				13
-1602271424	127.0.0.1	E	processor				460
-1602273078	127.0.0.1	E	processor				1679
-1602273343	127.0.0.1	E	processor		[Prozessormodi] 		330
-1602274291	::1	E	processor				644
-1602274682	::1	E	processor				620
-1602275591	::1	E	misc				133
-1602353353	::1	E	general				96
-1602353588	::1	E	processor				21
-1602353923	::1	E	processor		[Status Register (P)] 		37
-1602356153	::1	C	memory_map		created		1216
-1602356231	::1	E	memory_map		[Übersicht] 		57
 1602357865	::1	E	memory_map				922
 1602359022	::1	E	memory_map				696
 1602361679	::1	E	memory_map				2202
@@ -24,3 +8,15 @@
 1605379638	127.0.0.1	E	processor		[Addressmodes] 		1330
 1605379682	127.0.0.1	E	processor		[Andere Addressmodes] 		-2
 1605379864	127.0.0.1	E	processor				54
+1605811448	::1	E	processor				3127
+1606074728	::1	E	processor		[Operationen] 		978
+1608154655	::1	E	processor		[Operationen] 		1201
+1608305930	::1	E	processor				2007
+1608306898	::1	E	processor				1862
+1608308275	::1	E	processor				2138
+1608309085	::1	E	processor				1247
+1608309582	::1	E	processor				412
+1608310349	::1	E	processor				253
+1608311946	::1	E	processor				1275
+1608472918	127.0.0.1	E	processor				1542
+1608474087	127.0.0.1	E	processor				979

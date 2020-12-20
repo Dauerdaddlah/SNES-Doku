@@ -1,6 +1,7 @@
 [[https://github.com/gilligan/snesdev/blob/master/docs/65816.txt]]
 [[http://datasheets.chipdb.org/Western%20Design/w65c816s.pdf]]
 {{ :w65c816s.pdf |}}
+[[https://wiki.superfamicom.org/65816-reference]]
 
 Das SNES hat einen abgewandelten Prozessor zum Western Digital W65C816S.
 Dieser arbeitet mit 92 Operationen, 24 Addressmodes, 6 16-BIT Register(A, PC, X, Y, D, S) und 3 8-BIT Registern (P, PBR, DBR)
@@ -148,6 +149,418 @@ Ein Interrupt findet nicht statt, wenn das IRQ-Disable flag true ist.
 Ausnahme hiervon ist der NMI, welcher nicht über P verhindert werden kann.
 
 ====== Operationen ======
+
+Es gibt folgende Operationen:
+
+^ Operation ^ Alternativ ^ Beschreibung ^ verwendete Addressmodes ^ flags ^
+| ADC | | Add with Carry | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y |  	NV----ZC |
+| AND | | And Memory and Accumulator | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y | N-----Z- |
+| ASL | | Shift left Memory or Accumulator | a, a,x, A, d, d,x | N-----ZC |
+| BCC | | Branch if carry clear | r | |
+| BCS | | Branch if carry set | r | |
+| BEQ | | Branch if Equal/zero set | r | |
+| BIT | | Bit test | a, a,x, d, d,x, # | NV----Z-* |
+| BMI | | Branch if minus/Negative clear | r | |
+| BNE | | Branch if not equal/zero clear | r | |
+| BPL | | Branch if plus/negative clear | r | |
+| BRA | | Branch always | r | |
+| BRK | | Force Break (Interrupt) | s | ----DI-- |
+| BRL | | Branch always long | rl | |
+| BVC | | Branch if overflow clear | r | |
+| BVS | | Branch if overflow set | r | |
+| CLC | | Clear carry flag | i |
+| CLD | | Clear decimal flag | i |
+| CLI | | Clear interrupt flag | i |
+| CLV | | Clear overflow flag | i |
+| CMP | CPA | Compare with Accumulator | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y | N-----ZC |
+| COP | | Coprocessor (Interrupt) | s | ----DI-- |
+| CPX | | Compare with X | a, d, # | N-----ZC |
+| CPY | | Compare with Y | a, d, # | N-----ZC |
+| DEC | DEA | Decrement Memory or accumulator | a, a,x, A, d, d,x | N-----Z- |
+| DEX | | Decrement X | i | N-----Z- |
+| DEY | | Decrement Y | i | N-----Z- |
+| EOR | | exclusive or with memory or accumulator | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y | N-----Z- |
+| INC | INA | Increment memory or accumulator | a, a,x, A, d, d,x | N-----Z- |
+| INX | | Increment X | i | N-----Z- |
+| INY | | Increment Y | i | N-----Z- |
+| JMP | JML | jump long | a, (a,x), (a), (al), al | |
+| JSR | JSL | Jump to subroutine long | a, (a,x), al | |
+| LDA | | Load A | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y | N-----Z- |
+| LDX | | Load X | a, a,y, d, d,y, # | N-----Z- |
+| LDY | | Load Y | a, a,x, d, d,x, # | N-----Z- |
+| LSR | | Shift right memory or accumulator | a, a,x, A, d, d,x | N-----ZC |
+| MVN | | Move block negative | xyc |
+| MVP | | Move block positive | xyc |
+| NOP | | No Operation | i |
+| ORA | | OR with accumulator | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y | N-----Z- |
+| PEA | | Push effective Address/Push immediate | s |
+| PEI | | Push effective absolute address/Push Direct address | s |
+| PER | | Push effective program counter relative address | s |
+| PHA | | Push A | s |
+| PHB | | Push DBR | s |
+| PHD | | Push D | s |
+| PHK | | Push PBR | s |
+| PHP | | Push P | s |
+| PHX | | Push X | s |
+| PHY | | Push Y | s |
+| PLA | | Pull A | s | N-----Z- |
+| PLB | | Pull DBR | s | N-----Z- |
+| PLD | | Pull D | s | N-----Z- |
+| PLP | | Pull P | s | NVMXDIZC |
+| PLX | | Pull X | s | N-----Z- |
+| PLY | | Pull Y | s | N-----Z- |
+| REP | | Reset Status Bits | # |
+| ROL | | Rotate Left/Shift left with carry | a, a,x, A, d, d,x | N-----ZC |
+| ROR | | Rotate Right/Shift Right with carry | a, a,x, A, d, d,x | N-----ZC |
+| RTI | | Return from interrupt | s | NVMXDIZC |
+| RTL | | Return from subroutine long | s | |
+| RTS | | Return from subroutine | s | |
+| SBC | | Subtract with carry | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y |  NV----ZC |
+| SEP | | Set status bits | # |
+| SEC | | Set carry flag | i |
+| SED | | Set decimal flag | i |
+| SEI | | Set interrupt flag | i |
+| STA | | Store A | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, d,s, (d,s),y |
+| STP | | Stop the clock | i |
+| STX | | Store X | a, d, d,y |
+| STY | | Store Y | a, d, d,x |
+| STZ | | Store zero | a, a,x, d, d,x |
+| TAX | | Transfer A to X | i |
+| TAY | | Transfer A to Y | i |
+| TCD | | Transfer C(A) to D | i | N-----Z- |
+| TCS | | Transfer C(A) to S | i | |
+| TDC | | Transfer D to C(A) | i | N-----Z- |
+| TRB | | Test and reset Bits | a, d | ------Z- |
+| TSB | | Test and set bits | a, d | ------Z- |
+| TSC | | Transfer S to C(A) | i | N-----Z- |
+| TSX | | Transfer S to X | i | N-----Z- |
+| TXA | | Transfer X to A | i | N-----Z- |
+| TXS | | Transfer X to S | i | |
+| TXY | | Transfer X to Y | i | N-----Z- |
+| TYA | | Transfer Y to A | i | N-----Z- |
+| TYX | | Transfer Y to X | i | N-----Z- |
+| WAI | | Wait for interrupt | i | |
+| WDM | | Reserved for future use | i |
+| XBA | | Exchange B and A in Accumulator | i |
+| XCE | | Exchange Carry and emulation flag | i |
+
+===== Bitoperationen=====
+==== AND ====
+==== EOR ====
+==== ORA ====
+Führt eine Bitweise- Verknüpfung mit A durch und speichert das Ergebnis in A.
+AND ist and Und-Verknüpfung, EOR ist exklusiv-oder und ORA ist eine Oder-Verknüpfung.
+In jedem Fall wird das Zero-Flag gesetzt wenn A 0 wird und das Negative-Flag wenn A negativ wird (höchstes Bit ist 1)
+
+==== ASL ====
+==== LSR ====
+==== ROL ====
+==== ROR ====
+Führt eine Bitverschiebung vom Operand aus und speichert das Ergebnis im Operanden.
+Das Zero-Flag wird gesetzt, wenn das Ergebnis 0 ist und das Negative-Flag wenn es negativ ist.
+Das Carry-Flag wird auf das Bit gesetzt, welches "rausfällt".
+
+Das letzte Zeichen der Operation zeigt die Richtung der Bitverschiebung (R = right-shift, L = left-shift).
+Bei den R-Operationen wird bei der Verschiebung das Carry-Flag eingefügt, bei den anderen fest eine 0.
+
+==== TRB ====
+==== TSB ====
+Zuerst wird ein Test mit A und dem Operanden durchgeführt.
+Dieser entspricht einer UND-Verknüpfung und setzt das Zero-Flag wenn das ERgebnis 0 ist.
+
+Anschließend werden alle Bits in A auf 0 (TRB) oder 1 (TSB) gesetzt, welche im Operanden 1 sind und das Ergebnis in den Operand zurück gespielt.
+
+Beipiel: TSB 0x05 setzt das 0. und 2. Bit von A auf 1, während TRB 0x07 das 0. 1. und 2. Bit auf 0 setzt.
+
+===== Register-Operationen =====
+==== DEC ====
+==== DEX ====
+==== DEY ====
+==== INC ====
+==== INX ====
+==== INY ====
+Senkt (D am Anfang) oder erhöht (I am Anfang) den Wert des Operanden um 1 und schreibt in zurück.
+DEX/INX geht auf das X-Register, DEY/INY auf das Y-Register und DEC/INC entweder auf eine Speicheradresse oder das A-Register.
+Anstelle von DEC/INC mit Adressmode A wird alternativ häufig auf DEA/INA genutzt.
+
+Entsprechend dem Wert nach der Anpassung wird bei 0 das Z-Flag gesetzt und das N-Flag wenn das höchste Bit 1 ist.
+
+==== LDA ====
+==== LDX ====
+==== LDY ====
+Lädt einen Wert aus dem Speicher in das X (LDX), Y (LDY) oder A (LDA) Register.
+Ist der WErt 0 wird das Zero-Flag gesetzt, ist das höchste Bit 1 wird das Negative-Flag gesetzt.
+
+==== STA ====
+==== STX ====
+==== STY ====
+==== STZ ====
+Speichert einen Wert in den Speicher (Operand).
+STA, STX und STY speichern den Wert des jeweiligen Registers, STZ speichert immer 0
+
+===== Transferoperationen =====
+==== TAX ====
+==== TAY ====
+==== TCD ====
+==== TCS ====
+==== TDC ====
+==== TSC ====
+==== TSX ====
+==== TXA ====
+==== TXS ====
+==== TXY ====
+==== TYA ====
+==== TYX ====
+Bei einer Transferoperation wird der Wert eines Registers in ein anderes Register kopiert.
+Die Operation ist so benannt, dass das 2. Zeichen das Quell- und das 3. Zeichen das Zielregister beschreibt.
+Die zu kopierenden Bytes (1 oder 2) bestimmt das Ziel-Register.
+
+Bei einer Transferoperation werden das Negative und das Zero-Flag gesetzt (Ausnahme, wenn das Zielregister S ist wird kein Flag geändert).
+Zero wird gesetzt, wenn der betrachtete Teil des Zielregisters (z. B. wenn A im 8-Bit-Modus ist nur das Low-Byte von A) am Ende 0 ist.
+Analog dazu wird N auf 1 gesetzt, wenn das höchstwertige Bit des betrachteten Registers 1 ist.
+
+Beispiele:
+TCD immer 16 BIT von A (C) nach D (da C den Accumulator in 16-Bit meint und D immer 16-Bit ist).
+Im Native Mode kopiert TXS immer 16-Bit da S dort immer 16-Bit groß ist.
+TAX kopiert 8- oder 16-Bit je nach der Größe von X (ist X 16-Bit groß könnte man die Operation auch TCX nennen ungeachtet der Größe von A)
+
+===== Branch-/Jumpoperationen =====
+Branch- und Jump-Operationen dienen dazu von einer Stelle zu einer beliebig anderen Stelle in der Ausführung zu springen.
+Der Unterschied ist, dass Branch-Operationen (starten mit B) eine einfache Abzweigung darstellen (if-else), welche immer relativ zum PC ist.
+Jump-Operationen (starten mit J) hingegen springen zu einer beliebigen absoluten Adresse unabhängig vom PC.
+Ein Sonderfall hiervon sind die Subroutine-Jumps (beginnen mit JS) , welche einen "Methodenaufruf darstellen, zu dem es analog auch immer ein Return (starten mit R) geben muss.
+
+Gleich ist allen Operationen, dass keinerlei Statusflags gesetzt werden.
+
+Bei Branch-Operationen wird der PC auf den Wert des Operanden gesetzt, wenn eine Bedingung zutrifft.
+JMP entspricht dabei BRA und JML einem BRL, wobei sich nur der Addressmode unterscheidet.
+Bei JSR wird zuerst der PC auf den Stack gelegt und anschließend gesprungen.
+Das Pendant dazu RTS list den PC vom Stack und macht dann weiter.
+JSL und RTL ist eine Sonderform von JSR und RTS bei der in eine beliebige Bank gesprungen werden kann. Dafür wird vor dem PC noch der PBR auf den Stack gelebt, bwz. nach dem PC noch der PBR vom Stack gelesen.
+
+==== BCC ====
+Branch wenn das Carry-Flag 0 ist
+
+==== BCS ====
+Branch wenn das Carry-Flag 1 ist
+
+==== BEQ ====
+Branch wenn das Zero-Flag 1 ist (für weiter Infos siehe Vergleichsoperationen)
+
+==== BMI ====
+Branch wenn Negative-Flag 1 ist
+
+==== BNE ====
+Branch wenn Zero-Flag 0 ist (für weiter Infos size Vergleichsoperationen)
+
+==== BPL ====
+Branch wenn Negative-Flag 0 ist
+
+==== BRA ====
+Branch immer
+
+==== BRL ====
+Branch immer Long.
+Dies ist die einzige Branch-Operation, bei der auch der PBR gesetzt wird.
+
+==== BVC ====
+Branch wenn Overflow-Flag 0 ist
+
+==== BVS ====
+Branch wenn Overflow-Flag 0 ist
+
+==== JMP ====
+Branch zur Adresse
+
+==== JML ====
+Branch zur Adresse in einer beliebigen Bank
+
+==== JSL ====
+==== JSR ====
+==== RTL ====
+==== RTS ====
+
+===== Interruptoperationen =====
+Bei einem Interrupt springt die CPU temporär zu einer anderen Stelle, um zeitkritische Aktionen auszuführen (z. B. Rendering).
+Am Ende des Interrupt-Handlers steht somit immer ein RTI, um zurück zuspringen und die Bearbeitung fortzusetzen.
+
+Wird ein Interrupt ausgelöst (per Hardware, z. B. IRQ oder NMI) wird im Native-Mode zuerst der PBR auf den Stack gelegt.
+Anschließend wird immer der PC und danach P auf den Stack gelegt.
+Nun wird das Decimal-Flag auf 0 und das IRQ-Flag auf 1 gesetzt und der PC wird auf den Interrupt-Handler gesetzt.
+Befindet sich die CPU im Native-Mode wird zusätzlich der PBR auf 0 gesetzt.
+Abschließend arbeitet die CPU den Interrupt-Handler ab.
+
+Ist das IRQ-Flag gesetzt kann/wird kein Interrupt ausgeführt.
+Die einzige Ausnahme hierzu ist der NMI, welcher immer stattfindet.
+
+Der zugehörige Return (RTI) arbeitet auch hier wieder umgekehrt: P vom Stack lesen, PC vom Stack lesen, falls im Native-Mode PBR vom Stack lesen.
+
+==== BRK ====
+==== COP ====
+BRK und COP sind spezielle Interrupts, welcher per Software ausgelöst werden können.
+Obwohl sie nur 1 Byte bräuchten (kein Operand) bestehen ihre Instruktionen immer aus 2 Byte.
+So kann das 2.Byte als Deskriptor verwendet werden.
+
+Speziell bei BRK wird zusätzlich das BRK-Flag gesetzt.
+
+==== WAI ====
+Bei WAI wird die CPU "angehalten" und wartet bis ein Interrupt ausgelöst wird.
+Nach einem Interrupt läuft die CPU wie gewohnt nach WAI weiter.
+
+==== RTI ====
+
+===== Statusflag-Operationen =====
+==== CLC ====
+Setze Carry-Flag auf 0
+
+==== CLD ====
+Setze Decimal-Flag auf 0
+
+==== CLI ====
+Setze IRQ-Flag auf 0
+
+==== CLV ====
+Setze Overflow-Flag auf 0
+
+==== SEC ====
+Setze Carry-Flag auf 1
+
+==== SED ====
+Setze Decimal-Flag auf 1
+
+==== SEI ====
+Setze IRQ-Flag auf 1
+
+==== REP ====
+==== SEP ====
+Setze alle Bits, welche in dem Operand 1 sind auf 0 bei REP bzw. 1 bei SEP.
+
+Beispiel: REP 0x30 setzt das 4, und 5. Status-Bit/Flag auf 0 und lässt die anderen, wie sie sind.
+
+===== Vergleichsoperationen =====
+Bei Vergleichsoperationen werden Register und Speicherstellen (oder Immediate) miteinander verglichen, um entsprechend Status-Flags zu setzen.
+Hierbei wird weder das REgister noch der Speicher verändert, lediglich das Status-Register passt sich an.
+
+Sind z. B. die zu vergleichenden Werte gleich wird zumeist das Z-Flag gesetzt so dass anschließend mit BEQ (Branch if equal, daher der Name) ein Sprung ausgeführt werden kann.
+
+==== CMP ====
+==== CPX ====
+==== CPY ====
+Bei diesen Operationen wird ein Register (A bei CMP, X bei CPX, Y bei CPY) mit dem Wert im Speicher (Operand) verglichen.
+Man kann sich den Compare so vorstellen, das das WErt des Registers Minus den Operand-Wert genommen wird.
+Ist das Ergbeniss hieraus 0 so wird das Z-Flag gesetzt, ist es Negativ wird das Negative-Flag gesetzt.
+Das Carry-Flag wird immer gesetzt, wenn das ERgebnis nicht negativ ist.
+
+==== BIT ====
+Bei einem BIT-Test wird A mit dem Operandwert verundet (Bit-weises UND).
+Ist das Ergebnis 0 so wird das Zero-Flag gesetzt, das Negative-Flag wird gesetzt, wenn das höchste Bit des Ergbnisse (Bit 7 im 8-Bit-Modus und BIT 15 im 16-BIT modus) 1 ist.
+Zusätzlich wird das Carry-Bit auf 1 gesetzt, wenn der Wert in A größer ist als der Operand.
+
+**Achtung Falle** Wird BIT mit dem Addressmodus Immediate genutzt (Instruktion 0x89) wird ausschließlich das Zero-Flag angepasst, alles andere bleibt unangetastet.
+
+===== Stackoperationen =====
+Es gibt essentiell nur 2 Arten von Stackoperationen: Push-Operationen, welche etwas auf den Stack ablegen (beginnen mit PE oder PH) und Pull-Operationen, welche einen WErt vom Stack holen (beginnen mit PL).
+Während Push-Operationen auch "beliebige Werte" nutzen kann wird bei einem Pull immer ein Wert in ein Register gelegt.
+Bei einm Pull wird dabei zusätzlich immer das Zero-Flag gesetzt, wenn der WErt 0 ist und das Negative-Flag, wenn der WErt negativ ist (das höchste Bit ist 1).
+
+==== PEA ====
+==== PEI ====
+==== PER ====
+PEA, PEI und PER machen effektiv das gleiche und unterscheiden sich nur durch ihren Addressmodus.
+In beiden Fällen wird ein 16-Bit-Wert auf den Stack gelegt
+
+==== PHA ====
+Lege A auf den Stack.
+
+==== PHB ====
+Lege DBR auf den Stack.
+
+==== PHD ====
+Lege D auf den Stack.
+
+==== PHK ====
+Lege den PBR auf den Stack.
+
+==== PHP ====
+Lege P auf den Stack
+
+==== PHX ====
+Lege X auf den Stack
+
+==== PHY ====
+Lege Y auf den Stack
+
+==== PLA ====
+Lies A vom Stack
+
+==== PLB ====
+Lies den DBR vom Stack
+
+==== PLD ====
+Lies D vom Stack
+
+==== PLP ====
+Lies P vom Stack
+
+==== PLX ====
+Lies X vom Stack
+
+==== PLY ====
+Lies Y vom Stack
+
+===== Sonderoperationen =====
+==== ADC ====
+==== SBC ====
+ADC und SBC stellen die einfachsten arithmetischen Funktionen + und - dar.
+Ist das Decimal-Flag auf 0 wird hierbei eine einfache Binärrechnung mit A vollzogen.
+ADC rechnet A + Operand (+ a falls das Carry-Flag gesetzt ist) und schreibt das Ergebnis in A.
+SBC rechnet A - Operand (- A falls das Carry-Flag gesetzt ist) und schreibt das Ergebnis in A.
+
+Beispiel: LDA 0x25; ADC 0x04 -> 0x29
+
+Ist das Decimal-Flag gesetzt wird A und der Operand als Binary Coded Decimal (BCD gewertet.
+Dass heißt rechnen wir z. B. 0x09 + 0x03 so ergibt dies nun 0x12 und nicht 0x0C.
+TODO weitere Informationen zum Rechnen in diesem Modus, falls z. B. 0x0A + 0x0B verwendet wird, etc.
+
+folgende flags werden gesetzt:
+  * Carry-flag wenn das Ergbenis größer ist als in das Register passt
+  * Negative-Flag wenn das höchste Bit 1 ist
+  * Zero-Flag wenn das ERgebnis 0 ist
+  * Overflow-Flag wenn A und der Operand positiv waren und das Ergebnis Negativ wurde, oder umgekehrt
+
+
+==== MVN ====
+==== MVP ====
+MVN und MVP dienen dazu große Mengen an Daten auf einmal zu kopieren.
+Der Aufrud von MVN/MVP muss im vorhinein vorbereitet werde.
+Das A-Register hält die Anzahl der zu kopierenden Bytes + 1, X zeigt auf die Quelladresse und Y auf die Zieladresse.
+Die Quellbank ist der 1. Parameter und die Zielbank ist der 2. Parameter.
+
+Zuerst wird die Zielbank in den DBR kopiert.
+Anschließend wird ein byte von der Quelladdresse zur Zieladresse kopiert.
+Nun wird A decrementiert und X und Y um 1 gesenkt (MVP) oder erhöht (MVN).
+Das Kopieren und Anpassen der Register wird solange wiederholt, bis A den Wert 0xFFFF hat.
+
+**Achtung** A wird in diesen Operationen immer als 16-Bit gewertet ungeachtet vom M-Flag
+
+==== NOP ====
+Bei NOP wird nichts gemacht
+
+==== STP ====
+Durch STP soll die Ausführung der CPU beendet werden, bis zum nächten Reset (ausschalten)
+
+==== WDM ====
+Platzhalter für evtl. noch hinzuzufügende Operation in der ZUkunft.
+Nicht genutzt.
+
+==== XCE ====
+Tauscht das Carry-Flag mit dem Emulation-Flag.
+Ist die CPU im Emulation-Mode wird das Emulation-Flag als 1 angesehen oder ansonsten 0.
+Dies ist die einzige Möglichkeit, das CPU-Mode zu ändern
+
+==== XBA ====
+Tausch das High- und Low-Byte von A.
+Mithilfe von XBA kann das High-Byte von A im Emulation-Mode (oder 8-Bit Modus) als zusätzlicher Speicher verwendet werden.
 
 ====== Addressmodes ======
 

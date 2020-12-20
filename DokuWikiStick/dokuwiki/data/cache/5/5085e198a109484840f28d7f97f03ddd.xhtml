@@ -3,6 +3,7 @@
 <a href="https://github.com/gilligan/snesdev/blob/master/docs/65816.txt" class="urlextern" title="https://github.com/gilligan/snesdev/blob/master/docs/65816.txt" rel="ugc nofollow">https://github.com/gilligan/snesdev/blob/master/docs/65816.txt</a>
 <a href="http://datasheets.chipdb.org/Western%20Design/w65c816s.pdf" class="urlextern" title="http://datasheets.chipdb.org/Western%20Design/w65c816s.pdf" rel="ugc nofollow">http://datasheets.chipdb.org/Western%20Design/w65c816s.pdf</a>
 <a href="/lib/exe/fetch.php?media=w65c816s.pdf" class="media mediafile mf_pdf" title="w65c816s.pdf (1.1 MB)">w65c816s.pdf</a>
+<a href="https://wiki.superfamicom.org/65816-reference" class="urlextern" title="https://wiki.superfamicom.org/65816-reference" rel="ugc nofollow">https://wiki.superfamicom.org/65816-reference</a>
 </p>
 
 <p>
@@ -19,7 +20,7 @@ Das heißt Words (Java Shorts) werden in der Reihenfolge Low-Byte High-Byte gesp
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Allgemein&quot;,&quot;hid&quot;:&quot;allgemein&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:1,&quot;range&quot;:&quot;353-569&quot;} -->
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Allgemein&quot;,&quot;hid&quot;:&quot;allgemein&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:1,&quot;range&quot;:&quot;403-619&quot;} -->
 <h1 class="sectionedit2" id="register">Register</h1>
 <div class="level1">
 
@@ -61,9 +62,9 @@ Sprich wird z. B. der Accumulator als 8-BIT genutzt und hat den Wert $12FF wird 
 		<td class="col0"> S </td><td class="col1"> 8/16-Bit </td><td class="col2"> <strong>S</strong>tack Register - verwaltet die nächste zu verwendende Addresse auf dem Stack. Je nach Prozessormodus wird dieser Pointer asl 8- oder 16-BIT verwendet. Im 8-BIT modus ist dabei das höhere Byte immer $01 </td>
 	</tr>
 </table></div>
-<!-- EDIT{&quot;target&quot;:&quot;table&quot;,&quot;name&quot;:&quot;&quot;,&quot;hid&quot;:&quot;table&quot;,&quot;secid&quot;:3,&quot;range&quot;:&quot;1226-3097&quot;} -->
+<!-- EDIT{&quot;target&quot;:&quot;table&quot;,&quot;name&quot;:&quot;&quot;,&quot;hid&quot;:&quot;table&quot;,&quot;secid&quot;:3,&quot;range&quot;:&quot;1276-3147&quot;} -->
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Register&quot;,&quot;hid&quot;:&quot;register&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:2,&quot;range&quot;:&quot;570-3098&quot;} -->
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Register&quot;,&quot;hid&quot;:&quot;register&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:2,&quot;range&quot;:&quot;620-3148&quot;} -->
 <h2 class="sectionedit4" id="program_counter_pc">Program Counter (PC)</h2>
 <div class="level2">
 
@@ -75,7 +76,7 @@ Werden für den Addressmodus noch weitere Werte benötigt werden diese (soweit n
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Program Counter (PC)&quot;,&quot;hid&quot;:&quot;program_counter_pc&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:4,&quot;range&quot;:&quot;3099-3539&quot;} -->
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Program Counter (PC)&quot;,&quot;hid&quot;:&quot;program_counter_pc&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:4,&quot;range&quot;:&quot;3149-3589&quot;} -->
 <h3 class="sectionedit5" id="direct_page_zero_page_d">Direct Page/Zero Page (D)</h3>
 <div class="level3">
 
@@ -95,7 +96,7 @@ In Emulation Mode ergibt dies die Adresse $0C, im Native Mode $10C
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct Page\/Zero Page (D)&quot;,&quot;hid&quot;:&quot;direct_page_zero_page_d&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:5,&quot;range&quot;:&quot;3540-4293&quot;} -->
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct Page\/Zero Page (D)&quot;,&quot;hid&quot;:&quot;direct_page_zero_page_d&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:5,&quot;range&quot;:&quot;3590-4343&quot;} -->
 <h3 class="sectionedit6" id="stack_pointer_s">Stack Pointer (S)</h3>
 <div class="level3">
 
@@ -109,7 +110,7 @@ Der Pull geschieht entsprechend umgekehrt, erst wird der Pointer incrementiert u
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Stack Pointer (S)&quot;,&quot;hid&quot;:&quot;stack_pointer_s&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:6,&quot;range&quot;:&quot;4294-4938&quot;} -->
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Stack Pointer (S)&quot;,&quot;hid&quot;:&quot;stack_pointer_s&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:6,&quot;range&quot;:&quot;4344-4988&quot;} -->
 <h3 class="sectionedit7" id="program_bank_register_pbr">Program Bank Register (PBR)</h3>
 <div class="level3">
 
@@ -119,7 +120,7 @@ Der PBR wird immer verwendet, wenn das nächste Byte im Ablauf geholt wird, entw
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Program Bank Register (PBR)&quot;,&quot;hid&quot;:&quot;program_bank_register_pbr&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:7,&quot;range&quot;:&quot;4939-5205&quot;} -->
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Program Bank Register (PBR)&quot;,&quot;hid&quot;:&quot;program_bank_register_pbr&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:7,&quot;range&quot;:&quot;4989-5255&quot;} -->
 <h3 class="sectionedit8" id="data_bank_register_dbr">Data Bank register (DBR)</h3>
 <div class="level3">
 
@@ -128,7 +129,7 @@ Der DBR ist ein 8-Bit Register welches die Bank für bestimmte Addressmodi hält
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Data Bank register (DBR)&quot;,&quot;hid&quot;:&quot;data_bank_register_dbr&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:8,&quot;range&quot;:&quot;5206-5324&quot;} -->
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Data Bank register (DBR)&quot;,&quot;hid&quot;:&quot;data_bank_register_dbr&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:8,&quot;range&quot;:&quot;5256-5374&quot;} -->
 <h3 class="sectionedit9" id="status_register_p">Status Register (P)</h3>
 <div class="level3">
 
@@ -165,7 +166,7 @@ Die Flags:
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Status Register (P)&quot;,&quot;hid&quot;:&quot;status_register_p&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:9,&quot;range&quot;:&quot;5325-6641&quot;} -->
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Status Register (P)&quot;,&quot;hid&quot;:&quot;status_register_p&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:9,&quot;range&quot;:&quot;5375-6691&quot;} -->
 <h3 class="sectionedit10" id="accumulator_a">Accumulator (A)</h3>
 <div class="level3">
 
@@ -188,7 +189,7 @@ Einige Assembler nehmen diese Trennund nicht 100% und erlauben so auch z. B. die
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Accumulator (A)&quot;,&quot;hid&quot;:&quot;accumulator_a&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:10,&quot;range&quot;:&quot;6642-7689&quot;} -->
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Accumulator (A)&quot;,&quot;hid&quot;:&quot;accumulator_a&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:10,&quot;range&quot;:&quot;6692-7739&quot;} -->
 <h3 class="sectionedit11" id="x_y_register_x_y">X/Y Register (X/Y)</h3>
 <div class="level3">
 
@@ -199,7 +200,7 @@ Werden Sie als 8-Bit verwendet ist das High-Byte immer 0
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;X\/Y Register (X\/Y)&quot;,&quot;hid&quot;:&quot;x_y_register_x_y&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:11,&quot;range&quot;:&quot;7690-7938&quot;} -->
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;X\/Y Register (X\/Y)&quot;,&quot;hid&quot;:&quot;x_y_register_x_y&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:11,&quot;range&quot;:&quot;7740-7988&quot;} -->
 <h2 class="sectionedit12" id="prozessormodi">Prozessormodi</h2>
 <div class="level2">
 
@@ -236,13 +237,13 @@ Die Interrupt-Handler sind unterschiedlich je nach Modus:
 		<td class="col0"> $FFFE-F </td><td class="col1"> IRQ/BRK </td><td class="col2"> $FFEE-F </td><td class="col3"> IRQ </td>
 	</tr>
 </table></div>
-<!-- EDIT{&quot;target&quot;:&quot;table&quot;,&quot;name&quot;:&quot;&quot;,&quot;hid&quot;:&quot;table1&quot;,&quot;secid&quot;:13,&quot;range&quot;:&quot;8498-8815&quot;} -->
+<!-- EDIT{&quot;target&quot;:&quot;table&quot;,&quot;name&quot;:&quot;&quot;,&quot;hid&quot;:&quot;table1&quot;,&quot;secid&quot;:13,&quot;range&quot;:&quot;8548-8865&quot;} -->
 <p>
 Da der Prozessor beim Startup immer im Emulation-Mode ist wird der Reset-Vector vom Native-Mode nicht genutzt.
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Prozessormodi&quot;,&quot;hid&quot;:&quot;prozessormodi&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:12,&quot;range&quot;:&quot;7939-8928&quot;} -->
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Prozessormodi&quot;,&quot;hid&quot;:&quot;prozessormodi&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:12,&quot;range&quot;:&quot;7989-8978&quot;} -->
 <h2 class="sectionedit14" id="stack_operationen">Stack Operationen</h2>
 <div class="level2">
 
@@ -254,7 +255,7 @@ Wird ein Byte gepusht, wird zuerst der Wert im gespeichert und anschließend der
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Stack Operationen&quot;,&quot;hid&quot;:&quot;stack_operationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:14,&quot;range&quot;:&quot;8929-9361&quot;} -->
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Stack Operationen&quot;,&quot;hid&quot;:&quot;stack_operationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:14,&quot;range&quot;:&quot;8979-9411&quot;} -->
 <h2 class="sectionedit15" id="interrupts">Interrupts</h2>
 <div class="level2">
 
@@ -280,20 +281,1178 @@ Ausnahme hiervon ist der NMI, welcher nicht über P verhindert werden kann.
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Interrupts&quot;,&quot;hid&quot;:&quot;interrupts&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:15,&quot;range&quot;:&quot;9362-10063&quot;} -->
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Interrupts&quot;,&quot;hid&quot;:&quot;interrupts&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:15,&quot;range&quot;:&quot;9412-10113&quot;} -->
 <h1 class="sectionedit16" id="operationen">Operationen</h1>
 <div class="level1">
 
+<p>
+Es gibt folgende Operationen:
+</p>
+<div class="table sectionedit17"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0"> Operation </th><th class="col1"> Alternativ </th><th class="col2"> Beschreibung </th><th class="col3"> verwendete Addressmodes </th><th class="col4"> flags </th>
+	</tr>
+	</thead>
+	<tr class="row1">
+		<td class="col0"> ADC </td><td class="col1"> </td><td class="col2"> Add with Carry </td><td class="col3"> a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y </td><td class="col4 rightalign">  	NV—-ZC </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> AND </td><td class="col1"> </td><td class="col2"> And Memory and Accumulator </td><td class="col3"> a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"> ASL </td><td class="col1"> </td><td class="col2"> Shift left Memory or Accumulator </td><td class="col3"> a, a,x, A, d, d,x </td><td class="col4"> N—–ZC </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"> BCC </td><td class="col1"> </td><td class="col2"> Branch if carry clear </td><td class="col3"> r </td><td class="col4"> </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"> BCS </td><td class="col1"> </td><td class="col2"> Branch if carry set </td><td class="col3"> r </td><td class="col4"> </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"> BEQ </td><td class="col1"> </td><td class="col2"> Branch if Equal/zero set </td><td class="col3"> r </td><td class="col4"> </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"> BIT </td><td class="col1"> </td><td class="col2"> Bit test </td><td class="col3"> a, a,x, d, d,x, # </td><td class="col4"> NV—-Z-* </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"> BMI </td><td class="col1"> </td><td class="col2"> Branch if minus/Negative clear </td><td class="col3"> r </td><td class="col4"> </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"> BNE </td><td class="col1"> </td><td class="col2"> Branch if not equal/zero clear </td><td class="col3"> r </td><td class="col4"> </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"> BPL </td><td class="col1"> </td><td class="col2"> Branch if plus/negative clear </td><td class="col3"> r </td><td class="col4"> </td>
+	</tr>
+	<tr class="row11">
+		<td class="col0"> BRA </td><td class="col1"> </td><td class="col2"> Branch always </td><td class="col3"> r </td><td class="col4"> </td>
+	</tr>
+	<tr class="row12">
+		<td class="col0"> BRK </td><td class="col1"> </td><td class="col2"> Force Break (Interrupt) </td><td class="col3"> s </td><td class="col4"> —-DI– </td>
+	</tr>
+	<tr class="row13">
+		<td class="col0"> BRL </td><td class="col1"> </td><td class="col2"> Branch always long </td><td class="col3"> rl </td><td class="col4"> </td>
+	</tr>
+	<tr class="row14">
+		<td class="col0"> BVC </td><td class="col1"> </td><td class="col2"> Branch if overflow clear </td><td class="col3"> r </td><td class="col4"> </td>
+	</tr>
+	<tr class="row15">
+		<td class="col0"> BVS </td><td class="col1"> </td><td class="col2"> Branch if overflow set </td><td class="col3"> r </td><td class="col4"> </td>
+	</tr>
+	<tr class="row16">
+		<td class="col0"> CLC </td><td class="col1"> </td><td class="col2"> Clear carry flag </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row17">
+		<td class="col0"> CLD </td><td class="col1"> </td><td class="col2"> Clear decimal flag </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row18">
+		<td class="col0"> CLI </td><td class="col1"> </td><td class="col2"> Clear interrupt flag </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row19">
+		<td class="col0"> CLV </td><td class="col1"> </td><td class="col2"> Clear overflow flag </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row20">
+		<td class="col0"> CMP </td><td class="col1"> CPA </td><td class="col2"> Compare with Accumulator </td><td class="col3"> a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y </td><td class="col4"> N—–ZC </td>
+	</tr>
+	<tr class="row21">
+		<td class="col0"> COP </td><td class="col1"> </td><td class="col2"> Coprocessor (Interrupt) </td><td class="col3"> s </td><td class="col4"> —-DI– </td>
+	</tr>
+	<tr class="row22">
+		<td class="col0"> CPX </td><td class="col1"> </td><td class="col2"> Compare with X </td><td class="col3"> a, d, # </td><td class="col4"> N—–ZC </td>
+	</tr>
+	<tr class="row23">
+		<td class="col0"> CPY </td><td class="col1"> </td><td class="col2"> Compare with Y </td><td class="col3"> a, d, # </td><td class="col4"> N—–ZC </td>
+	</tr>
+	<tr class="row24">
+		<td class="col0"> DEC </td><td class="col1"> DEA </td><td class="col2"> Decrement Memory or accumulator </td><td class="col3"> a, a,x, A, d, d,x </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row25">
+		<td class="col0"> DEX </td><td class="col1"> </td><td class="col2"> Decrement X </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row26">
+		<td class="col0"> DEY </td><td class="col1"> </td><td class="col2"> Decrement Y </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row27">
+		<td class="col0"> EOR </td><td class="col1"> </td><td class="col2"> exclusive or with memory or accumulator </td><td class="col3"> a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row28">
+		<td class="col0"> INC </td><td class="col1"> INA </td><td class="col2"> Increment memory or accumulator </td><td class="col3"> a, a,x, A, d, d,x </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row29">
+		<td class="col0"> INX </td><td class="col1"> </td><td class="col2"> Increment X </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row30">
+		<td class="col0"> INY </td><td class="col1"> </td><td class="col2"> Increment Y </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row31">
+		<td class="col0"> JMP </td><td class="col1"> JML </td><td class="col2"> jump long </td><td class="col3"> a, (a,x), (a), (al), al </td><td class="col4"> </td>
+	</tr>
+	<tr class="row32">
+		<td class="col0"> JSR </td><td class="col1"> JSL </td><td class="col2"> Jump to subroutine long </td><td class="col3"> a, (a,x), al </td><td class="col4"> </td>
+	</tr>
+	<tr class="row33">
+		<td class="col0"> LDA </td><td class="col1"> </td><td class="col2"> Load A </td><td class="col3"> a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row34">
+		<td class="col0"> LDX </td><td class="col1"> </td><td class="col2"> Load X </td><td class="col3"> a, a,y, d, d,y, # </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row35">
+		<td class="col0"> LDY </td><td class="col1"> </td><td class="col2"> Load Y </td><td class="col3"> a, a,x, d, d,x, # </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row36">
+		<td class="col0"> LSR </td><td class="col1"> </td><td class="col2"> Shift right memory or accumulator </td><td class="col3"> a, a,x, A, d, d,x </td><td class="col4"> N—–ZC </td>
+	</tr>
+	<tr class="row37">
+		<td class="col0"> MVN </td><td class="col1"> </td><td class="col2"> Move block negative </td><td class="col3"> xyc </td><td class="col4"></td>
+	</tr>
+	<tr class="row38">
+		<td class="col0"> MVP </td><td class="col1"> </td><td class="col2"> Move block positive </td><td class="col3"> xyc </td><td class="col4"></td>
+	</tr>
+	<tr class="row39">
+		<td class="col0"> NOP </td><td class="col1"> </td><td class="col2"> No Operation </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row40">
+		<td class="col0"> ORA </td><td class="col1"> </td><td class="col2"> OR with accumulator </td><td class="col3"> a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row41">
+		<td class="col0"> PEA </td><td class="col1"> </td><td class="col2"> Push effective Address/Push immediate </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row42">
+		<td class="col0"> PEI </td><td class="col1"> </td><td class="col2"> Push effective absolute address/Push Direct address </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row43">
+		<td class="col0"> PER </td><td class="col1"> </td><td class="col2"> Push effective program counter relative address </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row44">
+		<td class="col0"> PHA </td><td class="col1"> </td><td class="col2"> Push A </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row45">
+		<td class="col0"> PHB </td><td class="col1"> </td><td class="col2"> Push DBR </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row46">
+		<td class="col0"> PHD </td><td class="col1"> </td><td class="col2"> Push D </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row47">
+		<td class="col0"> PHK </td><td class="col1"> </td><td class="col2"> Push PBR </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row48">
+		<td class="col0"> PHP </td><td class="col1"> </td><td class="col2"> Push P </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row49">
+		<td class="col0"> PHX </td><td class="col1"> </td><td class="col2"> Push X </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row50">
+		<td class="col0"> PHY </td><td class="col1"> </td><td class="col2"> Push Y </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row51">
+		<td class="col0"> PLA </td><td class="col1"> </td><td class="col2"> Pull A </td><td class="col3"> s </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row52">
+		<td class="col0"> PLB </td><td class="col1"> </td><td class="col2"> Pull DBR </td><td class="col3"> s </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row53">
+		<td class="col0"> PLD </td><td class="col1"> </td><td class="col2"> Pull D </td><td class="col3"> s </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row54">
+		<td class="col0"> PLP </td><td class="col1"> </td><td class="col2"> Pull P </td><td class="col3"> s </td><td class="col4"> NVMXDIZC </td>
+	</tr>
+	<tr class="row55">
+		<td class="col0"> PLX </td><td class="col1"> </td><td class="col2"> Pull X </td><td class="col3"> s </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row56">
+		<td class="col0"> PLY </td><td class="col1"> </td><td class="col2"> Pull Y </td><td class="col3"> s </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row57">
+		<td class="col0"> REP </td><td class="col1"> </td><td class="col2"> Reset Status Bits </td><td class="col3"> # </td><td class="col4"></td>
+	</tr>
+	<tr class="row58">
+		<td class="col0"> ROL </td><td class="col1"> </td><td class="col2"> Rotate Left/Shift left with carry </td><td class="col3"> a, a,x, A, d, d,x </td><td class="col4"> N—–ZC </td>
+	</tr>
+	<tr class="row59">
+		<td class="col0"> ROR </td><td class="col1"> </td><td class="col2"> Rotate Right/Shift Right with carry </td><td class="col3"> a, a,x, A, d, d,x </td><td class="col4"> N—–ZC </td>
+	</tr>
+	<tr class="row60">
+		<td class="col0"> RTI </td><td class="col1"> </td><td class="col2"> Return from interrupt </td><td class="col3"> s </td><td class="col4"> NVMXDIZC </td>
+	</tr>
+	<tr class="row61">
+		<td class="col0"> RTL </td><td class="col1"> </td><td class="col2"> Return from subroutine long </td><td class="col3"> s </td><td class="col4"> </td>
+	</tr>
+	<tr class="row62">
+		<td class="col0"> RTS </td><td class="col1"> </td><td class="col2"> Return from subroutine </td><td class="col3"> s </td><td class="col4"> </td>
+	</tr>
+	<tr class="row63">
+		<td class="col0"> SBC </td><td class="col1"> </td><td class="col2"> Subtract with carry </td><td class="col3"> a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y </td><td class="col4 rightalign">  NV—-ZC </td>
+	</tr>
+	<tr class="row64">
+		<td class="col0"> SEP </td><td class="col1"> </td><td class="col2"> Set status bits </td><td class="col3"> # </td><td class="col4"></td>
+	</tr>
+	<tr class="row65">
+		<td class="col0"> SEC </td><td class="col1"> </td><td class="col2"> Set carry flag </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row66">
+		<td class="col0"> SED </td><td class="col1"> </td><td class="col2"> Set decimal flag </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row67">
+		<td class="col0"> SEI </td><td class="col1"> </td><td class="col2"> Set interrupt flag </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row68">
+		<td class="col0"> STA </td><td class="col1"> </td><td class="col2"> Store A </td><td class="col3"> a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, d,s, (d,s),y </td><td class="col4"></td>
+	</tr>
+	<tr class="row69">
+		<td class="col0"> STP </td><td class="col1"> </td><td class="col2"> Stop the clock </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row70">
+		<td class="col0"> STX </td><td class="col1"> </td><td class="col2"> Store X </td><td class="col3"> a, d, d,y </td><td class="col4"></td>
+	</tr>
+	<tr class="row71">
+		<td class="col0"> STY </td><td class="col1"> </td><td class="col2"> Store Y </td><td class="col3"> a, d, d,x </td><td class="col4"></td>
+	</tr>
+	<tr class="row72">
+		<td class="col0"> STZ </td><td class="col1"> </td><td class="col2"> Store zero </td><td class="col3"> a, a,x, d, d,x </td><td class="col4"></td>
+	</tr>
+	<tr class="row73">
+		<td class="col0"> TAX </td><td class="col1"> </td><td class="col2"> Transfer A to X </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row74">
+		<td class="col0"> TAY </td><td class="col1"> </td><td class="col2"> Transfer A to Y </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row75">
+		<td class="col0"> TCD </td><td class="col1"> </td><td class="col2"> Transfer C(A) to D </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row76">
+		<td class="col0"> TCS </td><td class="col1"> </td><td class="col2"> Transfer C(A) to S </td><td class="col3"> i </td><td class="col4"> </td>
+	</tr>
+	<tr class="row77">
+		<td class="col0"> TDC </td><td class="col1"> </td><td class="col2"> Transfer D to C(A) </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row78">
+		<td class="col0"> TRB </td><td class="col1"> </td><td class="col2"> Test and reset Bits </td><td class="col3"> a, d </td><td class="col4"> ——Z- </td>
+	</tr>
+	<tr class="row79">
+		<td class="col0"> TSB </td><td class="col1"> </td><td class="col2"> Test and set bits </td><td class="col3"> a, d </td><td class="col4"> ——Z- </td>
+	</tr>
+	<tr class="row80">
+		<td class="col0"> TSC </td><td class="col1"> </td><td class="col2"> Transfer S to C(A) </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row81">
+		<td class="col0"> TSX </td><td class="col1"> </td><td class="col2"> Transfer S to X </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row82">
+		<td class="col0"> TXA </td><td class="col1"> </td><td class="col2"> Transfer X to A </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row83">
+		<td class="col0"> TXS </td><td class="col1"> </td><td class="col2"> Transfer X to S </td><td class="col3"> i </td><td class="col4"> </td>
+	</tr>
+	<tr class="row84">
+		<td class="col0"> TXY </td><td class="col1"> </td><td class="col2"> Transfer X to Y </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row85">
+		<td class="col0"> TYA </td><td class="col1"> </td><td class="col2"> Transfer Y to A </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row86">
+		<td class="col0"> TYX </td><td class="col1"> </td><td class="col2"> Transfer Y to X </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row87">
+		<td class="col0"> WAI </td><td class="col1"> </td><td class="col2"> Wait for interrupt </td><td class="col3"> i </td><td class="col4"> </td>
+	</tr>
+	<tr class="row88">
+		<td class="col0"> WDM </td><td class="col1"> </td><td class="col2"> Reserved for future use </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row89">
+		<td class="col0"> XBA </td><td class="col1"> </td><td class="col2"> Exchange B and A in Accumulator </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row90">
+		<td class="col0"> XCE </td><td class="col1"> </td><td class="col2"> Exchange Carry and emulation flag </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+</table></div>
+<!-- EDIT{&quot;target&quot;:&quot;table&quot;,&quot;name&quot;:&quot;&quot;,&quot;hid&quot;:&quot;table2&quot;,&quot;secid&quot;:17,&quot;range&quot;:&quot;10172-14732&quot;} -->
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Operationen&quot;,&quot;hid&quot;:&quot;operationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:16,&quot;range&quot;:&quot;10064-10090&quot;} -->
-<h1 class="sectionedit17" id="addressmodes">Addressmodes</h1>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Operationen&quot;,&quot;hid&quot;:&quot;operationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:16,&quot;range&quot;:&quot;10114-14733&quot;} -->
+<h2 class="sectionedit18" id="bitoperationen">Bitoperationen</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Bitoperationen&quot;,&quot;hid&quot;:&quot;bitoperationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:18,&quot;range&quot;:&quot;14734-14759&quot;} -->
+<h3 class="sectionedit19" id="and">AND</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;AND&quot;,&quot;hid&quot;:&quot;and&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:19,&quot;range&quot;:&quot;14760-14773&quot;} -->
+<h3 class="sectionedit20" id="eor">EOR</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;EOR&quot;,&quot;hid&quot;:&quot;eor&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:20,&quot;range&quot;:&quot;14774-14787&quot;} -->
+<h3 class="sectionedit21" id="ora">ORA</h3>
+<div class="level3">
+
+<p>
+Führt eine Bitweise- Verknüpfung mit A durch und speichert das Ergebnis in A.
+AND ist and Und-Verknüpfung, EOR ist exklusiv-oder und ORA ist eine Oder-Verknüpfung.
+In jedem Fall wird das Zero-Flag gesetzt wenn A 0 wird und das Negative-Flag wenn A negativ wird (höchstes Bit ist 1)
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;ORA&quot;,&quot;hid&quot;:&quot;ora&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:21,&quot;range&quot;:&quot;14788-15089&quot;} -->
+<h3 class="sectionedit22" id="asl">ASL</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;ASL&quot;,&quot;hid&quot;:&quot;asl&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:22,&quot;range&quot;:&quot;15090-15103&quot;} -->
+<h3 class="sectionedit23" id="lsr">LSR</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;LSR&quot;,&quot;hid&quot;:&quot;lsr&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:23,&quot;range&quot;:&quot;15104-15117&quot;} -->
+<h3 class="sectionedit24" id="rol">ROL</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;ROL&quot;,&quot;hid&quot;:&quot;rol&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:24,&quot;range&quot;:&quot;15118-15131&quot;} -->
+<h3 class="sectionedit25" id="ror">ROR</h3>
+<div class="level3">
+
+<p>
+Führt eine Bitverschiebung vom Operand aus und speichert das Ergebnis im Operanden.
+Das Zero-Flag wird gesetzt, wenn das Ergebnis 0 ist und das Negative-Flag wenn es negativ ist.
+Das Carry-Flag wird auf das Bit gesetzt, welches “rausfällt”.
+</p>
+
+<p>
+Das letzte Zeichen der Operation zeigt die Richtung der Bitverschiebung (R = right-shift, L = left-shift).
+Bei den R-Operationen wird bei der Verschiebung das Carry-Flag eingefügt, bei den anderen fest eine 0.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;ROR&quot;,&quot;hid&quot;:&quot;ror&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:25,&quot;range&quot;:&quot;15132-15601&quot;} -->
+<h3 class="sectionedit26" id="trb">TRB</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TRB&quot;,&quot;hid&quot;:&quot;trb&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:26,&quot;range&quot;:&quot;15602-15615&quot;} -->
+<h3 class="sectionedit27" id="tsb">TSB</h3>
+<div class="level3">
+
+<p>
+Zuerst wird ein Test mit A und dem Operanden durchgeführt.
+Dieser entspricht einer UND-Verknüpfung und setzt das Zero-Flag wenn das ERgebnis 0 ist.
+</p>
+
+<p>
+Anschließend werden alle Bits in A auf 0 (TRB) oder 1 (TSB) gesetzt, welche im Operanden 1 sind und das Ergebnis in den Operand zurück gespielt.
+</p>
+
+<p>
+Beipiel: TSB 0x05 setzt das 0. und 2. Bit von A auf 1, während TRB 0x07 das 0. 1. und 2. Bit auf 0 setzt.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TSB&quot;,&quot;hid&quot;:&quot;tsb&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:27,&quot;range&quot;:&quot;15616-16036&quot;} -->
+<h2 class="sectionedit28" id="register-operationen">Register-Operationen</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Register-Operationen&quot;,&quot;hid&quot;:&quot;register-operationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:28,&quot;range&quot;:&quot;16037-16069&quot;} -->
+<h3 class="sectionedit29" id="dec">DEC</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;DEC&quot;,&quot;hid&quot;:&quot;dec&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:29,&quot;range&quot;:&quot;16070-16083&quot;} -->
+<h3 class="sectionedit30" id="dex">DEX</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;DEX&quot;,&quot;hid&quot;:&quot;dex&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:30,&quot;range&quot;:&quot;16084-16097&quot;} -->
+<h3 class="sectionedit31" id="dey">DEY</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;DEY&quot;,&quot;hid&quot;:&quot;dey&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:31,&quot;range&quot;:&quot;16098-16111&quot;} -->
+<h3 class="sectionedit32" id="inc">INC</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;INC&quot;,&quot;hid&quot;:&quot;inc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:32,&quot;range&quot;:&quot;16112-16125&quot;} -->
+<h3 class="sectionedit33" id="inx">INX</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;INX&quot;,&quot;hid&quot;:&quot;inx&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:33,&quot;range&quot;:&quot;16126-16139&quot;} -->
+<h3 class="sectionedit34" id="iny">INY</h3>
+<div class="level3">
+
+<p>
+Senkt (D am Anfang) oder erhöht (I am Anfang) den Wert des Operanden um 1 und schreibt in zurück.
+DEX/INX geht auf das X-Register, DEY/INY auf das Y-Register und DEC/INC entweder auf eine Speicheradresse oder das A-Register.
+Anstelle von DEC/INC mit Adressmode A wird alternativ häufig auf DEA/INA genutzt.
+</p>
+
+<p>
+Entsprechend dem Wert nach der Anpassung wird bei 0 das Z-Flag gesetzt und das N-Flag wenn das höchste Bit 1 ist.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;INY&quot;,&quot;hid&quot;:&quot;iny&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:34,&quot;range&quot;:&quot;16140-16580&quot;} -->
+<h3 class="sectionedit35" id="lda">LDA</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;LDA&quot;,&quot;hid&quot;:&quot;lda&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:35,&quot;range&quot;:&quot;16581-16594&quot;} -->
+<h3 class="sectionedit36" id="ldx">LDX</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;LDX&quot;,&quot;hid&quot;:&quot;ldx&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:36,&quot;range&quot;:&quot;16595-16608&quot;} -->
+<h3 class="sectionedit37" id="ldy">LDY</h3>
+<div class="level3">
+
+<p>
+Lädt einen Wert aus dem Speicher in das X (LDX), Y (LDY) oder A (LDA) Register.
+Ist der WErt 0 wird das Zero-Flag gesetzt, ist das höchste Bit 1 wird das Negative-Flag gesetzt.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;LDY&quot;,&quot;hid&quot;:&quot;ldy&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:37,&quot;range&quot;:&quot;16609-16802&quot;} -->
+<h3 class="sectionedit38" id="sta">STA</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;STA&quot;,&quot;hid&quot;:&quot;sta&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:38,&quot;range&quot;:&quot;16803-16816&quot;} -->
+<h3 class="sectionedit39" id="stx">STX</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;STX&quot;,&quot;hid&quot;:&quot;stx&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:39,&quot;range&quot;:&quot;16817-16830&quot;} -->
+<h3 class="sectionedit40" id="sty">STY</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;STY&quot;,&quot;hid&quot;:&quot;sty&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:40,&quot;range&quot;:&quot;16831-16844&quot;} -->
+<h3 class="sectionedit41" id="stz">STZ</h3>
+<div class="level3">
+
+<p>
+Speichert einen Wert in den Speicher (Operand).
+STA, STX und STY speichern den Wert des jeweiligen Registers, STZ speichert immer 0
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;STZ&quot;,&quot;hid&quot;:&quot;stz&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:41,&quot;range&quot;:&quot;16845-16991&quot;} -->
+<h2 class="sectionedit42" id="transferoperationen">Transferoperationen</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Transferoperationen&quot;,&quot;hid&quot;:&quot;transferoperationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:42,&quot;range&quot;:&quot;16992-17023&quot;} -->
+<h3 class="sectionedit43" id="tax">TAX</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TAX&quot;,&quot;hid&quot;:&quot;tax&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:43,&quot;range&quot;:&quot;17024-17037&quot;} -->
+<h3 class="sectionedit44" id="tay">TAY</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TAY&quot;,&quot;hid&quot;:&quot;tay&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:44,&quot;range&quot;:&quot;17038-17051&quot;} -->
+<h3 class="sectionedit45" id="tcd">TCD</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TCD&quot;,&quot;hid&quot;:&quot;tcd&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:45,&quot;range&quot;:&quot;17052-17065&quot;} -->
+<h3 class="sectionedit46" id="tcs">TCS</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TCS&quot;,&quot;hid&quot;:&quot;tcs&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:46,&quot;range&quot;:&quot;17066-17079&quot;} -->
+<h3 class="sectionedit47" id="tdc">TDC</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TDC&quot;,&quot;hid&quot;:&quot;tdc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:47,&quot;range&quot;:&quot;17080-17093&quot;} -->
+<h3 class="sectionedit48" id="tsc">TSC</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TSC&quot;,&quot;hid&quot;:&quot;tsc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:48,&quot;range&quot;:&quot;17094-17107&quot;} -->
+<h3 class="sectionedit49" id="tsx">TSX</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TSX&quot;,&quot;hid&quot;:&quot;tsx&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:49,&quot;range&quot;:&quot;17108-17121&quot;} -->
+<h3 class="sectionedit50" id="txa">TXA</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TXA&quot;,&quot;hid&quot;:&quot;txa&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:50,&quot;range&quot;:&quot;17122-17135&quot;} -->
+<h3 class="sectionedit51" id="txs">TXS</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TXS&quot;,&quot;hid&quot;:&quot;txs&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:51,&quot;range&quot;:&quot;17136-17149&quot;} -->
+<h3 class="sectionedit52" id="txy">TXY</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TXY&quot;,&quot;hid&quot;:&quot;txy&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:52,&quot;range&quot;:&quot;17150-17163&quot;} -->
+<h3 class="sectionedit53" id="tya">TYA</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TYA&quot;,&quot;hid&quot;:&quot;tya&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:53,&quot;range&quot;:&quot;17164-17177&quot;} -->
+<h3 class="sectionedit54" id="tyx">TYX</h3>
+<div class="level3">
+
+<p>
+Bei einer Transferoperation wird der Wert eines Registers in ein anderes Register kopiert.
+Die Operation ist so benannt, dass das 2. Zeichen das Quell- und das 3. Zeichen das Zielregister beschreibt.
+Die zu kopierenden Bytes (1 oder 2) bestimmt das Ziel-Register.
+</p>
+
+<p>
+Bei einer Transferoperation werden das Negative und das Zero-Flag gesetzt (Ausnahme, wenn das Zielregister S ist wird kein Flag geändert).
+Zero wird gesetzt, wenn der betrachtete Teil des Zielregisters (z. B. wenn A im 8-Bit-Modus ist nur das Low-Byte von A) am Ende 0 ist.
+Analog dazu wird N auf 1 gesetzt, wenn das höchstwertige Bit des betrachteten Registers 1 ist.
+</p>
+
+<p>
+Beispiele:
+TCD immer 16 BIT von A (C) nach D (da C den Accumulator in 16-Bit meint und D immer 16-Bit ist).
+Im Native Mode kopiert TXS immer 16-Bit da S dort immer 16-Bit groß ist.
+TAX kopiert 8- oder 16-Bit je nach der Größe von X (ist X 16-Bit groß könnte man die Operation auch TCX nennen ungeachtet der Größe von A)
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TYX&quot;,&quot;hid&quot;:&quot;tyx&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:54,&quot;range&quot;:&quot;17178-18156&quot;} -->
+<h2 class="sectionedit55" id="branch-_jumpoperationen">Branch-/Jumpoperationen</h2>
+<div class="level2">
+
+<p>
+Branch- und Jump-Operationen dienen dazu von einer Stelle zu einer beliebig anderen Stelle in der Ausführung zu springen.
+Der Unterschied ist, dass Branch-Operationen (starten mit B) eine einfache Abzweigung darstellen (if-else), welche immer relativ zum PC ist.
+Jump-Operationen (starten mit J) hingegen springen zu einer beliebigen absoluten Adresse unabhängig vom PC.
+Ein Sonderfall hiervon sind die Subroutine-Jumps (beginnen mit JS) , welche einen “Methodenaufruf darstellen, zu dem es analog auch immer ein Return (starten mit R) geben muss.
+</p>
+
+<p>
+Gleich ist allen Operationen, dass keinerlei Statusflags gesetzt werden.
+</p>
+
+<p>
+Bei Branch-Operationen wird der PC auf den Wert des Operanden gesetzt, wenn eine Bedingung zutrifft.
+JMP entspricht dabei BRA und JML einem BRL, wobei sich nur der Addressmode unterscheidet.
+Bei JSR wird zuerst der PC auf den Stack gelegt und anschließend gesprungen.
+Das Pendant dazu RTS list den PC vom Stack und macht dann weiter.
+JSL und RTL ist eine Sonderform von JSR und RTS bei der in eine beliebige Bank gesprungen werden kann. Dafür wird vor dem PC noch der PBR auf den Stack gelebt, bwz. nach dem PC noch der PBR vom Stack gelesen.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Branch-\/Jumpoperationen&quot;,&quot;hid&quot;:&quot;branch-_jumpoperationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:55,&quot;range&quot;:&quot;18157-19363&quot;} -->
+<h3 class="sectionedit56" id="bcc">BCC</h3>
+<div class="level3">
+
+<p>
+Branch wenn das Carry-Flag 0 ist
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BCC&quot;,&quot;hid&quot;:&quot;bcc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:56,&quot;range&quot;:&quot;19364-19411&quot;} -->
+<h3 class="sectionedit57" id="bcs">BCS</h3>
+<div class="level3">
+
+<p>
+Branch wenn das Carry-Flag 1 ist
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BCS&quot;,&quot;hid&quot;:&quot;bcs&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:57,&quot;range&quot;:&quot;19412-19459&quot;} -->
+<h3 class="sectionedit58" id="beq">BEQ</h3>
+<div class="level3">
+
+<p>
+Branch wenn das Zero-Flag 1 ist (für weiter Infos siehe Vergleichsoperationen)
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BEQ&quot;,&quot;hid&quot;:&quot;beq&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:58,&quot;range&quot;:&quot;19460-19554&quot;} -->
+<h3 class="sectionedit59" id="bmi">BMI</h3>
+<div class="level3">
+
+<p>
+Branch wenn Negative-Flag 1 ist
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BMI&quot;,&quot;hid&quot;:&quot;bmi&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:59,&quot;range&quot;:&quot;19555-19601&quot;} -->
+<h3 class="sectionedit60" id="bne">BNE</h3>
+<div class="level3">
+
+<p>
+Branch wenn Zero-Flag 0 ist (für weiter Infos size Vergleichsoperationen)
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BNE&quot;,&quot;hid&quot;:&quot;bne&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:60,&quot;range&quot;:&quot;19602-19691&quot;} -->
+<h3 class="sectionedit61" id="bpl">BPL</h3>
+<div class="level3">
+
+<p>
+Branch wenn Negative-Flag 0 ist
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BPL&quot;,&quot;hid&quot;:&quot;bpl&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:61,&quot;range&quot;:&quot;19692-19738&quot;} -->
+<h3 class="sectionedit62" id="bra">BRA</h3>
+<div class="level3">
+
+<p>
+Branch immer
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BRA&quot;,&quot;hid&quot;:&quot;bra&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:62,&quot;range&quot;:&quot;19739-19766&quot;} -->
+<h3 class="sectionedit63" id="brl">BRL</h3>
+<div class="level3">
+
+<p>
+Branch immer Long.
+Dies ist die einzige Branch-Operation, bei der auch der PBR gesetzt wird.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BRL&quot;,&quot;hid&quot;:&quot;brl&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:63,&quot;range&quot;:&quot;19767-19874&quot;} -->
+<h3 class="sectionedit64" id="bvc">BVC</h3>
+<div class="level3">
+
+<p>
+Branch wenn Overflow-Flag 0 ist
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BVC&quot;,&quot;hid&quot;:&quot;bvc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:64,&quot;range&quot;:&quot;19875-19921&quot;} -->
+<h3 class="sectionedit65" id="bvs">BVS</h3>
+<div class="level3">
+
+<p>
+Branch wenn Overflow-Flag 0 ist
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BVS&quot;,&quot;hid&quot;:&quot;bvs&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:65,&quot;range&quot;:&quot;19922-19968&quot;} -->
+<h3 class="sectionedit66" id="jmp">JMP</h3>
+<div class="level3">
+
+<p>
+Branch zur Adresse
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;JMP&quot;,&quot;hid&quot;:&quot;jmp&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:66,&quot;range&quot;:&quot;19969-20002&quot;} -->
+<h3 class="sectionedit67" id="jml">JML</h3>
+<div class="level3">
+
+<p>
+Branch zur Adresse in einer beliebigen Bank
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;JML&quot;,&quot;hid&quot;:&quot;jml&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:67,&quot;range&quot;:&quot;20003-20061&quot;} -->
+<h3 class="sectionedit68" id="jsl">JSL</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;JSL&quot;,&quot;hid&quot;:&quot;jsl&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:68,&quot;range&quot;:&quot;20062-20075&quot;} -->
+<h3 class="sectionedit69" id="jsr">JSR</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;JSR&quot;,&quot;hid&quot;:&quot;jsr&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:69,&quot;range&quot;:&quot;20076-20089&quot;} -->
+<h3 class="sectionedit70" id="rtl">RTL</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;RTL&quot;,&quot;hid&quot;:&quot;rtl&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:70,&quot;range&quot;:&quot;20090-20103&quot;} -->
+<h3 class="sectionedit71" id="rts">RTS</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;RTS&quot;,&quot;hid&quot;:&quot;rts&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:71,&quot;range&quot;:&quot;20104-20118&quot;} -->
+<h2 class="sectionedit72" id="interruptoperationen">Interruptoperationen</h2>
+<div class="level2">
+
+<p>
+Bei einem Interrupt springt die CPU temporär zu einer anderen Stelle, um zeitkritische Aktionen auszuführen (z. B. Rendering).
+Am Ende des Interrupt-Handlers steht somit immer ein RTI, um zurück zuspringen und die Bearbeitung fortzusetzen.
+</p>
+
+<p>
+Wird ein Interrupt ausgelöst (per Hardware, z. B. IRQ oder NMI) wird im Native-Mode zuerst der PBR auf den Stack gelegt.
+Anschließend wird immer der PC und danach P auf den Stack gelegt.
+Nun wird das Decimal-Flag auf 0 und das IRQ-Flag auf 1 gesetzt und der PC wird auf den Interrupt-Handler gesetzt.
+Befindet sich die CPU im Native-Mode wird zusätzlich der PBR auf 0 gesetzt.
+Abschließend arbeitet die CPU den Interrupt-Handler ab.
+</p>
+
+<p>
+Ist das IRQ-Flag gesetzt kann/wird kein Interrupt ausgeführt.
+Die einzige Ausnahme hierzu ist der NMI, welcher immer stattfindet.
+</p>
+
+<p>
+Der zugehörige Return (RTI) arbeitet auch hier wieder umgekehrt: P vom Stack lesen, PC vom Stack lesen, falls im Native-Mode PBR vom Stack lesen.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Interruptoperationen&quot;,&quot;hid&quot;:&quot;interruptoperationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:72,&quot;range&quot;:&quot;20119-21113&quot;} -->
+<h3 class="sectionedit73" id="brk">BRK</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BRK&quot;,&quot;hid&quot;:&quot;brk&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:73,&quot;range&quot;:&quot;21114-21127&quot;} -->
+<h3 class="sectionedit74" id="cop">COP</h3>
+<div class="level3">
+
+<p>
+BRK und COP sind spezielle Interrupts, welcher per Software ausgelöst werden können.
+Obwohl sie nur 1 Byte bräuchten (kein Operand) bestehen ihre Instruktionen immer aus 2 Byte.
+So kann das 2.Byte als Deskriptor verwendet werden.
+</p>
+
+<p>
+Speziell bei BRK wird zusätzlich das BRK-Flag gesetzt.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;COP&quot;,&quot;hid&quot;:&quot;cop&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:74,&quot;range&quot;:&quot;21128-21432&quot;} -->
+<h3 class="sectionedit75" id="wai">WAI</h3>
+<div class="level3">
+
+<p>
+Bei WAI wird die CPU “angehalten” und wartet bis ein Interrupt ausgelöst wird.
+Nach einem Interrupt läuft die CPU wie gewohnt nach WAI weiter.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;WAI&quot;,&quot;hid&quot;:&quot;wai&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:75,&quot;range&quot;:&quot;21433-21592&quot;} -->
+<h3 class="sectionedit76" id="rti">RTI</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;RTI&quot;,&quot;hid&quot;:&quot;rti&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:76,&quot;range&quot;:&quot;21593-21607&quot;} -->
+<h2 class="sectionedit77" id="statusflag-operationen">Statusflag-Operationen</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Statusflag-Operationen&quot;,&quot;hid&quot;:&quot;statusflag-operationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:77,&quot;range&quot;:&quot;21608-21642&quot;} -->
+<h3 class="sectionedit78" id="clc">CLC</h3>
+<div class="level3">
+
+<p>
+Setze Carry-Flag auf 0
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;CLC&quot;,&quot;hid&quot;:&quot;clc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:78,&quot;range&quot;:&quot;21643-21680&quot;} -->
+<h3 class="sectionedit79" id="cld">CLD</h3>
+<div class="level3">
+
+<p>
+Setze Decimal-Flag auf 0
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;CLD&quot;,&quot;hid&quot;:&quot;cld&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:79,&quot;range&quot;:&quot;21681-21720&quot;} -->
+<h3 class="sectionedit80" id="cli">CLI</h3>
+<div class="level3">
+
+<p>
+Setze IRQ-Flag auf 0
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;CLI&quot;,&quot;hid&quot;:&quot;cli&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:80,&quot;range&quot;:&quot;21721-21756&quot;} -->
+<h3 class="sectionedit81" id="clv">CLV</h3>
+<div class="level3">
+
+<p>
+Setze Overflow-Flag auf 0
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;CLV&quot;,&quot;hid&quot;:&quot;clv&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:81,&quot;range&quot;:&quot;21757-21797&quot;} -->
+<h3 class="sectionedit82" id="sec">SEC</h3>
+<div class="level3">
+
+<p>
+Setze Carry-Flag auf 1
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;SEC&quot;,&quot;hid&quot;:&quot;sec&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:82,&quot;range&quot;:&quot;21798-21835&quot;} -->
+<h3 class="sectionedit83" id="sed">SED</h3>
+<div class="level3">
+
+<p>
+Setze Decimal-Flag auf 1
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;SED&quot;,&quot;hid&quot;:&quot;sed&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:83,&quot;range&quot;:&quot;21836-21875&quot;} -->
+<h3 class="sectionedit84" id="sei">SEI</h3>
+<div class="level3">
+
+<p>
+Setze IRQ-Flag auf 1
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;SEI&quot;,&quot;hid&quot;:&quot;sei&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:84,&quot;range&quot;:&quot;21876-21911&quot;} -->
+<h3 class="sectionedit85" id="rep">REP</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;REP&quot;,&quot;hid&quot;:&quot;rep&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:85,&quot;range&quot;:&quot;21912-21925&quot;} -->
+<h3 class="sectionedit86" id="sep">SEP</h3>
+<div class="level3">
+
+<p>
+Setze alle Bits, welche in dem Operand 1 sind auf 0 bei REP bzw. 1 bei SEP.
+</p>
+
+<p>
+Beispiel: REP 0x30 setzt das 4, und 5. Status-Bit/Flag auf 0 und lässt die anderen, wie sie sind.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;SEP&quot;,&quot;hid&quot;:&quot;sep&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:86,&quot;range&quot;:&quot;21926-22116&quot;} -->
+<h2 class="sectionedit87" id="vergleichsoperationen">Vergleichsoperationen</h2>
+<div class="level2">
+
+<p>
+Bei Vergleichsoperationen werden Register und Speicherstellen (oder Immediate) miteinander verglichen, um entsprechend Status-Flags zu setzen.
+Hierbei wird weder das REgister noch der Speicher verändert, lediglich das Status-Register passt sich an.
+</p>
+
+<p>
+Sind z. B. die zu vergleichenden Werte gleich wird zumeist das Z-Flag gesetzt so dass anschließend mit BEQ (Branch if equal, daher der Name) ein Sprung ausgeführt werden kann.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Vergleichsoperationen&quot;,&quot;hid&quot;:&quot;vergleichsoperationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:87,&quot;range&quot;:&quot;22117-22580&quot;} -->
+<h3 class="sectionedit88" id="cmp">CMP</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;CMP&quot;,&quot;hid&quot;:&quot;cmp&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:88,&quot;range&quot;:&quot;22581-22594&quot;} -->
+<h3 class="sectionedit89" id="cpx">CPX</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;CPX&quot;,&quot;hid&quot;:&quot;cpx&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:89,&quot;range&quot;:&quot;22595-22608&quot;} -->
+<h3 class="sectionedit90" id="cpy">CPY</h3>
+<div class="level3">
+
+<p>
+Bei diesen Operationen wird ein Register (A bei CMP, X bei CPX, Y bei CPY) mit dem Wert im Speicher (Operand) verglichen.
+Man kann sich den Compare so vorstellen, das das WErt des Registers Minus den Operand-Wert genommen wird.
+Ist das Ergbeniss hieraus 0 so wird das Z-Flag gesetzt, ist es Negativ wird das Negative-Flag gesetzt.
+Das Carry-Flag wird immer gesetzt, wenn das ERgebnis nicht negativ ist.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;CPY&quot;,&quot;hid&quot;:&quot;cpy&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:90,&quot;range&quot;:&quot;22609-23026&quot;} -->
+<h3 class="sectionedit91" id="bit">BIT</h3>
+<div class="level3">
+
+<p>
+Bei einem BIT-Test wird A mit dem Operandwert verundet (Bit-weises UND).
+Ist das Ergebnis 0 so wird das Zero-Flag gesetzt, das Negative-Flag wird gesetzt, wenn das höchste Bit des Ergbnisse (Bit 7 im 8-Bit-Modus und BIT 15 im 16-BIT modus) 1 ist.
+Zusätzlich wird das Carry-Bit auf 1 gesetzt, wenn der Wert in A größer ist als der Operand.
+</p>
+
+<p>
+<strong>Achtung Falle</strong> Wird BIT mit dem Addressmodus Immediate genutzt (Instruktion 0x89) wird ausschließlich das Zero-Flag angepasst, alles andere bleibt unangetastet.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BIT&quot;,&quot;hid&quot;:&quot;bit&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:91,&quot;range&quot;:&quot;23027-23550&quot;} -->
+<h2 class="sectionedit92" id="stackoperationen">Stackoperationen</h2>
+<div class="level2">
+
+<p>
+Es gibt essentiell nur 2 Arten von Stackoperationen: Push-Operationen, welche etwas auf den Stack ablegen (beginnen mit PE oder PH) und Pull-Operationen, welche einen WErt vom Stack holen (beginnen mit PL).
+Während Push-Operationen auch “beliebige Werte” nutzen kann wird bei einem Pull immer ein Wert in ein Register gelegt.
+Bei einm Pull wird dabei zusätzlich immer das Zero-Flag gesetzt, wenn der WErt 0 ist und das Negative-Flag, wenn der WErt negativ ist (das höchste Bit ist 1).
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Stackoperationen&quot;,&quot;hid&quot;:&quot;stackoperationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:92,&quot;range&quot;:&quot;23551-24068&quot;} -->
+<h3 class="sectionedit93" id="pea">PEA</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PEA&quot;,&quot;hid&quot;:&quot;pea&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:93,&quot;range&quot;:&quot;24069-24082&quot;} -->
+<h3 class="sectionedit94" id="pei">PEI</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PEI&quot;,&quot;hid&quot;:&quot;pei&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:94,&quot;range&quot;:&quot;24083-24096&quot;} -->
+<h3 class="sectionedit95" id="per">PER</h3>
+<div class="level3">
+
+<p>
+PEA, PEI und PER machen effektiv das gleiche und unterscheiden sich nur durch ihren Addressmodus.
+In beiden Fällen wird ein 16-Bit-Wert auf den Stack gelegt
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PER&quot;,&quot;hid&quot;:&quot;per&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:95,&quot;range&quot;:&quot;24097-24269&quot;} -->
+<h3 class="sectionedit96" id="pha">PHA</h3>
+<div class="level3">
+
+<p>
+Lege A auf den Stack.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PHA&quot;,&quot;hid&quot;:&quot;pha&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:96,&quot;range&quot;:&quot;24270-24306&quot;} -->
+<h3 class="sectionedit97" id="phb">PHB</h3>
+<div class="level3">
+
+<p>
+Lege DBR auf den Stack.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PHB&quot;,&quot;hid&quot;:&quot;phb&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:97,&quot;range&quot;:&quot;24307-24345&quot;} -->
+<h3 class="sectionedit98" id="phd">PHD</h3>
+<div class="level3">
+
+<p>
+Lege D auf den Stack.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PHD&quot;,&quot;hid&quot;:&quot;phd&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:98,&quot;range&quot;:&quot;24346-24382&quot;} -->
+<h3 class="sectionedit99" id="phk">PHK</h3>
+<div class="level3">
+
+<p>
+Lege den PBR auf den Stack.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PHK&quot;,&quot;hid&quot;:&quot;phk&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:99,&quot;range&quot;:&quot;24383-24425&quot;} -->
+<h3 class="sectionedit100" id="php">PHP</h3>
+<div class="level3">
+
+<p>
+Lege P auf den Stack
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PHP&quot;,&quot;hid&quot;:&quot;php&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:100,&quot;range&quot;:&quot;24426-24461&quot;} -->
+<h3 class="sectionedit101" id="phx">PHX</h3>
+<div class="level3">
+
+<p>
+Lege X auf den Stack
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PHX&quot;,&quot;hid&quot;:&quot;phx&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:101,&quot;range&quot;:&quot;24462-24497&quot;} -->
+<h3 class="sectionedit102" id="phy">PHY</h3>
+<div class="level3">
+
+<p>
+Lege Y auf den Stack
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PHY&quot;,&quot;hid&quot;:&quot;phy&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:102,&quot;range&quot;:&quot;24498-24533&quot;} -->
+<h3 class="sectionedit103" id="pla">PLA</h3>
+<div class="level3">
+
+<p>
+Lies A vom Stack
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PLA&quot;,&quot;hid&quot;:&quot;pla&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:103,&quot;range&quot;:&quot;24534-24565&quot;} -->
+<h3 class="sectionedit104" id="plb">PLB</h3>
+<div class="level3">
+
+<p>
+Lies den DBR vom Stack
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PLB&quot;,&quot;hid&quot;:&quot;plb&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:104,&quot;range&quot;:&quot;24566-24603&quot;} -->
+<h3 class="sectionedit105" id="pld">PLD</h3>
+<div class="level3">
+
+<p>
+Lies D vom Stack
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PLD&quot;,&quot;hid&quot;:&quot;pld&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:105,&quot;range&quot;:&quot;24604-24635&quot;} -->
+<h3 class="sectionedit106" id="plp">PLP</h3>
+<div class="level3">
+
+<p>
+Lies P vom Stack
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PLP&quot;,&quot;hid&quot;:&quot;plp&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:106,&quot;range&quot;:&quot;24636-24667&quot;} -->
+<h3 class="sectionedit107" id="plx">PLX</h3>
+<div class="level3">
+
+<p>
+Lies X vom Stack
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PLX&quot;,&quot;hid&quot;:&quot;plx&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:107,&quot;range&quot;:&quot;24668-24699&quot;} -->
+<h3 class="sectionedit108" id="ply">PLY</h3>
+<div class="level3">
+
+<p>
+Lies Y vom Stack
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PLY&quot;,&quot;hid&quot;:&quot;ply&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:108,&quot;range&quot;:&quot;24700-24731&quot;} -->
+<h2 class="sectionedit109" id="sonderoperationen">Sonderoperationen</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Sonderoperationen&quot;,&quot;hid&quot;:&quot;sonderoperationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:109,&quot;range&quot;:&quot;24732-24761&quot;} -->
+<h3 class="sectionedit110" id="adc">ADC</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;ADC&quot;,&quot;hid&quot;:&quot;adc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:110,&quot;range&quot;:&quot;24762-24775&quot;} -->
+<h3 class="sectionedit111" id="sbc">SBC</h3>
+<div class="level3">
+
+<p>
+ADC und SBC stellen die einfachsten arithmetischen Funktionen + und - dar.
+Ist das Decimal-Flag auf 0 wird hierbei eine einfache Binärrechnung mit A vollzogen.
+ADC rechnet A + Operand (+ a falls das Carry-Flag gesetzt ist) und schreibt das Ergebnis in A.
+SBC rechnet A - Operand (- A falls das Carry-Flag gesetzt ist) und schreibt das Ergebnis in A.
+</p>
+
+<p>
+Beispiel: LDA 0x25; ADC 0x04 → 0x29
+</p>
+
+<p>
+Ist das Decimal-Flag gesetzt wird A und der Operand als Binary Coded Decimal (BCD gewertet.
+Dass heißt rechnen wir z. B. 0x09 + 0x03 so ergibt dies nun 0x12 und nicht 0x0C.
+TODO weitere Informationen zum Rechnen in diesem Modus, falls z. B. 0x0A + 0x0B verwendet wird, etc.
+</p>
+
+<p>
+folgende flags werden gesetzt:
+</p>
+<ul>
+<li class="level1"><div class="li"> Carry-flag wenn das Ergbenis größer ist als in das Register passt</div>
+</li>
+<li class="level1"><div class="li"> Negative-Flag wenn das höchste Bit 1 ist</div>
+</li>
+<li class="level1"><div class="li"> Zero-Flag wenn das ERgebnis 0 ist</div>
+</li>
+<li class="level1"><div class="li"> Overflow-Flag wenn A und der Operand positiv waren und das Ergebnis Negativ wurde, oder umgekehrt</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;SBC&quot;,&quot;hid&quot;:&quot;sbc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:111,&quot;range&quot;:&quot;24776-25746&quot;} -->
+<h3 class="sectionedit112" id="mvn">MVN</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;MVN&quot;,&quot;hid&quot;:&quot;mvn&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:112,&quot;range&quot;:&quot;25747-25760&quot;} -->
+<h3 class="sectionedit113" id="mvp">MVP</h3>
+<div class="level3">
+
+<p>
+MVN und MVP dienen dazu große Mengen an Daten auf einmal zu kopieren.
+Der Aufrud von MVN/MVP muss im vorhinein vorbereitet werde.
+Das A-Register hält die Anzahl der zu kopierenden Bytes + 1, X zeigt auf die Quelladresse und Y auf die Zieladresse.
+Die Quellbank ist der 1. Parameter und die Zielbank ist der 2. Parameter.
+</p>
+
+<p>
+Zuerst wird die Zielbank in den DBR kopiert.
+Anschließend wird ein byte von der Quelladdresse zur Zieladresse kopiert.
+Nun wird A decrementiert und X und Y um 1 gesenkt (MVP) oder erhöht (MVN).
+Das Kopieren und Anpassen der Register wird solange wiederholt, bis A den Wert 0xFFFF hat.
+</p>
+
+<p>
+<strong>Achtung</strong> A wird in diesen Operationen immer als 16-Bit gewertet ungeachtet vom M-Flag
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;MVP&quot;,&quot;hid&quot;:&quot;mvp&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:113,&quot;range&quot;:&quot;25761-26476&quot;} -->
+<h3 class="sectionedit114" id="nop">NOP</h3>
+<div class="level3">
+
+<p>
+Bei NOP wird nichts gemacht
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;NOP&quot;,&quot;hid&quot;:&quot;nop&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:114,&quot;range&quot;:&quot;26477-26519&quot;} -->
+<h3 class="sectionedit115" id="stp">STP</h3>
+<div class="level3">
+
+<p>
+Durch STP soll die Ausführung der CPU beendet werden, bis zum nächten Reset (ausschalten)
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;STP&quot;,&quot;hid&quot;:&quot;stp&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:115,&quot;range&quot;:&quot;26520-26626&quot;} -->
+<h3 class="sectionedit116" id="wdm">WDM</h3>
+<div class="level3">
+
+<p>
+Platzhalter für evtl. noch hinzuzufügende Operation in der ZUkunft.
+Nicht genutzt.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;WDM&quot;,&quot;hid&quot;:&quot;wdm&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:116,&quot;range&quot;:&quot;26627-26726&quot;} -->
+<h3 class="sectionedit117" id="xce">XCE</h3>
+<div class="level3">
+
+<p>
+Tauscht das Carry-Flag mit dem Emulation-Flag.
+Ist die CPU im Emulation-Mode wird das Emulation-Flag als 1 angesehen oder ansonsten 0.
+Dies ist die einzige Möglichkeit, das CPU-Mode zu ändern
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;XCE&quot;,&quot;hid&quot;:&quot;xce&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:117,&quot;range&quot;:&quot;26727-26935&quot;} -->
+<h3 class="sectionedit118" id="xba">XBA</h3>
+<div class="level3">
+
+<p>
+Tausch das High- und Low-Byte von A.
+Mithilfe von XBA kann das High-Byte von A im Emulation-Mode (oder 8-Bit Modus) als zusätzlicher Speicher verwendet werden.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;XBA&quot;,&quot;hid&quot;:&quot;xba&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:118,&quot;range&quot;:&quot;26936-27111&quot;} -->
+<h1 class="sectionedit119" id="addressmodes">Addressmodes</h1>
 <div class="level1">
 
 <p>
 Der AddressMode zeigt an, welche Daten eine Operation nutzt, bzw. wie die Daten ermittelt werden.
 Es gibt für das SNES folgende Addressmodes:
 </p>
-<div class="table sectionedit18"><table class="inline">
+<div class="table sectionedit120"><table class="inline">
 	<thead>
 	<tr class="row0">
 		<th class="col0"> Addressmode </th><th class="col1"> Schema </th><th class="col2"> Bytes </th><th class="col3"> Bank </th><th class="col4"> Operationen </th>
@@ -372,7 +1531,7 @@ Es gibt für das SNES folgende Addressmodes:
 		<td class="col0"> stack relative indirect indexed </td><td class="col1"> (d,s),y </td><td class="col2"> 1 </td><td class="col3"> Calculated </td><td class="col4"> ADC, AND, CMP, EOR, LDA, ORA, SBC, STA </td>
 	</tr>
 </table></div>
-<!-- EDIT{&quot;target&quot;:&quot;table&quot;,&quot;name&quot;:&quot;&quot;,&quot;hid&quot;:&quot;table2&quot;,&quot;secid&quot;:18,&quot;range&quot;:&quot;10262-12611&quot;} -->
+<!-- EDIT{&quot;target&quot;:&quot;table&quot;,&quot;name&quot;:&quot;&quot;,&quot;hid&quot;:&quot;table3&quot;,&quot;secid&quot;:120,&quot;range&quot;:&quot;27283-29632&quot;} -->
 <p>
 Hierzu einige Regeln, welche man hieraus ableiten kann:
 </p>
@@ -392,8 +1551,8 @@ Hierzu einige Regeln, welche man hieraus ableiten kann:
 </ul>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Addressmodes&quot;,&quot;hid&quot;:&quot;addressmodes&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:17,&quot;range&quot;:&quot;10091-13643&quot;} -->
-<h2 class="sectionedit19" id="absolute_addresmodes">Absolute Addresmodes</h2>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Addressmodes&quot;,&quot;hid&quot;:&quot;addressmodes&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:119,&quot;range&quot;:&quot;27112-30664&quot;} -->
+<h2 class="sectionedit121" id="absolute_addresmodes">Absolute Addresmodes</h2>
 <div class="level2">
 
 <p>
@@ -403,8 +1562,8 @@ Die Varianten mit 3 Bytes werden dabei in der Regel mit dem Kürzel Long gekennz
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute Addresmodes&quot;,&quot;hid&quot;:&quot;absolute_addresmodes&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:19,&quot;range&quot;:&quot;13644-13912&quot;} -->
-<h3 class="sectionedit20" id="absolute_-_a">Absolute - a</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute Addresmodes&quot;,&quot;hid&quot;:&quot;absolute_addresmodes&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:121,&quot;range&quot;:&quot;30665-30933&quot;} -->
+<h3 class="sectionedit122" id="absolute_-_a">Absolute - a</h3>
 <div class="level3">
 
 <p>
@@ -421,8 +1580,8 @@ Verwendende Operationen: ADC, AND, ASL, BIT, CMP, CPX, CPY, DEC, EOR, INC, JMP, 
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute - a&quot;,&quot;hid&quot;:&quot;absolute_-_a&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:20,&quot;range&quot;:&quot;13913-14254&quot;} -->
-<h3 class="sectionedit21" id="absolute_indexed_indirect_-_a_x">Absolute indexed indirect - (a,x)</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute - a&quot;,&quot;hid&quot;:&quot;absolute_-_a&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:122,&quot;range&quot;:&quot;30934-31275&quot;} -->
+<h3 class="sectionedit123" id="absolute_indexed_indirect_-_a_x">Absolute indexed indirect - (a,x)</h3>
 <div class="level3">
 
 <p>
@@ -440,8 +1599,8 @@ verwendende Operationen: JMP, JSR
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute indexed indirect - (a,x)&quot;,&quot;hid&quot;:&quot;absolute_indexed_indirect_-_a_x&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:21,&quot;range&quot;:&quot;14255-14571&quot;} -->
-<h3 class="sectionedit22" id="absolute_indexed_with_x_-_a_x">Absolute Indexed with X - a,x</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute indexed indirect - (a,x)&quot;,&quot;hid&quot;:&quot;absolute_indexed_indirect_-_a_x&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:123,&quot;range&quot;:&quot;31276-31592&quot;} -->
+<h3 class="sectionedit124" id="absolute_indexed_with_x_-_a_x">Absolute Indexed with X - a,x</h3>
 <div class="level3">
 
 <p>
@@ -459,8 +1618,8 @@ Verwendende Operationen: ADC, AND, ASL, BIT, CMP, DEC, EOR, INC, LDA, LDY, LSR, 
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute Indexed with X - a,x&quot;,&quot;hid&quot;:&quot;absolute_indexed_with_x_-_a_x&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:22,&quot;range&quot;:&quot;14572-14933&quot;} -->
-<h3 class="sectionedit23" id="absolute_indexed_with_y_-_a_y">Absolute Indexed with Y - a,y</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute Indexed with X - a,x&quot;,&quot;hid&quot;:&quot;absolute_indexed_with_x_-_a_x&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:124,&quot;range&quot;:&quot;31593-31954&quot;} -->
+<h3 class="sectionedit125" id="absolute_indexed_with_y_-_a_y">Absolute Indexed with Y - a,y</h3>
 <div class="level3">
 
 <p>
@@ -478,8 +1637,8 @@ Verwendende Operationen: ADC, AND, CMP, EOR, LDA, LDX, ORA, SBC, STA
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute Indexed with Y - a,y&quot;,&quot;hid&quot;:&quot;absolute_indexed_with_y_-_a_y&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:23,&quot;range&quot;:&quot;14934-15255&quot;} -->
-<h3 class="sectionedit24" id="absolute_indirect_absolute_indirect_long_-_a_al">Absolute indirect/Absolute indirect Long - (a)/(al)</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute Indexed with Y - a,y&quot;,&quot;hid&quot;:&quot;absolute_indexed_with_y_-_a_y&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:125,&quot;range&quot;:&quot;31955-32276&quot;} -->
+<h3 class="sectionedit126" id="absolute_indirect_absolute_indirect_long_-_a_al">Absolute indirect/Absolute indirect Long - (a)/(al)</h3>
 <div class="level3">
 
 <p>
@@ -502,8 +1661,8 @@ verwendende Operationen: JML, JMP
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute indirect\/Absolute indirect Long - (a)\/(al)&quot;,&quot;hid&quot;:&quot;absolute_indirect_absolute_indirect_long_-_a_al&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:24,&quot;range&quot;:&quot;15256-15890&quot;} -->
-<h3 class="sectionedit25" id="absolute_long_indexed_with_x_-_al_x">Absolute long indexed with X - al,x</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute indirect\/Absolute indirect Long - (a)\/(al)&quot;,&quot;hid&quot;:&quot;absolute_indirect_absolute_indirect_long_-_a_al&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:126,&quot;range&quot;:&quot;32277-32911&quot;} -->
+<h3 class="sectionedit127" id="absolute_long_indexed_with_x_-_al_x">Absolute long indexed with X - al,x</h3>
 <div class="level3">
 
 <p>
@@ -521,8 +1680,8 @@ verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute long indexed with X - al,x&quot;,&quot;hid&quot;:&quot;absolute_long_indexed_with_x_-_al_x&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:25,&quot;range&quot;:&quot;15891-16314&quot;} -->
-<h3 class="sectionedit26" id="absolute_long_-_al">Absolute Long - al</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute long indexed with X - al,x&quot;,&quot;hid&quot;:&quot;absolute_long_indexed_with_x_-_al_x&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:127,&quot;range&quot;:&quot;32912-33335&quot;} -->
+<h3 class="sectionedit128" id="absolute_long_-_al">Absolute Long - al</h3>
 <div class="level3">
 
 <p>
@@ -538,8 +1697,8 @@ verwendende Operationen: ADC, AND, CMP, EOR, JMP, JSR, LDA, ORA, SBC, STA
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute Long - al&quot;,&quot;hid&quot;:&quot;absolute_long_-_al&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:26,&quot;range&quot;:&quot;16315-16556&quot;} -->
-<h2 class="sectionedit27" id="direct_addressmodes">Direct addressmodes</h2>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute Long - al&quot;,&quot;hid&quot;:&quot;absolute_long_-_al&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:128,&quot;range&quot;:&quot;33336-33577&quot;} -->
+<h2 class="sectionedit129" id="direct_addressmodes">Direct addressmodes</h2>
 <div class="level2">
 
 <p>
@@ -549,8 +1708,8 @@ Enthält das D-Register einen Wert != 0 im low-Byte so führt dies immer zu eine
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct addressmodes&quot;,&quot;hid&quot;:&quot;direct_addressmodes&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:27,&quot;range&quot;:&quot;16557-16929&quot;} -->
-<h3 class="sectionedit28" id="direct_indexed_indirect_-_d_x">Direct indexed indirect - (d,x)</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct addressmodes&quot;,&quot;hid&quot;:&quot;direct_addressmodes&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:129,&quot;range&quot;:&quot;33578-33950&quot;} -->
+<h3 class="sectionedit130" id="direct_indexed_indirect_-_d_x">Direct indexed indirect - (d,x)</h3>
 <div class="level3">
 
 <p>
@@ -568,8 +1727,8 @@ verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct indexed indirect - (d,x)&quot;,&quot;hid&quot;:&quot;direct_indexed_indirect_-_d_x&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:28,&quot;range&quot;:&quot;16930-17356&quot;} -->
-<h3 class="sectionedit29" id="direct_indexed_with_x_-_d_x">Direct indexed with X - (d,x)</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct indexed indirect - (d,x)&quot;,&quot;hid&quot;:&quot;direct_indexed_indirect_-_d_x&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:130,&quot;range&quot;:&quot;33951-34377&quot;} -->
+<h3 class="sectionedit131" id="direct_indexed_with_x_-_d_x">Direct indexed with X - (d,x)</h3>
 <div class="level3">
 
 <p>
@@ -586,8 +1745,8 @@ verwendende Operationen: ADC, AND, ASL, BIT, CMP, DEC, EOR, INC, LDA, LDY, LSR, 
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct indexed with X - (d,x)&quot;,&quot;hid&quot;:&quot;direct_indexed_with_x_-_d_x&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:29,&quot;range&quot;:&quot;17357-17697&quot;} -->
-<h3 class="sectionedit30" id="direct_indexed_with_y_-_d_y">Direct indexed with Y - d,y</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct indexed with X - (d,x)&quot;,&quot;hid&quot;:&quot;direct_indexed_with_x_-_d_x&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:131,&quot;range&quot;:&quot;34378-34718&quot;} -->
+<h3 class="sectionedit132" id="direct_indexed_with_y_-_d_y">Direct indexed with Y - d,y</h3>
 <div class="level3">
 
 <p>
@@ -604,8 +1763,8 @@ verwendende Operationen: LDX, STX
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct indexed with Y - d,y&quot;,&quot;hid&quot;:&quot;direct_indexed_with_y_-_d_y&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:30,&quot;range&quot;:&quot;17698-17956&quot;} -->
-<h3 class="sectionedit31" id="direct_indirect_indexed_-_d_y">Direct indirect indexed - (d),y</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct indexed with Y - d,y&quot;,&quot;hid&quot;:&quot;direct_indexed_with_y_-_d_y&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:132,&quot;range&quot;:&quot;34719-34977&quot;} -->
+<h3 class="sectionedit133" id="direct_indirect_indexed_-_d_y">Direct indirect indexed - (d),y</h3>
 <div class="level3">
 
 <p>
@@ -628,8 +1787,8 @@ verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct indirect indexed - (d),y&quot;,&quot;hid&quot;:&quot;direct_indirect_indexed_-_d_y&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:31,&quot;range&quot;:&quot;17957-18511&quot;} -->
-<h3 class="sectionedit32" id="direct_indirect_long_indexed_-_d_y">Direct Indirect Long Indexed - [d],y</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct indirect indexed - (d),y&quot;,&quot;hid&quot;:&quot;direct_indirect_indexed_-_d_y&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:133,&quot;range&quot;:&quot;34978-35532&quot;} -->
+<h3 class="sectionedit134" id="direct_indirect_long_indexed_-_d_y">Direct Indirect Long Indexed - [d],y</h3>
 <div class="level3">
 
 <p>
@@ -652,8 +1811,8 @@ verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct Indirect Long Indexed - [d],y&quot;,&quot;hid&quot;:&quot;direct_indirect_long_indexed_-_d_y&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:32,&quot;range&quot;:&quot;18512-19152&quot;} -->
-<h3 class="sectionedit33" id="direct_indirect_long_-_d">Direct indirect Long - [d]</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct Indirect Long Indexed - [d],y&quot;,&quot;hid&quot;:&quot;direct_indirect_long_indexed_-_d_y&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:134,&quot;range&quot;:&quot;35533-36173&quot;} -->
+<h3 class="sectionedit135" id="direct_indirect_long_-_d">Direct indirect Long - [d]</h3>
 <div class="level3">
 
 <p>
@@ -670,8 +1829,8 @@ verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct indirect Long - [d]&quot;,&quot;hid&quot;:&quot;direct_indirect_long_-_d&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:33,&quot;range&quot;:&quot;19153-19487&quot;} -->
-<h3 class="sectionedit34" id="direct_indirect_-_d">Direct indirect - (d)</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct indirect Long - [d]&quot;,&quot;hid&quot;:&quot;direct_indirect_long_-_d&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:135,&quot;range&quot;:&quot;36174-36508&quot;} -->
+<h3 class="sectionedit136" id="direct_indirect_-_d">Direct indirect - (d)</h3>
 <div class="level3">
 
 <p>
@@ -688,8 +1847,8 @@ verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct indirect - (d)&quot;,&quot;hid&quot;:&quot;direct_indirect_-_d&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:34,&quot;range&quot;:&quot;19488-19871&quot;} -->
-<h3 class="sectionedit35" id="direct_-_d">Direct - d</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct indirect - (d)&quot;,&quot;hid&quot;:&quot;direct_indirect_-_d&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:136,&quot;range&quot;:&quot;36509-36892&quot;} -->
+<h3 class="sectionedit137" id="direct_-_d">Direct - d</h3>
 <div class="level3">
 
 <p>
@@ -705,13 +1864,13 @@ verwendende Operationen: ADC, AND, ASL, BIT, CMP, CPX, CPY, DEC, EOR, INC, LDA, 
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct - d&quot;,&quot;hid&quot;:&quot;direct_-_d&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:35,&quot;range&quot;:&quot;19872-20169&quot;} -->
-<h2 class="sectionedit36" id="andere_addressmodes">Andere Addressmodes</h2>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct - d&quot;,&quot;hid&quot;:&quot;direct_-_d&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:137,&quot;range&quot;:&quot;36893-37190&quot;} -->
+<h2 class="sectionedit138" id="andere_addressmodes">Andere Addressmodes</h2>
 <div class="level2">
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Andere Addressmodes&quot;,&quot;hid&quot;:&quot;andere_addressmodes&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:36,&quot;range&quot;:&quot;20170-20202&quot;} -->
-<h3 class="sectionedit37" id="accumulator_-_a">Accumulator - A</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Andere Addressmodes&quot;,&quot;hid&quot;:&quot;andere_addressmodes&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:138,&quot;range&quot;:&quot;37191-37223&quot;} -->
+<h3 class="sectionedit139" id="accumulator_-_a">Accumulator - A</h3>
 <div class="level3">
 
 <p>
@@ -723,8 +1882,8 @@ verwendende Operationen: ASL, DEA, DEC, INA, INC, LSR, ROL, ROR
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Accumulator - A&quot;,&quot;hid&quot;:&quot;accumulator_-_a&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:37,&quot;range&quot;:&quot;20203-20339&quot;} -->
-<h3 class="sectionedit38" id="block_move_-_xyc">Block Move - xyc</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Accumulator - A&quot;,&quot;hid&quot;:&quot;accumulator_-_a&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:139,&quot;range&quot;:&quot;37224-37360&quot;} -->
+<h3 class="sectionedit140" id="block_move_-_xyc">Block Move - xyc</h3>
 <div class="level3">
 
 <p>
@@ -742,8 +1901,8 @@ verwendende Operationen: MVN, MVP
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Block Move - xyc&quot;,&quot;hid&quot;:&quot;block_move_-_xyc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:38,&quot;range&quot;:&quot;20340-20739&quot;} -->
-<h3 class="sectionedit39" id="immediate">Immediate - #</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Block Move - xyc&quot;,&quot;hid&quot;:&quot;block_move_-_xyc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:140,&quot;range&quot;:&quot;37361-37760&quot;} -->
+<h3 class="sectionedit141" id="immediate">Immediate - #</h3>
 <div class="level3">
 
 <p>
@@ -759,8 +1918,8 @@ verwendende Operationen: ADC, AND, BIT, CMP, CPX, CPY, EOR, LDA, LDX, LDY, ORA, 
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Immediate - #&quot;,&quot;hid&quot;:&quot;immediate&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:39,&quot;range&quot;:&quot;20740-21345&quot;} -->
-<h3 class="sectionedit40" id="implied_-_i">Implied - i</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Immediate - #&quot;,&quot;hid&quot;:&quot;immediate&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:141,&quot;range&quot;:&quot;37761-38366&quot;} -->
+<h3 class="sectionedit142" id="implied_-_i">Implied - i</h3>
 <div class="level3">
 
 <p>
@@ -772,8 +1931,8 @@ verwendende Operationen: CLC, CLD, CLI, CLV, DEX, DEY, INX, INY, NOP, SEC, SED, 
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Implied - i&quot;,&quot;hid&quot;:&quot;implied_-_i&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:40,&quot;range&quot;:&quot;21346-21691&quot;} -->
-<h3 class="sectionedit41" id="program_counter_relative_long_-_rl">Program counter relative long - rl</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Implied - i&quot;,&quot;hid&quot;:&quot;implied_-_i&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:142,&quot;range&quot;:&quot;38367-38712&quot;} -->
+<h3 class="sectionedit143" id="program_counter_relative_long_-_rl">Program counter relative long - rl</h3>
 <div class="level3">
 
 <p>
@@ -786,8 +1945,8 @@ verwendende Operationen: BRL
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Program counter relative long - rl&quot;,&quot;hid&quot;:&quot;program_counter_relative_long_-_rl&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:41,&quot;range&quot;:&quot;21692-22013&quot;} -->
-<h3 class="sectionedit42" id="program_counter_relative_-_r">Program counter relative - r</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Program counter relative long - rl&quot;,&quot;hid&quot;:&quot;program_counter_relative_long_-_rl&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:143,&quot;range&quot;:&quot;38713-39034&quot;} -->
+<h3 class="sectionedit144" id="program_counter_relative_-_r">Program counter relative - r</h3>
 <div class="level3">
 
 <p>
@@ -800,8 +1959,8 @@ verwendende Operationen: BCC, BCS, BEQ, BMI, BNE, BPL, BRA, BVC, BVS
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Program counter relative - r&quot;,&quot;hid&quot;:&quot;program_counter_relative_-_r&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:42,&quot;range&quot;:&quot;22014-22368&quot;} -->
-<h3 class="sectionedit43" id="stack_-_s">Stack - s</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Program counter relative - r&quot;,&quot;hid&quot;:&quot;program_counter_relative_-_r&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:144,&quot;range&quot;:&quot;39035-39389&quot;} -->
+<h3 class="sectionedit145" id="stack_-_s">Stack - s</h3>
 <div class="level3">
 
 <p>
@@ -813,8 +1972,8 @@ verwendende Operationen: BRK, COP, PEA, PEI, PER, PHA, PHB, PHD, PHK, PHP, PHX, 
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Stack - s&quot;,&quot;hid&quot;:&quot;stack_-_s&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:43,&quot;range&quot;:&quot;22369-22602&quot;} -->
-<h3 class="sectionedit44" id="stack_relative_-_d_s">Stack relative - d,s</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Stack - s&quot;,&quot;hid&quot;:&quot;stack_-_s&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:145,&quot;range&quot;:&quot;39390-39623&quot;} -->
+<h3 class="sectionedit146" id="stack_relative_-_d_s">Stack relative - d,s</h3>
 <div class="level3">
 
 <p>
@@ -831,8 +1990,8 @@ verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Stack relative - d,s&quot;,&quot;hid&quot;:&quot;stack_relative_-_d_s&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:44,&quot;range&quot;:&quot;22603-22924&quot;} -->
-<h3 class="sectionedit45" id="stack_relative_indirect_indexed_-_d_s_y">Stack relative indirect indexed - (d,s),y</h3>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Stack relative - d,s&quot;,&quot;hid&quot;:&quot;stack_relative_-_d_s&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:146,&quot;range&quot;:&quot;39624-39945&quot;} -->
+<h3 class="sectionedit147" id="stack_relative_indirect_indexed_-_d_s_y">Stack relative indirect indexed - (d,s),y</h3>
 <div class="level3">
 
 <p>
@@ -851,9 +2010,9 @@ verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
 </p>
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Stack relative indirect indexed - (d,s),y&quot;,&quot;hid&quot;:&quot;stack_relative_indirect_indexed_-_d_s_y&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:45,&quot;range&quot;:&quot;22925-23389&quot;} -->
-<h1 class="sectionedit46" id="instructions">Instructions</h1>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Stack relative indirect indexed - (d,s),y&quot;,&quot;hid&quot;:&quot;stack_relative_indirect_indexed_-_d_s_y&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:147,&quot;range&quot;:&quot;39946-40410&quot;} -->
+<h1 class="sectionedit148" id="instructions">Instructions</h1>
 <div class="level1">
 
 </div>
-<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Instructions&quot;,&quot;hid&quot;:&quot;instructions&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:46,&quot;range&quot;:&quot;23390-&quot;} -->
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Instructions&quot;,&quot;hid&quot;:&quot;instructions&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:148,&quot;range&quot;:&quot;40411-&quot;} -->
