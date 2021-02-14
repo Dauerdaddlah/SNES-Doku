@@ -2,6 +2,7 @@
 [[http://datasheets.chipdb.org/Western%20Design/w65c816s.pdf]]
 {{ :w65c816s.pdf |}}
 [[https://wiki.superfamicom.org/65816-reference]]
+[[http://www.6502.org/tutorials/65c816opcodes.html#5.1.2]]
 
 Das SNES hat einen abgewandelten Prozessor zum Western Digital W65C816S.
 Dieser arbeitet mit 92 Operationen, 24 Addressmodes, 6 16-BIT Register(A, PC, X, Y, D, S) und 3 8-BIT Registern (P, PBR, DBR)
@@ -153,96 +154,96 @@ Ausnahme hiervon ist der NMI, welcher nicht über P verhindert werden kann.
 Es gibt folgende Operationen:
 
 ^ Operation ^ Alternativ ^ Beschreibung ^ verwendete Addressmodes ^ flags ^
-| ADC | | Add with Carry | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y |  	NV----ZC |
-| AND | | And Memory and Accumulator | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y | N-----Z- |
-| ASL | | Shift left Memory or Accumulator | a, a,x, A, d, d,x | N-----ZC |
-| BCC | | Branch if carry clear | r | |
-| BCS | | Branch if carry set | r | |
-| BEQ | | Branch if Equal/zero set | r | |
-| BIT | | Bit test | a, a,x, d, d,x, # | NV----Z-* |
-| BMI | | Branch if minus/Negative clear | r | |
-| BNE | | Branch if not equal/zero clear | r | |
-| BPL | | Branch if plus/negative clear | r | |
-| BRA | | Branch always | r | |
-| BRK | | Force Break (Interrupt) | s | ----DI-- |
-| BRL | | Branch always long | rl | |
-| BVC | | Branch if overflow clear | r | |
-| BVS | | Branch if overflow set | r | |
-| CLC | | Clear carry flag | i |
-| CLD | | Clear decimal flag | i |
-| CLI | | Clear interrupt flag | i |
-| CLV | | Clear overflow flag | i |
-| CMP | CPA | Compare with Accumulator | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y | N-----ZC |
-| COP | | Coprocessor (Interrupt) | s | ----DI-- |
-| CPX | | Compare with X | a, d, # | N-----ZC |
-| CPY | | Compare with Y | a, d, # | N-----ZC |
-| DEC | DEA | Decrement Memory or accumulator | a, a,x, A, d, d,x | N-----Z- |
-| DEX | | Decrement X | i | N-----Z- |
-| DEY | | Decrement Y | i | N-----Z- |
-| EOR | | exclusive or with memory or accumulator | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y | N-----Z- |
-| INC | INA | Increment memory or accumulator | a, a,x, A, d, d,x | N-----Z- |
-| INX | | Increment X | i | N-----Z- |
-| INY | | Increment Y | i | N-----Z- |
-| JMP | JML | jump long | a, (a,x), (a), (al), al | |
-| JSR | JSL | Jump to subroutine long | a, (a,x), al | |
-| LDA | | Load A | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y | N-----Z- |
-| LDX | | Load X | a, a,y, d, d,y, # | N-----Z- |
-| LDY | | Load Y | a, a,x, d, d,x, # | N-----Z- |
-| LSR | | Shift right memory or accumulator | a, a,x, A, d, d,x | N-----ZC |
-| MVN | | Move block negative | xyc |
-| MVP | | Move block positive | xyc |
-| NOP | | No Operation | i |
-| ORA | | OR with accumulator | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y | N-----Z- |
-| PEA | | Push effective Address/Push immediate | s |
-| PEI | | Push effective absolute address/Push Direct address | s |
-| PER | | Push effective program counter relative address | s |
-| PHA | | Push A | s |
-| PHB | | Push DBR | s |
-| PHD | | Push D | s |
-| PHK | | Push PBR | s |
-| PHP | | Push P | s |
-| PHX | | Push X | s |
-| PHY | | Push Y | s |
-| PLA | | Pull A | s | N-----Z- |
-| PLB | | Pull DBR | s | N-----Z- |
-| PLD | | Pull D | s | N-----Z- |
-| PLP | | Pull P | s | NVMXDIZC |
-| PLX | | Pull X | s | N-----Z- |
-| PLY | | Pull Y | s | N-----Z- |
-| REP | | Reset Status Bits | # |
-| ROL | | Rotate Left/Shift left with carry | a, a,x, A, d, d,x | N-----ZC |
-| ROR | | Rotate Right/Shift Right with carry | a, a,x, A, d, d,x | N-----ZC |
-| RTI | | Return from interrupt | s | NVMXDIZC |
-| RTL | | Return from subroutine long | s | |
-| RTS | | Return from subroutine | s | |
-| SBC | | Subtract with carry | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y |  NV----ZC |
-| SEP | | Set status bits | # |
-| SEC | | Set carry flag | i |
-| SED | | Set decimal flag | i |
-| SEI | | Set interrupt flag | i |
-| STA | | Store A | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, d,s, (d,s),y |
-| STP | | Stop the clock | i |
-| STX | | Store X | a, d, d,y |
-| STY | | Store Y | a, d, d,x |
-| STZ | | Store zero | a, a,x, d, d,x |
-| TAX | | Transfer A to X | i |
-| TAY | | Transfer A to Y | i |
-| TCD | | Transfer C(A) to D | i | N-----Z- |
-| TCS | | Transfer C(A) to S | i | |
-| TDC | | Transfer D to C(A) | i | N-----Z- |
-| TRB | | Test and reset Bits | a, d | ------Z- |
-| TSB | | Test and set bits | a, d | ------Z- |
-| TSC | | Transfer S to C(A) | i | N-----Z- |
-| TSX | | Transfer S to X | i | N-----Z- |
-| TXA | | Transfer X to A | i | N-----Z- |
-| TXS | | Transfer X to S | i | |
-| TXY | | Transfer X to Y | i | N-----Z- |
-| TYA | | Transfer Y to A | i | N-----Z- |
-| TYX | | Transfer Y to X | i | N-----Z- |
-| WAI | | Wait for interrupt | i | |
-| WDM | | Reserved for future use | i |
-| XBA | | Exchange B and A in Accumulator | i |
-| XCE | | Exchange Carry and emulation flag | i |
+| [[#ADC]] | | Add with Carry | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y |  	NV----ZC |
+| [[#AND]] | | And Memory and Accumulator | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y | N-----Z- |
+| [[#ASL]] | | Shift left Memory or Accumulator | a, a,x, A, d, d,x | N-----ZC |
+| [[#BCC]] | | Branch if carry clear | r | |
+| [[#BCS]] | | Branch if carry set | r | |
+| [[#BEQ]] | | Branch if Equal/zero set | r | |
+| [[#BIT]] | | Bit test | a, a,x, d, d,x, # | NV----Z-* |
+| [[#BMI]] | | Branch if minus/Negative clear | r | |
+| [[#BNE]] | | Branch if not equal/zero clear | r | |
+| [[#BPL]] | | Branch if plus/negative clear | r | |
+| [[#BRA]] | | Branch always | r | |
+| [[#BRK]] | | Force Break (Interrupt) | s | ----DI-- |
+| [[#BRL]] | | Branch always long | rl | |
+| [[#BVC]] | | Branch if overflow clear | r | |
+| [[#BVS]] | | Branch if overflow set | r | |
+| [[#CLC]] | | Clear carry flag | i |
+| [[#CLD]] | | Clear decimal flag | i |
+| [[#CLI]] | | Clear interrupt flag | i |
+| [[#CLV]] | | Clear overflow flag | i |
+| [[#CMP]] | CPA | Compare with Accumulator | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y | N-----ZC |
+| [[#COP]] | | Coprocessor (Interrupt) | s | ----DI-- |
+| [[#CPX]] | | Compare with X | a, d, # | N-----ZC |
+| [[#CPY]] | | Compare with Y | a, d, # | N-----ZC |
+| [[#DEC]] | DEA | Decrement Memory or accumulator | a, a,x, A, d, d,x | N-----Z- |
+| [[#DEX]] | | Decrement X | i | N-----Z- |
+| [[#DEY]] | | Decrement Y | i | N-----Z- |
+| [[#EOR]] | | exclusive or with memory or accumulator | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y | N-----Z- |
+| [[#INC]] | INA | Increment memory or accumulator | a, a,x, A, d, d,x | N-----Z- |
+| [[#INX]] | | Increment X | i | N-----Z- |
+| [[#INY]] | | Increment Y | i | N-----Z- |
+| [[#JMP]] | JML | jump long | a, (a,x), (a), (al), al | |
+| [[#JSR]] | JSL | Jump to subroutine long | a, (a,x), al | |
+| [[#LDA]] | | Load A | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y | N-----Z- |
+| [[#LDX]] | | Load X | a, a,y, d, d,y, # | N-----Z- |
+| [[#LDY]] | | Load Y | a, a,x, d, d,x, # | N-----Z- |
+| [[#LSR]] | | Shift right memory or accumulator | a, a,x, A, d, d,x | N-----ZC |
+| [[#MVN]] | | Move block negative | xyc |
+| [[#MVP]] | | Move block positive | xyc |
+| [[#NOP]] | | No Operation | i |
+| [[#ORA]] | | OR with accumulator | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y | N-----Z- |
+| [[#PEA]] | | Push effective Address/Push immediate | s |
+| [[#PEI]] | | Push effective absolute address/Push Direct address | s |
+| [[#PER]] | | Push effective program counter relative address | s |
+| [[#PHA]] | | Push A | s |
+| [[#PHB]] | | Push DBR | s |
+| [[#PHD]] | | Push D | s |
+| [[#PHK]] | | Push PBR | s |
+| [[#PHP]] | | Push P | s |
+| [[#PHX]] | | Push X | s |
+| [[#PHY]] | | Push Y | s |
+| [[#PLA]] | | Pull A | s | N-----Z- |
+| [[#PLB]] | | Pull DBR | s | N-----Z- |
+| [[#PLD]] | | Pull D | s | N-----Z- |
+| [[#PLP]] | | Pull P | s | NVMXDIZC |
+| [[#PLX]] | | Pull X | s | N-----Z- |
+| [[#PLY]] | | Pull Y | s | N-----Z- |
+| [[#REP]] | | Reset Status Bits | # |
+| [[#ROL]] | | Rotate Left/Shift left with carry | a, a,x, A, d, d,x | N-----ZC |
+| [[#ROR]] | | Rotate Right/Shift Right with carry | a, a,x, A, d, d,x | N-----ZC |
+| [[#RTI]] | | Return from interrupt | s | NVMXDIZC |
+| [[#RTL]] | | Return from subroutine long | s | |
+| [[#RTS]] | | Return from subroutine | s | |
+| [[#SBC]] | | Subtract with carry | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y |  NV----ZC |
+| [[#SEP]] | | Set status bits | # |
+| [[#SEC]] | | Set carry flag | i |
+| [[#SED]] | | Set decimal flag | i |
+| [[#SEI]] | | Set interrupt flag | i |
+| [[#STA]] | | Store A | a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, d,s, (d,s),y |
+| [[#STP]] | | Stop the clock | i |
+| [[#STX]] | | Store X | a, d, d,y |
+| [[#STY]] | | Store Y | a, d, d,x |
+| [[#STZ]] | | Store zero | a, a,x, d, d,x |
+| [[#TAX]] | | Transfer A to X | i |
+| [[#TAY]] | | Transfer A to Y | i |
+| [[#TCD]] | | Transfer C(A) to D | i | N-----Z- |
+| [[#TCS]] | | Transfer C(A) to S | i | |
+| [[#TDC]] | | Transfer D to C(A) | i | N-----Z- |
+| [[#TRB]] | | Test and reset Bits | a, d | ------Z- |
+| [[#TSB]] | | Test and set bits | a, d | ------Z- |
+| [[#TSC]] | | Transfer S to C(A) | i | N-----Z- |
+| [[#TSX]] | | Transfer S to X | i | N-----Z- |
+| [[#TXA]] | | Transfer X to A | i | N-----Z- |
+| [[#TXS]] | | Transfer X to S | i | |
+| [[#TXY]] | | Transfer X to Y | i | N-----Z- |
+| [[#TYA]] | | Transfer Y to A | i | N-----Z- |
+| [[#TYX]] | | Transfer Y to X | i | N-----Z- |
+| [[#WAI]] | | Wait for interrupt | i | |
+| [[#WDM]] | | Reserved for future use | i |
+| [[#XBA]] | | Exchange B and A in Accumulator | i |
+| [[#XCE]] | | Exchange Carry and emulation flag | i |
 
 ===== Bitoperationen=====
 ==== AND ====
@@ -567,30 +568,30 @@ Mithilfe von XBA kann das High-Byte von A im Emulation-Mode (oder 8-Bit Modus) a
 Der AddressMode zeigt an, welche Daten eine Operation nutzt, bzw. wie die Daten ermittelt werden.
 Es gibt für das SNES folgende Addressmodes:
 ^ Addressmode ^ Schema ^ Bytes ^ Bank ^ Operationen ^
-| absolute | a | 2 | DBR | ADC, AND, ASL, BIT, CMP, CPX, CPY, DEC, EOR, INC, JMP, JSR, LDA, LDX, LDY, LSR, ORA, ROL, ROR, SBC, STA, STX, STY, STZ, TRB, TSB  |
-| absolute indexed indirect | (a,x) | 2 | PBR | JMP, JSR  |
-| absolute indexed with x | a,x | 2 | DBR | ADC, AND, ASL, BIT, CMP, DEC, EOR, INC, LDA, LDY, LSR, ORA, ROL, ROR, SBC, STA, STZ  |
-| absolute indexed with Y | a,y | 2 | DBR | ADC, AND, CMP, EOR, LDA, LDX, ORA, SBC, STA  |
-| absolute indirect/absolute indirect long | (a)/(al) | 2/3 | 00/Param | JML, JMP |
-| absolute long indexed with x | al,x | 3 | Caluculated | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
-| absolute long | al | 3 | Param | ADC, AND, CMP, EOR, JMP, JSR, LDA, ORA, SBC, STA |
-| Accumulator | A | 0 | | ASL, DEA, DEC, INA, INC, LSR, ROL, ROR |
-| Block Move | xyc | 2 | | MVN, MVP |
-| direct indexed indirect | (d,x) | 1 | DBR | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA  |
-| direct indexed with X | d,x | 1 | 00 | ADC, AND, ASL, BIT, CMP, DEC, EOR, INC, LDA, LDY, LSR, ORA, ROL, ROR, SBC, STA, STY, STZ |
-| direct indexed with Y | d,y | 1 | 00 | LDX, STX |
-| direct indirect indexed | (d),y | 1 | calculated | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
-| direct indirect long indexed | [d],y | 1 | calculated | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
-| direct indirect long | [d] | 1 | loaded | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
-| direct indirect | (d) | 1 | DBR | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
-| direct | d | 1 | 00 | ADC, AND, ASL, BIT, CMP, CPX, CPY, DEC, EOR, INC, LDA, LDX, LDY, LSR, ORA, ROL, ROR, SBC, STA, STX, STY, STZ, TRB, TSB |
-| immediate | # | 1/2 | | ADC, AND, BIT, CMP, CPX, CPY, EOR, LDA, LDX, LDY, ORA, REP, SBC, SEP |
-| implied | i | 0 | | CLC, CLD, CLI, CLV, DEX, DEY, INX, INY, NOP, SEC, SED, SEI, STP, TAX, TAY, TCD, TCS, TDC, TSC, TSX, TXA, TXS, TXY, TYA, TYX, WAI, XBA, XCE |
-| program counter relative long | rl | 2 | PBR | BRL |
-| program counter relative | r | 1 | PBR | BCC, BCS, BEQ, BMI, BNE, BPL, BRA, BVC, BVS |
-| Stack | s | 0 | | BRK, COP, PEA, PEI, PER, PHA, PHB, PHD, PHK, PHP, PHX, PHY, PLA, PLB, PLD, PLP, PLX, PLY, RTI, RTL, RTS |
-| stack relative | d,s | 1 | 00 | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
-| stack relative indirect indexed | (d,s),y | 1 | Calculated | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
+| [[#Absolute - a|absolute]] | a | 2 | DBR | ADC, AND, ASL, BIT, CMP, CPX, CPY, DEC, EOR, INC, JMP, JSR, LDA, LDX, LDY, LSR, ORA, ROL, ROR, SBC, STA, STX, STY, STZ, TRB, TSB  |
+| [[#Absolute indexed indirect - (a,x)|absolute indexed indirect]] | (a,x) | 2 | PBR | JMP, JSR  |
+| [[#Absolute Indexed with X - a,x|absolute indexed with x]] | a,x | 2 | DBR | ADC, AND, ASL, BIT, CMP, DEC, EOR, INC, LDA, LDY, LSR, ORA, ROL, ROR, SBC, STA, STZ  |
+| [[#Absolute Indexed with Y - a,y|absolute indexed with Y]] | a,y | 2 | DBR | ADC, AND, CMP, EOR, LDA, LDX, ORA, SBC, STA  |
+| [[#Absolute indirect/Absolute indirect Long - (a)/(al)|absolute indirect/absolute indirect long]] | (a)/(al) | 2/3 | 00/Param | JML, JMP |
+| [[#Absolute long indexed with X - al,x|absolute long indexed with x]] | al,x | 3 | Caluculated | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
+| [[#Absolute Long - al|absolute long]] | al | 3 | Param | ADC, AND, CMP, EOR, JMP, JSR, LDA, ORA, SBC, STA |
+| [[#Accumulator - A|Accumulator]] | A | 0 | | ASL, DEA, DEC, INA, INC, LSR, ROL, ROR |
+| [[#Block Move - xyc|Block Move]] | xyc | 2 | | MVN, MVP |
+| [[#Direct indexed indirect - (d,x)|direct indexed indirect]] | (d,x) | 1 | DBR | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA  |
+| [[#Direct indexed with X - d,x|direct indexed with X]] | d,x | 1 | 00 | ADC, AND, ASL, BIT, CMP, DEC, EOR, INC, LDA, LDY, LSR, ORA, ROL, ROR, SBC, STA, STY, STZ |
+| [[#Direct indexed with Y - d,y|direct indexed with Y]] | d,y | 1 | 00 | LDX, STX |
+| [[#Direct indirect indexed - (d),y|direct indirect indexed]] | (d),y | 1 | calculated | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
+| [[#Direct Indirect Long Indexed - [d],y|direct indirect long indexed]] | [d],y | 1 | calculated | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
+| [[#Direct indirect Long - [d]|direct indirect long]] | [d] | 1 | loaded | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
+| [[#Direct indirect - (d)|direct indirect]] | (d) | 1 | DBR | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
+| [[#Direct - d|direct]] | d | 1 | 00 | ADC, AND, ASL, BIT, CMP, CPX, CPY, DEC, EOR, INC, LDA, LDX, LDY, LSR, ORA, ROL, ROR, SBC, STA, STX, STY, STZ, TRB, TSB |
+| [[#Immediate - #|immediate]] | # | 1/2 | | ADC, AND, BIT, CMP, CPX, CPY, EOR, LDA, LDX, LDY, ORA, REP, SBC, SEP |
+| [[#Implied - i|implied]] | i | 0 | | CLC, CLD, CLI, CLV, DEX, DEY, INX, INY, NOP, SEC, SED, SEI, STP, TAX, TAY, TCD, TCS, TDC, TSC, TSX, TXA, TXS, TXY, TYA, TYX, WAI, XBA, XCE |
+| [[#Program counter relative long - rl|program counter relative long]] | rl | 2 | PBR | BRL |
+| [[#Program counter relative - r|program counter relative]] | r | 1 | PBR | BCC, BCS, BEQ, BMI, BNE, BPL, BRA, BVC, BVS |
+| [[#Stack - s|Stack]] | s | 0 | | BRK, COP, PEA, PEI, PER, PHA, PHB, PHD, PHK, PHP, PHX, PHY, PLA, PLB, PLD, PLP, PLX, PLY, RTI, RTL, RTS |
+| [[#Stack relative - d,s|stack relative]] | d,s | 1 | 00 | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
+| [[#Stack relative indirect indexed - (d,s),y|stack relative indirect indexed]] | (d,s),y | 1 | Calculated | ADC, AND, CMP, EOR, LDA, ORA, SBC, STA |
 
 Hierzu einige Regeln, welche man hieraus ableiten kann:
   * a (für absolute) heißt das die kommenden Bytes direkt genommen und ausgewertet werden 
@@ -613,6 +614,9 @@ Der DBR enthält dabei die Bank.
 
 {{ ::addressmode_absolute.png?direct&400 |}}
 
+BEi Absolute Addressing passiert kein Wrap-around.
+Werden 2 Byte von Adresse $12FFFF gelesen, so befindet sich das erste in $12FFFF und das 2. in $130000
+
 Verwendende Operationen: ADC, AND, ASL, BIT, CMP, CPX, CPY, DEC, EOR, INC, JMP, JSR, LDA, LDX, LDY, LSR, ORA, ROL, ROR, SBC, STA, STX, STY, STZ, TRB, TSB
 
 ==== Absolute indexed indirect - (a,x) ====
@@ -623,25 +627,27 @@ Die Bank ist der PBR.
 
 {{ ::addressmode_absoluteindexedindirect.png?direct&400 |}}
 
+Bei Absolute Indexed Indirect Adressing passier ein Bank Wrap Around.
+Sind dies nächsten 2 Byte $FFFF, X ist $06 und der PBR ist $12, sow ird das low-Byte von $120005 und das Hi-Byte von $120006 gelesen.
+Die Bank der endgültigen Adresse ist erneut der PBR.
+
 verwendende Operationen: JMP, JSR
 
 ==== Absolute Indexed with X - a,x ====
-Bei Absolute Indexed with X-Addressing werden die kommenden 2 Byte als Basis genommen.
-Auf diese wird das X-Register aufgerechnet.
+==== Absolute Indexed with Y - a,y ====
+Bei Absolute Indexed with X/Y-Addressing werden die kommenden 2 Byte als Basis genommen.
+Auf diese wird das X/Y-Register aufgerechnet.
 Die Bank ist der DBR.
 
 {{ ::addressmode_absoluteindexedwithx.png?direct&400 |}}
 
-Verwendende Operationen: ADC, AND, ASL, BIT, CMP, DEC, EOR, INC, LDA, LDY, LSR, ORA, ROL, ROR, SBC, STA, STZ
-
-==== Absolute Indexed with Y - a,y ====
-Bei Absolute Indexed with Y-Addressing werden die kommenden 2 Byte als Basis genommen.
-Auf diese wird das Y-Register aufgerechnet.
-Die Bank ist der DBR.
-
 {{ ::addressmode_absoluteindexedwithy.png?direct&400 |}}
 
-Verwendende Operationen: ADC, AND, CMP, EOR, LDA, LDX, ORA, SBC, STA
+Bei diesem Modus passiert kein Wrap Around.
+Ist der DBR $12 und die nächsten 2 Byte geben 0xFFFF und X/Y ist 0x06 so ist das erste gelesene Byte in $130005 und das 2. in $130006.
+
+Verwendende Operationen X: ADC, AND, ASL, BIT, CMP, DEC, EOR, INC, LDA, LDY, LSR, ORA, ROL, ROR, SBC, STA, STZ
+Verwendende Operationen Y: ADC, AND, CMP, EOR, LDA, LDX, ORA, SBC, STA
 
 ==== Absolute indirect/Absolute indirect Long - (a)/(al) ====
 
@@ -654,6 +660,10 @@ Die Instruktion dc entspricht einem JMP mit Absolute Indirect Long (in diesem Fa
 
 {{ ::addressmode_absoluteindirect.png?direct&400 |}}
 
+Bei den Absolute Indirect Addressing passiert in Bank Wrap.
+Sind die 2 kommenden Byte $FFFF so wird das low-Byte von $00FFFF und das hi-Byte von $000000 gelesen.
+In JML würde das 3 Byte von $000001 gelesen.
+
 verwendende Operationen: JML, JMP
 
 ==== Absolute long indexed with X - al,x ====
@@ -664,6 +674,9 @@ Durch diese Rechnung kann sich die Bank der Addresse verändern (Sie ist nicht f
 
 {{ ::addressmode_absolutelongindexedwithx.png?direct&400 |}}
 
+Beim Laden der Werte passiert hier kein Wrap Around.
+Ist der Operand $12FFFF und X $06 so wird aus $130005 und $130006 gelesen.
+
 verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
 
 ==== Absolute Long - al ====
@@ -671,6 +684,9 @@ verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
 Bei absolute Long-Addressing bildet sich die Addresse aus den kommenden 3 Parametern.
 
 {{ ::addressmode_absolutelong.png?direct&400 |}}
+
+Beim Laden der Werte passiert hier kein Wrap Around.
+Ist der Operand $12FFFF so wird aus $12FFFF und $130000 gelesen.
 
 verwendende Operationen: ADC, AND, CMP, EOR, JMP, JSR, LDA, ORA, SBC, STA
 
@@ -680,6 +696,9 @@ Direct Addressmodes zeichnen sich dadurch aus, dass immer nur ein Byte als Param
 Hierbei fällt auf, dass das D-Register 16-Bit groß ist und nicht 8.
 Enthält das D-Register einen Wert != 0 im low-Byte so führt dies immer zu einem extra Cycle bei der Auswertung.
 
+Bei allen Direct-Addressmodes passiert u. U. ein Page Wrap Around, wenn das Low-Byte von D $00 ist, eine "alte" Operation genutzt wird und sich die CPU im Emulation-Mode befindet.
+Ist D $1200, un die Adresse $FF so wäre dann die nächste Adresse $0012FF und die danach $001200
+
 ==== Direct indexed indirect - (d,x) ====
 
 Bei Direct Indexed Indirect wird der Parameter mit D und X verrechnet.
@@ -688,25 +707,45 @@ Aus dieser Addresse werden 2 Byte gelesen, welche mit dem DBR die Addresse bilde
 
 {{ ::addressmode_directindexedindirect.png?direct&400 |}}
 
+Beim lesen der Adresse passiert ein Bank Wrap Around.
+Zusätzlich dazu passiert ein Page Wrap Around, wenn bei einem "alten" OpCode, D den Wert $XX00 hat und wir uns im Emulation-Mode befinden.
+
+Im Emulation-Mode, D $1200, X $06 und der Parameter ist $FF, dann wir die Adresse aus $001205 und $001206 ausgelesen.
+
+Im Emulation-Mode, D $1201, X $06 und der Parameter ist $FF, dann wir die Adresse aus $001306 und $001307 ausgelesen.
+
+Im Emulation-Mode, D $FF00, X $06 und der Parameter ist $FF, dann wir die Adresse aus $00FF05 und $00FF06 ausgelesen.
+
+Im Emulation-Mode, D $FF01, X $06 und der Parameter ist $FF, dann wir die Adresse aus $000006 und $000007 ausgelesen.
+
+Im Native-Mode, D $1200, X $06 und der Parameter ist $FF, dann wir die Adresse aus $001305 und $001306 ausgelesen.
+
+Im Emulation-Mode, D $FF00, X $06 und der Parameter ist $FF, dann wir die Adresse aus $000005 und $000006 ausgelesen.
+
+Ist die ermittelte Adresse nun $FFFF und der DBR $34, so wird der Wert aus $34FFFF und $350000
+
 verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
 
-==== Direct indexed with X - (d,x) ====
+==== Direct indexed with X - d,x ====
+==== Direct indexed with Y - d,y ====
 
-Bei Direct Indexed With X werden die unteren 16-Bit gebildet, indem der Parameter mit D und X verrechnet wird.
+Bei Direct Indexed With X/Y werden die unteren 16-Bit gebildet, indem der Parameter mit D und X/Y verrechnet wird.
 Die Bank ist 00.
 
 {{ ::addressmode_directindexedwithx.png?direct&400 |}}
-
-verwendende Operationen: ADC, AND, ASL, BIT, CMP, DEC, EOR, INC, LDA, LDY, LSR, ORA, ROL, ROR, SBC, STA, STY, STZ
-
-==== Direct indexed with Y - d,y ====
-
-Bei Direct Indexed With Y werden die unteren 16-Bit gebildet, indem der Parameter mit D und Y verrechnet wird.
-Die Bank ist 00.
-
 {{ ::addressmode_directindexedwithy.png?direct&400 |}}
 
-verwendende Operationen: LDX, STX
+Bei "alten" Operationen, im Emulation-Mode mit einem D von $XX00 passiert hier ein Page Wrap around.
+Ist D $1200, X/Y $06und wir befinden uns im Emulation-Mode, so ist das Low-Byte in $001205 und das High-Byte in $001206.
+Im Native-Mode wären es $001305 und $001306.
+Wäre D $1201, so wären die Adressen $001306 und $001307.
+
+Davon abgesehen passiert immer ein Bank Wrap Around.
+Bsp: Ist D $FF00 und der Parameter $FF und X/Y ist $06 im Native-Mode so sind die Adressen $000005 und $000006.
+
+verwendende Operationen X: ADC, AND, ASL, BIT, CMP, DEC, EOR, INC, LDA, LDY, LSR, ORA, ROL, ROR, SBC, STA, STY, STZ
+
+verwendende Operationen Y: LDX, STX
 
 ==== Direct indirect indexed - (d),y ====
 
@@ -718,6 +757,11 @@ Dadurch kann sich die Bank ändern (Sie ist nicht genau definiert).
 Dieser Modus ist identisch mit [d],y mit der Ausnahme, dass DBR als Bank genutzt wird.
 
 {{ ::addressmode_directindirectindexed.png?direct&400 |}}
+
+Die Ermittlung der Adresse ist genau wie im Direct Indirect Adressing (D + Parameter, Page Wrap Around bei Emulation-Mode + D $XX00 und "altem" OpCode, ansonsten Bank Wrap Around).
+Bei der anschließenden Ermittlung des WErtes passiert ebenfalls kein Wrap Around.
+
+Ist die Adresse $FFFF, DBR $12 und Y $06 so wird aus $130005 und $130006 ausgelesen.
 
 verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
 
@@ -732,6 +776,12 @@ Dieser Modus ist identisch mit (d),y mit der Ausnahme, dass eine effektive Addre
 
 {{ ::addressmode_directindirectlongindexed.png?direct&400 |}}
 
+Bzgl Wrap Around ist dieser Modus identisch mit Direct Indirect Indexed Adressierung, Mit den 2 Ausnahmen, dass es kein Page Wrap Aound beim ermitteln der Adresse gibt und das die Bank der Werte auch aus der Adresse ausgelesen wird.
+
+Bsp: D ist $1200 und der Parameter ist $FF.
+Die Adresse wird aus $0012FF, $001300 und $001301 ausgelesen.
+Hieraus lesen wir $12FFFF und Y ist $06 so wird der Wert aus $130005 und $130006 gelesen.
+
 verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
 
 ==== Direct indirect Long - [d] ====
@@ -741,14 +791,41 @@ Aus dieser Address wird eine neue Addresse geladen (3 Byte).
 
 {{ ::addressmode_directindirectlong.png?direct&400 |}}
 
+Beim lesen der Adresse passiert ein Page Wrap Around, anschließend beim lesen des Wertes hingegen passiert kein Wrap Around mehr.
+
+Ist D $FF00 und er Parameter $FE so wird die Adresse aus $00FFFE, $00FFFF und $000000 ausgelesen.
+Sagen wir, hier kommt $12FFFF raus, so wird der Wert aus $12FFFF und $130000 ausgelesen.
+
 verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
 
 ==== Direct indirect - (d) ====
 
 Bei der Direct Indirect-Addressierung wird der Parameter mit D verrechnet und als Basis für einen Point in der Pank 0 genutzt.
-Aus dieser Addresse werden 126 Bit geladen, welche mit dem DBR als Bank die endgültige Addresse bilden.
+Aus dieser Addresse werden 16 Bit geladen, welche mit dem DBR als Bank die endgültige Addresse bilden.
 
 {{ ::addressmode_directindirect.png?direct&400 |}}
+
+Befindet sich die CPU im Emulation-Mode, es wird ein "alter" OpCode verwendet und D ist $XX00, so passiert ein Page Wrap around beim ermitteln der Indirekten Adresse.
+Davon abgesehen passiert immer ein Bank Wrap around.
+Wird aus dieser Adresse gelesen, so passiert keine Wrap Around.
+
+Im Emulation-Mode bei D $1200 und dem Parameter $FF wäre die Adresse nun in $0012FF und $001200.
+Vorausgesetzt wir lesen der $FFFF und der DBR ist $34 so wird der WErt aus $34FFFF und $350000 gelesen.
+
+Im Emulation-Mode bei D $1201 und dem Parameter $FF wäre die Adresse nun in $001300 und $001301.
+Vorausgesetzt wir lesen der $FFFF und der DBR ist $34 so wird der WErt aus $34FFFF und $350000 gelesen.
+
+Im Emulation-Mode bei D $FF00 und dem Parameter $FF wäre die Adresse nun in $00FFFF und $00FF00.
+Vorausgesetzt wir lesen der $FFFF und der DBR ist $34 so wird der WErt aus $34FFFF und $350000 gelesen.
+
+Im Emulation-Mode bei D $FF01 und dem Parameter $FF wäre die Adresse nun in $000000 und $000001.
+Vorausgesetzt wir lesen der $FFFF und der DBR ist $34 so wird der WErt aus $34FFFF und $350000 gelesen.
+
+Im Native-Mode bei D $1200 und dem Parameter $FF wäre die Adresse nun in $0012FF und $001300.
+Vorausgesetzt wir lesen der $FFFF und der DBR ist $34 so wird der WErt aus $34FFFF und $350000 gelesen.
+
+Im Native-Mode bei D $FF00 und dem Parameter $FF wäre die Adresse nun in $00FFFF und $000000.
+Vorausgesetzt wir lesen der $FFFF und der DBR ist $34 so wird der WErt aus $34FFFF und $350000 gelesen.
 
 verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
 
@@ -757,6 +834,12 @@ verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
 Bei Direct-Addressing bildet D zusammen mit dem Parameter die Addresse in der Bank 0.
 
 {{ ::addressmode_direct.png?direct&400 |}}
+
+Im Direct Adressing passiert ein Bank Wrap.
+Ist D $FF und der Parameter ist $FF, so wird das erste Byte von $00FFFF und das zweite von $000000 gelesen.
+
+Ist der OPCode ein "alter" (bereits bekannt in CPU 6502), das Low-Byte von D ist $00 ($XX00) und die CPU befindet sich im Emulation-Mode, dann passiert ebenfalls ein Page Wrap Around (es gibt keine OP, die diese Bedingungen trifft).
+In dem Fall würde bei einem D von $34 und einem Parameter von $FF das Low-Byte aus $0034FF und das high-Byte aus $003400 gelesen.
 
 verwendende Operationen: ADC, AND, ASL, BIT, CMP, CPX, CPY, DEC, EOR, INC, LDA, LDX, LDY, LSR, ORA, ROL, ROR, SBC, STA, STX, STY, STZ, TRB, TSB
 
@@ -776,6 +859,9 @@ Das zweite folgende Byte dient als Quellbank und wir mit X als Addresse verwende
 
 {{ ::addressmode_blockmove.png?direct&400 |}}
 
+Bei diesen Instruktionen/Addressmode passiert immer ein Bank Wrap Around.
+Ungeachtet der Situation bleiben die Ziel- und Quellbank unverändert.
+
 verwendende Operationen: MVN, MVP
 
 ==== Immediate - # ====
@@ -785,6 +871,9 @@ Je nach Instruktion werden hierfür entweder die nächsten 2 oder nur das nächs
 Für P-Operationen (REP, SEP) wird immer nur 1 Byte geladen.
 Operationen auf X oder Y (CPX, CPY, LDX, LDY) brauchen 1 Byte, wenn das jeweilige Register im 8-Bit-Modus ist, ansonsten 2 Byte.
 Alle anderen Operationen beziehen sich auf A und brauchen entsprechend der größe von A.
+
+Beim Immediate Adressing passiert ein Page Wrap Around.
+Ist der PBR $12 und der PC $FFFF so würde hier aus $12FFFF und $130000 gelesen werden.
 
 verwendende Operationen: ADC, AND, BIT, CMP, CPX, CPY, EOR, LDA, LDX, LDY, ORA, REP, SBC, SEP
 
@@ -799,12 +888,16 @@ verwendende Operationen: CLC, CLD, CLI, CLV, DEX, DEY, INX, INY, NOP, SEC, SED, 
 Bei der Program counter relative long-Addressierung werden die nächsten 2 Byte geladen und als vorzeichenbelastete Zahl gewertet.
 Diese Zahl ist ein Offset, welcher auf dern PC gerechnet wird, welcher bereits auf die nächte Instruktion zeigt.
 
+Hierbei passiert ein Page Wrap Around, die Bank ist immer der PBR.
+
 verwendende Operationen: BRL
 
 ==== Program counter relative - r ====
 
 Bei der Program counter relative long-Addressierung werden das nächste 1 Byte geladen und als vorzeichenbelastete Zahl gewertet.
-Diese Zahl ist ein Offset, welcher auf dern PC gerechnet wird, welcher bereits auf die nächte Instruktion zeigt.
+Diese Zahl ist ein Offset, welcher auf dern PC gerechnet wird, welcher bereits auf die nächste Instruktion zeigt.
+
+Hierbei passiert ein Page Wrap Around, die Bank ist immer der PBR.
 
 verwendende Operationen: BCC, BCS, BEQ, BMI, BNE, BPL, BRA, BVC, BVS
 
@@ -818,6 +911,11 @@ verwendende Operationen: BRK, COP, PEA, PEI, PER, PHA, PHB, PHD, PHK, PHP, PHX, 
 
 Stack relative-Addressing ist eine Sonderform des Direct-Addressing, bei dem S anstelle von D verwendet wird.
 Der Parameter (1 Byte) wird mit S addiert und die Bank ist 00.
+
+Während bei der Adresse (wie erwartet) ein Bank Wrap Around passiert gibt es bei den Daten keinen Wrap Around
+
+Ist S $FFFF und der Parameter $06 so wird die Adresse aus $000005 und $000006 ausgelesen.
+Erhalten wir hier $FFFF, der DBR ist $12 und Y ist $06, so wird der Wert aus $130005 und $130006 ausgelesen.
 
 {{ ::addressmode_stackrelative.png?direct&400 |}}
 

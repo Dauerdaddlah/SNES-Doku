@@ -134,3 +134,9 @@ pm_winnt:notice] [pid 4416:tid 716] AH00354: Child: Starting 64 worker threads.
 [Sun Dec 20 14:35:45.065623 2020] [core:notice] [pid 5300:tid 712] AH00094: Command line: 'mapache.exe -d C:/workspace/SNES/SNES-Doku/DokuWikiStick/server'
 [Sun Dec 20 14:35:45.068621 2020] [mpm_winnt:notice] [pid 5300:tid 712] AH00418: Parent: Created child process 11932
 [Sun Dec 20 14:35:45.837266 2020] [mpm_winnt:notice] [pid 11932:tid 624] AH00354: Child: Starting 64 worker threads.
+[Sun Feb 14 10:35:12.037727 2021] [core:warn] [pid 19880:tid 812] AH00098: pid file C:/Workspace/Idea/SNES-Doku/DokuWikiStick/server/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Sun Feb 14 10:35:12.860349 2021] [mpm_winnt:notice] [pid 19880:tid 812] AH00455: Apache/2.4.25 (Win32) PHP/5.6.30 configured -- resuming normal operations
+[Sun Feb 14 10:35:12.860349 2021] [mpm_winnt:notice] [pid 19880:tid 812] AH00456: Apache Lounge VC11 Server built: Dec 20 2016 13:02:04
+[Sun Feb 14 10:35:12.860349 2021] [core:notice] [pid 19880:tid 812] AH00094: Command line: 'mapache.exe -d C:/Workspace/Idea/SNES-Doku/DokuWikiStick/server'
+[Sun Feb 14 10:35:12.899029 2021] [mpm_winnt:notice] [pid 19880:tid 812] AH00418: Parent: Created child process 23124
+[Sun Feb 14 10:35:15.197931 2021] [mpm_winnt:notice] [pid 23124:tid 884] AH00354: Child: Starting 64 worker threads.
