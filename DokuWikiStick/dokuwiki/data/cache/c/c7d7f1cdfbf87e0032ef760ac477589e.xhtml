@@ -1,0 +1,2203 @@
+
+<p>
+<a href="https://github.com/gilligan/snesdev/blob/master/docs/65816.txt" class="urlextern" title="https://github.com/gilligan/snesdev/blob/master/docs/65816.txt" rel="ugc nofollow">https://github.com/gilligan/snesdev/blob/master/docs/65816.txt</a>
+<a href="http://datasheets.chipdb.org/Western%20Design/w65c816s.pdf" class="urlextern" title="http://datasheets.chipdb.org/Western%20Design/w65c816s.pdf" rel="ugc nofollow">http://datasheets.chipdb.org/Western%20Design/w65c816s.pdf</a>
+<a href="/lib/exe/fetch.php?media=w65c816s.pdf" class="media mediafile mf_pdf" title="w65c816s.pdf (1.1 MB)">w65c816s.pdf</a>
+<a href="https://wiki.superfamicom.org/65816-reference" class="urlextern" title="https://wiki.superfamicom.org/65816-reference" rel="ugc nofollow">https://wiki.superfamicom.org/65816-reference</a>
+<a href="http://www.6502.org/tutorials/65c816opcodes.html#5.1.2" class="urlextern" title="http://www.6502.org/tutorials/65c816opcodes.html#5.1.2" rel="ugc nofollow">http://www.6502.org/tutorials/65c816opcodes.html#5.1.2</a>
+</p>
+
+<p>
+Das SNES hat einen abgewandelten Prozessor zum Western Digital W65C816S.
+Dieser arbeitet mit 92 Operationen, 24 Addressmodes, 6 16-BIT Register(A, PC, X, Y, D, S) und 3 8-BIT Registern (P, PBR, DBR)
+</p>
+
+<h1 class="sectionedit1" id="allgemein">Allgemein</h1>
+<div class="level1">
+
+<p>
+Der SNES-Prozessor arbeitet Little Endian (LE).
+Das heißt Words (Java Shorts) werden in der Reihenfolge Low-Byte High-Byte gespeichert, Long in der Reihenfolge Low-Byte High-Byte Long-Byte.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Allgemein&quot;,&quot;hid&quot;:&quot;allgemein&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:1,&quot;range&quot;:&quot;462-678&quot;} -->
+<h1 class="sectionedit2" id="register">Register</h1>
+<div class="level1">
+
+<p>
+Um arbeiten zu können hat der Prozessor eine Anzahl an Register, welcher (mehr oder minder) beliebig genutzt werden können.
+Ein Register ist immer 8- oder 16-BIT groß - ein 16-BIT Register kann aber auch als 8-BIT Register verwendet werden.
+wird ein &#039;volles&#039; Register ($FF bei 8-BIT, $FFFF bei 16-BIT) weiter erhöht oder ein &#039;leeres&#039; Register ($0000) gesenkt so gibt es einen Überlauf ($FF → $00).
+<strong>Achtung</strong> wird ein 16-BIT Register als 8-BIT verwendet, so passirt der Überlauf auch auf 8-BIT.
+Sprich wird z. B. der Accumulator als 8-BIT genutzt und hat den Wert $12FF wird sein nächster Wert $1200 sein und nicht $1300.
+</p>
+<div class="table sectionedit3"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0"> Register </th><th class="col1"> Größe </th><th class="col2"> Beschreibung </th>
+	</tr>
+	</thead>
+	<tr class="row1">
+		<td class="col0"> PC </td><td class="col1"> 16-BIT </td><td class="col2"> <strong>P</strong>rogram <strong>C</strong>ounter - die 16-BIT Adresse innerhalb der aktuellen Bank (PBR) welche aktuel selektiert ist. Diese Adresse wird genutzt, um den nächsten Befehl zu holen oder um Addressmodi aufzulösen </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> P </td><td class="col1"> 8-BIT </td><td class="col2"> Statusregister - hält 8 Status (1 je Bit) als Folge der vorangegangenen Operationen </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"> PBR </td><td class="col1"> 8-BIT </td><td class="col2"> <strong>P</strong>rogram <strong>B</strong>ank <strong>R</strong>egister - enthält die Bank für den aktuellen/nächsten Befehl (PC). Wird ebenfalls für einige Addressmodi verwendet </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"> DBR </td><td class="col1"> 8-BIT </td><td class="col2"> <strong>D</strong>ata <strong>B</strong>ank <strong>R</strong>egister - wie PBR, wird für einige Addressmodi verwendet </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"> A </td><td class="col1"> 8/16-BIT </td><td class="col2"> <strong>A</strong>ccumulator - Der accumulator wird für so ziemlich alle internen REchnungen verwendet, er ist das &#039;Hilfsregister&#039;. Er hält <strong>immer</strong> 16-BIT, je nach Prozessormodus und P wird er jedoch u. U. als 8-BIT Register verwendet. In diesem Fall bleibt das höhere Byte erhalten und kann mit einer speziellen Operation als zusätzlicher Speicher verwendet werden. </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"> X/Y </td><td class="col1"> 8/16-BIT </td><td class="col2"> das X und das Y-Register ist jeweils ein weiteres Hilfsregister, wie der Accumulator um Aktionen auszuführen. Je nach P wird es als 8 oder 16-BIT Register verwendet. Wenn es als 8-BIT Register genutzt wird ist das höhere (ungenutzte) Byte immer $00 </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"> D </td><td class="col1"> 16-BIT </td><td class="col2"> <strong>D</strong>irect Register - wird für alle Direct-Addressmodi verwendet. Das Direct Register wird immer dann verwendet, wenn der Addressmodus nur 1 Byte erhält und soll die Page darstellen. Insofern hat diesen Register in der Regel die Form $xx00. Sollte das untere Byte einen anderen Wert haben führt dies in der Regel zu einem zusätzlich benötigten Cycle </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"> S </td><td class="col1"> 8/16-Bit </td><td class="col2"> <strong>S</strong>tack Register - verwaltet die nächste zu verwendende Addresse auf dem Stack. Je nach Prozessormodus wird dieser Pointer asl 8- oder 16-BIT verwendet. Im 8-BIT modus ist dabei das höhere Byte immer $01 </td>
+	</tr>
+</table></div>
+<!-- EDIT{&quot;target&quot;:&quot;table&quot;,&quot;name&quot;:&quot;&quot;,&quot;hid&quot;:&quot;table&quot;,&quot;secid&quot;:3,&quot;range&quot;:&quot;1335-3206&quot;} -->
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Register&quot;,&quot;hid&quot;:&quot;register&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:2,&quot;range&quot;:&quot;679-3207&quot;} -->
+<h2 class="sectionedit4" id="program_counter_pc">Program Counter (PC)</h2>
+<div class="level2">
+
+<p>
+Der Program Counter ist ein 16-BIT Register, das sehr eng mit dem PBR zusammenarbeiten.
+Er zeigt auf die nächste auszuführende Instruktion innerhalb des PBR (PBR|PC bilden die effektive Addresse).
+wann immer ein Wert mit Hilfe des PC gelesen wird, wird dieser um 1 erhöht.
+Werden für den Addressmodus noch weitere Werte benötigt werden diese (soweit nicht anders beschrieben) mit Hilfe des PC geholt.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Program Counter (PC)&quot;,&quot;hid&quot;:&quot;program_counter_pc&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:4,&quot;range&quot;:&quot;3208-3648&quot;} -->
+<h3 class="sectionedit5" id="direct_page_zero_page_d">Direct Page/Zero Page (D)</h3>
+<div class="level3">
+
+<p>
+Die Zero Page aus dem originalen 6502 (NES) wurde im SNES Prozessor nach Direct Page umbenannt.
+Immer wenn ein Addressmodus mit einem Byte gewählt wird bestimmt die Direct Page die Page-Adresse (mittleres Byte)
+Die Direct Page ist 16-Bit groß und kann dementsprechend neben der Page auch einen Versatz für das Byte beinhalten, jedoch wird in dem Fall (Low-Byte != 0) ein Cycle mehr benötigt.
+Im Emulation Mode ist die Adressierung in der Direct Page gefangen, sprich ein Rollover nach $FF beginnt wieder bei $00 der Direct Page (NES).
+Im Native Mode hingegen geht ein Rollover in die nächste Page.
+Beispiel:
+</p>
+<pre class="code">LDX #$2c
+LDA ($E0,X)</pre>
+
+<p>
+In Emulation Mode ergibt dies die Adresse $0C, im Native Mode $10C
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct Page\/Zero Page (D)&quot;,&quot;hid&quot;:&quot;direct_page_zero_page_d&quot;,&quot;codeblockOffset&quot;:0,&quot;secid&quot;:5,&quot;range&quot;:&quot;3649-4402&quot;} -->
+<h3 class="sectionedit6" id="stack_pointer_s">Stack Pointer (S)</h3>
+<div class="level3">
+
+<p>
+Der Stack Pointer ist 16-Bit groß und zeigt auf die nächste leere (zu nutzende) Speicheradresse für den Stack.
+Im Emulation Mode wird das High-Byte (Page) immer auf $01 gezwungen (NES).
+Der Stack Pointer wird entsprechend im Emulation Mode als 8-Bit Register gehandelt.
+In der Regel ist/wird der Stack Pointer zum Programmstart auf $01FF initialisiert.
+Wird ein Element auf dem Stack abgelegt, so wird der Wert auf die Adresse des Stack Pointers gelegt und dieser anschließend um 1 gesenkt.
+Der Pull geschieht entsprechend umgekehrt, erst wird der Pointer incrementiert und anschließend wird der Wert gelesen.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Stack Pointer (S)&quot;,&quot;hid&quot;:&quot;stack_pointer_s&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:6,&quot;range&quot;:&quot;4403-5047&quot;} -->
+<h3 class="sectionedit7" id="program_bank_register_pbr">Program Bank Register (PBR)</h3>
+<div class="level3">
+
+<p>
+Der PBR ist ein 8-Bit Register welches die Bank zum PC beschreiben.
+Der PBR wird immer verwendet, wenn das nächste Byte im Ablauf geholt wird, entweder die Instruktion, oder direkt darauf folgenden Bytes für den Addresmodus.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Program Bank Register (PBR)&quot;,&quot;hid&quot;:&quot;program_bank_register_pbr&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:7,&quot;range&quot;:&quot;5048-5314&quot;} -->
+<h3 class="sectionedit8" id="data_bank_register_dbr">Data Bank register (DBR)</h3>
+<div class="level3">
+
+<p>
+Der DBR ist ein 8-Bit Register welches die Bank für bestimmte Addressmodi hält.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Data Bank register (DBR)&quot;,&quot;hid&quot;:&quot;data_bank_register_dbr&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:8,&quot;range&quot;:&quot;5315-5433&quot;} -->
+<h3 class="sectionedit9" id="status_register_p">Status Register (P)</h3>
+<div class="level3">
+
+<p>
+das StatusRegister besteht aus den Flags NVMXDIZC.
+Im Emulation Mode ist es NV1BDIZC.
+Das M- und X-Flag dient dazu Accumulator, X und Y zwischen 8 und 16-Bit zu wechseln.
+Dementsprechend werden diese im Emulation Mode anders verwendet:
+Die Flags:
+</p>
+<ul>
+<li class="level1"><div class="li"> N - Negative steht für einen negativen Wert.</div>
+</li>
+<li class="level1"><div class="li"> V - Overflow zeigt an, wenn für eine Aktion ein zusätzliches Byte benötigt worden wäre</div>
+</li>
+<li class="level1"><div class="li"> M - Memory/Accumulator schaltet den Accumulator auf 16-Bit wenn auf 0 gesetzt. Im Emulation Mode ist dieser auf 1 gezwungen</div>
+</li>
+<li class="level1"><div class="li"> X - Index schaltet X und Y auf 16-Bit wenn auf 0 gesetzt. Wird im Emulation Mode auf 1 gesetzt und als B gehandelt.</div>
+</li>
+<li class="level1"><div class="li"> B - Break beschreibt das X-Flag im Emulation mode. Es eig. immer 1 im Register und wird bei einem Interrupt als 0 gepusht, wenn der Interrupt nicht durch ein BRK ausgelöst wurde.</div>
+</li>
+<li class="level1"><div class="li"> D - decimal, wenn auf 1, dann werden ADC und SBC im decimal mode berechnet ($20 - $04 = $16)</div>
+</li>
+<li class="level1"><div class="li"> I - IRQ-Disable wenn auf true, werden keine Interrupts ausgeführt außer NMI</div>
+</li>
+<li class="level1"><div class="li"> Z - Zero, wird bei null gestzt, zeigt ebenfalls gleichheit an. beq - branch if equal springt bei Z = 1</div>
+</li>
+<li class="level1"><div class="li"> C - Carry wird als zusätzliches Bit für einige Operationen verwendet. C und XCE sind der einzige Weg des Prozessormodus anzupassen.</div>
+</li>
+</ul>
+
+<p>
+<a href="/lib/exe/fetch.php?media=statusregister.png" class="media" title="statusregister.png"><img src="/lib/exe/fetch.php?w=800&amp;tok=4106f1&amp;media=statusregister.png" class="media" alt="" width="800" /></a>
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Status Register (P)&quot;,&quot;hid&quot;:&quot;status_register_p&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:9,&quot;range&quot;:&quot;5434-6750&quot;} -->
+<h3 class="sectionedit10" id="accumulator_a">Accumulator (A)</h3>
+<div class="level3">
+
+<p>
+Der Accumulator ist einer der Hauptregister mit denen gearbeitet wird.
+Er wird hauptsächlich verwendet, wenn man Daten lesen schreiben und verrechnen möchte.
+Er ist 16-Bit groß und kann im 8-Bit Modus verwendet werden (je nach P).
+Im Gegensatz zu allen anderen “variablen” Register behält der Accumulator den Wert seines High-Byte bei.
+So kann das High-Byte im 8-Bit modus als zusätzlicher Speicher verwendet werden.
+Mit Hilfe der XBA instruktion kann so der Wert des High und des Low-Bytes getauscht werden.
+</p>
+
+<p>
+je nach Situation hat der Accumulator drei Namen, A, B und C.
+Mit C ist der Accumulator immer als 16-Bit Register bezeichnet.
+Dementsprechend tauscht die Instruktion TCS immer die kompletten 16-Bit von A (C) nach S.
+B beschreibt immer das High-Byte des Accumulators.
+A beschreibt je nach Kontext entweder den Accumulator allgemein oder nur das LOW-Byte (z. B. in XBA - exchange B and A).
+Einige Assembler nehmen diese Trennund nicht 100% und erlauben so auch z. B. die Operation TAS als Synonym für TCS.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Accumulator (A)&quot;,&quot;hid&quot;:&quot;accumulator_a&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:10,&quot;range&quot;:&quot;6751-7798&quot;} -->
+<h3 class="sectionedit11" id="x_y_register_x_y">X/Y Register (X/Y)</h3>
+<div class="level3">
+
+<p>
+X und Y sind 2 Hilfsregister, welche zusammen mit dem Accumulator verwendet werden.
+Sie sind 16-BIT groß und können je nach P auch als 8-Bit verwendet werden.
+Werden Sie als 8-Bit verwendet ist das High-Byte immer 0
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;X\/Y Register (X\/Y)&quot;,&quot;hid&quot;:&quot;x_y_register_x_y&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:11,&quot;range&quot;:&quot;7799-8047&quot;} -->
+<h2 class="sectionedit12" id="prozessormodi">Prozessormodi</h2>
+<div class="level2">
+
+<p>
+Der Prozesser hat 2 Modi, Emulation und Native.
+Bei Start des Prozessors ist dieser immer im Emulation Mode und der PC zeigt auf den Reset-Vector.
+Der Modus wird über die XCE-Instruktion gesetzt, wobei ein gesetztes C-Flag den Native-Mode aktiviert.
+Im Emulation Mode ist der Prozessor kompatibel zum NES 6502, dementsprechend sind alle variablen Register im 8-BIT Modus.
+Im Native-Mode können A, X, und Y je nach P als 16-Bit verwendet werden - S ist automatisch 16-BIT.
+Die Interrupt-Handler sind unterschiedlich je nach Modus:
+</p>
+<div class="table sectionedit13"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0"> Adresse Emulation </th><th class="col1"> Vector Emulation </th><th class="col2"> Adresse Native </th><th class="col3"> Vector Native </th>
+	</tr>
+	</thead>
+	<tr class="row1">
+		<td class="col0"> $FFF4-5 </td><td class="col1 leftalign"> COP     </td><td class="col2"> $FFE4-5 </td><td class="col3"> COP </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> $FFF6-7 </td><td class="col1 leftalign">         </td><td class="col2"> $FFE6-7 </td><td class="col3"> BRK </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"> $FFF8-9 </td><td class="col1 leftalign"> ABORT   </td><td class="col2"> $FFE8-9 </td><td class="col3"> ABORT </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"> $FFFA-B </td><td class="col1 leftalign"> NMI     </td><td class="col2"> $FFEA-B </td><td class="col3"> NMI </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"> $FFFC-D </td><td class="col1 leftalign"> RESET   </td><td class="col2"> $FFEC-D </td><td class="col3"> RESET (ungenutzt) </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"> $FFFE-F </td><td class="col1"> IRQ/BRK </td><td class="col2"> $FFEE-F </td><td class="col3"> IRQ </td>
+	</tr>
+</table></div>
+<!-- EDIT{&quot;target&quot;:&quot;table&quot;,&quot;name&quot;:&quot;&quot;,&quot;hid&quot;:&quot;table1&quot;,&quot;secid&quot;:13,&quot;range&quot;:&quot;8607-8924&quot;} -->
+<p>
+Da der Prozessor beim Startup immer im Emulation-Mode ist wird der Reset-Vector vom Native-Mode nicht genutzt.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Prozessormodi&quot;,&quot;hid&quot;:&quot;prozessormodi&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:12,&quot;range&quot;:&quot;8048-9037&quot;} -->
+<h2 class="sectionedit14" id="stack_operationen">Stack Operationen</h2>
+<div class="level2">
+
+<p>
+Auf den Stack können einzelne Bytes oder Word gepusht werden.
+Wenn immer ein Wert auf den Stack gepusht wird, wird der Stackpointer um 1 reduziert.
+Wird ein Word gepusht, wird zuerst das High-Byte und anschließend das Low-Byte gepusht, sodass das Word im Speicher wieder in Little-Endian steht.
+Wird ein Byte gepusht, wird zuerst der Wert im gespeichert und anschließend der Pointer dekrementiert.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Stack Operationen&quot;,&quot;hid&quot;:&quot;stack_operationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:14,&quot;range&quot;:&quot;9038-9470&quot;} -->
+<h2 class="sectionedit15" id="interrupts">Interrupts</h2>
+<div class="level2">
+
+<p>
+Wenn ein Interrupt ausgelöst wird werden alle nötigen Register auf den Stack gepusht und je nach Modus zum Interrupthandler gesprungen.
+Zusätzlich wird PBR auf 0 gesetzt, sodass sich ein Interrupthandler immer in der Bank 0 befindet.
+Außerdem wird das IRQDisable-Flag auf 1 gesetzt (D auf 0), um weitere interrupts zu vermeiden.
+Mithilfe von rti (0x40) wird zum vorherigen Zustand zurückgesprungen.
+Folgende Werte werden in dieser Reihenfolge gepusht und bei rti umgedreht gepullt:
+</p>
+<ul>
+<li class="level1"><div class="li"> PBR (Native Mode)</div>
+</li>
+<li class="level1"><div class="li"> PC (Short)</div>
+</li>
+<li class="level1"><div class="li"> P</div>
+</li>
+</ul>
+
+<p>
+Ein Interrupt findet nicht statt, wenn das IRQ-Disable flag true ist.
+Ausnahme hiervon ist der NMI, welcher nicht über P verhindert werden kann.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Interrupts&quot;,&quot;hid&quot;:&quot;interrupts&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:15,&quot;range&quot;:&quot;9471-10172&quot;} -->
+<h1 class="sectionedit16" id="operationen">Operationen</h1>
+<div class="level1">
+
+<p>
+Es gibt folgende Operationen:
+</p>
+<div class="table sectionedit17"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0"> Operation </th><th class="col1"> Alternativ </th><th class="col2"> Beschreibung </th><th class="col3"> verwendete Addressmodes </th><th class="col4"> flags </th>
+	</tr>
+	</thead>
+	<tr class="row1">
+		<td class="col0"> <a href="#adc" title="processor ↵" class="wikilink1">ADC</a> </td><td class="col1"> </td><td class="col2"> Add with Carry </td><td class="col3"> a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y </td><td class="col4 rightalign">  	NV—-ZC </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> <a href="#and" title="processor ↵" class="wikilink1">AND</a> </td><td class="col1"> </td><td class="col2"> And Memory and Accumulator </td><td class="col3"> a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"> <a href="#asl" title="processor ↵" class="wikilink1">ASL</a> </td><td class="col1"> </td><td class="col2"> Shift left Memory or Accumulator </td><td class="col3"> a, a,x, A, d, d,x </td><td class="col4"> N—–ZC </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"> <a href="#bcc" title="processor ↵" class="wikilink1">BCC</a> </td><td class="col1"> </td><td class="col2"> Branch if carry clear </td><td class="col3"> r </td><td class="col4"> </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"> <a href="#bcs" title="processor ↵" class="wikilink1">BCS</a> </td><td class="col1"> </td><td class="col2"> Branch if carry set </td><td class="col3"> r </td><td class="col4"> </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"> <a href="#beq" title="processor ↵" class="wikilink1">BEQ</a> </td><td class="col1"> </td><td class="col2"> Branch if Equal/zero set </td><td class="col3"> r </td><td class="col4"> </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"> <a href="#bit" title="processor ↵" class="wikilink1">BIT</a> </td><td class="col1"> </td><td class="col2"> Bit test </td><td class="col3"> a, a,x, d, d,x, # </td><td class="col4"> NV—-Z-* </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"> <a href="#bmi" title="processor ↵" class="wikilink1">BMI</a> </td><td class="col1"> </td><td class="col2"> Branch if minus/Negative clear </td><td class="col3"> r </td><td class="col4"> </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"> <a href="#bne" title="processor ↵" class="wikilink1">BNE</a> </td><td class="col1"> </td><td class="col2"> Branch if not equal/zero clear </td><td class="col3"> r </td><td class="col4"> </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"> <a href="#bpl" title="processor ↵" class="wikilink1">BPL</a> </td><td class="col1"> </td><td class="col2"> Branch if plus/negative clear </td><td class="col3"> r </td><td class="col4"> </td>
+	</tr>
+	<tr class="row11">
+		<td class="col0"> <a href="#bra" title="processor ↵" class="wikilink1">BRA</a> </td><td class="col1"> </td><td class="col2"> Branch always </td><td class="col3"> r </td><td class="col4"> </td>
+	</tr>
+	<tr class="row12">
+		<td class="col0"> <a href="#brk" title="processor ↵" class="wikilink1">BRK</a> </td><td class="col1"> </td><td class="col2"> Force Break (Interrupt) </td><td class="col3"> s </td><td class="col4"> —-DI– </td>
+	</tr>
+	<tr class="row13">
+		<td class="col0"> <a href="#brl" title="processor ↵" class="wikilink1">BRL</a> </td><td class="col1"> </td><td class="col2"> Branch always long </td><td class="col3"> rl </td><td class="col4"> </td>
+	</tr>
+	<tr class="row14">
+		<td class="col0"> <a href="#bvc" title="processor ↵" class="wikilink1">BVC</a> </td><td class="col1"> </td><td class="col2"> Branch if overflow clear </td><td class="col3"> r </td><td class="col4"> </td>
+	</tr>
+	<tr class="row15">
+		<td class="col0"> <a href="#bvs" title="processor ↵" class="wikilink1">BVS</a> </td><td class="col1"> </td><td class="col2"> Branch if overflow set </td><td class="col3"> r </td><td class="col4"> </td>
+	</tr>
+	<tr class="row16">
+		<td class="col0"> <a href="#clc" title="processor ↵" class="wikilink1">CLC</a> </td><td class="col1"> </td><td class="col2"> Clear carry flag </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row17">
+		<td class="col0"> <a href="#cld" title="processor ↵" class="wikilink1">CLD</a> </td><td class="col1"> </td><td class="col2"> Clear decimal flag </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row18">
+		<td class="col0"> <a href="#cli" title="processor ↵" class="wikilink1">CLI</a> </td><td class="col1"> </td><td class="col2"> Clear interrupt flag </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row19">
+		<td class="col0"> <a href="#clv" title="processor ↵" class="wikilink1">CLV</a> </td><td class="col1"> </td><td class="col2"> Clear overflow flag </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row20">
+		<td class="col0"> <a href="#cmp" title="processor ↵" class="wikilink1">CMP</a> </td><td class="col1"> CPA </td><td class="col2"> Compare with Accumulator </td><td class="col3"> a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y </td><td class="col4"> N—–ZC </td>
+	</tr>
+	<tr class="row21">
+		<td class="col0"> <a href="#cop" title="processor ↵" class="wikilink1">COP</a> </td><td class="col1"> </td><td class="col2"> Coprocessor (Interrupt) </td><td class="col3"> s </td><td class="col4"> —-DI– </td>
+	</tr>
+	<tr class="row22">
+		<td class="col0"> <a href="#cpx" title="processor ↵" class="wikilink1">CPX</a> </td><td class="col1"> </td><td class="col2"> Compare with X </td><td class="col3"> a, d, # </td><td class="col4"> N—–ZC </td>
+	</tr>
+	<tr class="row23">
+		<td class="col0"> <a href="#cpy" title="processor ↵" class="wikilink1">CPY</a> </td><td class="col1"> </td><td class="col2"> Compare with Y </td><td class="col3"> a, d, # </td><td class="col4"> N—–ZC </td>
+	</tr>
+	<tr class="row24">
+		<td class="col0"> <a href="#dec" title="processor ↵" class="wikilink1">DEC</a> </td><td class="col1"> DEA </td><td class="col2"> Decrement Memory or accumulator </td><td class="col3"> a, a,x, A, d, d,x </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row25">
+		<td class="col0"> <a href="#dex" title="processor ↵" class="wikilink1">DEX</a> </td><td class="col1"> </td><td class="col2"> Decrement X </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row26">
+		<td class="col0"> <a href="#dey" title="processor ↵" class="wikilink1">DEY</a> </td><td class="col1"> </td><td class="col2"> Decrement Y </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row27">
+		<td class="col0"> <a href="#eor" title="processor ↵" class="wikilink1">EOR</a> </td><td class="col1"> </td><td class="col2"> exclusive or with memory or accumulator </td><td class="col3"> a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row28">
+		<td class="col0"> <a href="#inc" title="processor ↵" class="wikilink1">INC</a> </td><td class="col1"> INA </td><td class="col2"> Increment memory or accumulator </td><td class="col3"> a, a,x, A, d, d,x </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row29">
+		<td class="col0"> <a href="#inx" title="processor ↵" class="wikilink1">INX</a> </td><td class="col1"> </td><td class="col2"> Increment X </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row30">
+		<td class="col0"> <a href="#iny" title="processor ↵" class="wikilink1">INY</a> </td><td class="col1"> </td><td class="col2"> Increment Y </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row31">
+		<td class="col0"> <a href="#jmp" title="processor ↵" class="wikilink1">JMP</a> </td><td class="col1"> JML </td><td class="col2"> jump long </td><td class="col3"> a, (a,x), (a), (al), al </td><td class="col4"> </td>
+	</tr>
+	<tr class="row32">
+		<td class="col0"> <a href="#jsr" title="processor ↵" class="wikilink1">JSR</a> </td><td class="col1"> JSL </td><td class="col2"> Jump to subroutine long </td><td class="col3"> a, (a,x), al </td><td class="col4"> </td>
+	</tr>
+	<tr class="row33">
+		<td class="col0"> <a href="#lda" title="processor ↵" class="wikilink1">LDA</a> </td><td class="col1"> </td><td class="col2"> Load A </td><td class="col3"> a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row34">
+		<td class="col0"> <a href="#ldx" title="processor ↵" class="wikilink1">LDX</a> </td><td class="col1"> </td><td class="col2"> Load X </td><td class="col3"> a, a,y, d, d,y, # </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row35">
+		<td class="col0"> <a href="#ldy" title="processor ↵" class="wikilink1">LDY</a> </td><td class="col1"> </td><td class="col2"> Load Y </td><td class="col3"> a, a,x, d, d,x, # </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row36">
+		<td class="col0"> <a href="#lsr" title="processor ↵" class="wikilink1">LSR</a> </td><td class="col1"> </td><td class="col2"> Shift right memory or accumulator </td><td class="col3"> a, a,x, A, d, d,x </td><td class="col4"> N—–ZC </td>
+	</tr>
+	<tr class="row37">
+		<td class="col0"> <a href="#mvn" title="processor ↵" class="wikilink1">MVN</a> </td><td class="col1"> </td><td class="col2"> Move block negative </td><td class="col3"> xyc </td><td class="col4"></td>
+	</tr>
+	<tr class="row38">
+		<td class="col0"> <a href="#mvp" title="processor ↵" class="wikilink1">MVP</a> </td><td class="col1"> </td><td class="col2"> Move block positive </td><td class="col3"> xyc </td><td class="col4"></td>
+	</tr>
+	<tr class="row39">
+		<td class="col0"> <a href="#nop" title="processor ↵" class="wikilink1">NOP</a> </td><td class="col1"> </td><td class="col2"> No Operation </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row40">
+		<td class="col0"> <a href="#ora" title="processor ↵" class="wikilink1">ORA</a> </td><td class="col1"> </td><td class="col2"> OR with accumulator </td><td class="col3"> a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row41">
+		<td class="col0"> <a href="#pea" title="processor ↵" class="wikilink1">PEA</a> </td><td class="col1"> </td><td class="col2"> Push effective Address/Push immediate </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row42">
+		<td class="col0"> <a href="#pei" title="processor ↵" class="wikilink1">PEI</a> </td><td class="col1"> </td><td class="col2"> Push effective absolute address/Push Direct address </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row43">
+		<td class="col0"> <a href="#per" title="processor ↵" class="wikilink1">PER</a> </td><td class="col1"> </td><td class="col2"> Push effective program counter relative address </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row44">
+		<td class="col0"> <a href="#pha" title="processor ↵" class="wikilink1">PHA</a> </td><td class="col1"> </td><td class="col2"> Push A </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row45">
+		<td class="col0"> <a href="#phb" title="processor ↵" class="wikilink1">PHB</a> </td><td class="col1"> </td><td class="col2"> Push DBR </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row46">
+		<td class="col0"> <a href="#phd" title="processor ↵" class="wikilink1">PHD</a> </td><td class="col1"> </td><td class="col2"> Push D </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row47">
+		<td class="col0"> <a href="#phk" title="processor ↵" class="wikilink1">PHK</a> </td><td class="col1"> </td><td class="col2"> Push PBR </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row48">
+		<td class="col0"> <a href="#php" title="processor ↵" class="wikilink1">PHP</a> </td><td class="col1"> </td><td class="col2"> Push P </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row49">
+		<td class="col0"> <a href="#phx" title="processor ↵" class="wikilink1">PHX</a> </td><td class="col1"> </td><td class="col2"> Push X </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row50">
+		<td class="col0"> <a href="#phy" title="processor ↵" class="wikilink1">PHY</a> </td><td class="col1"> </td><td class="col2"> Push Y </td><td class="col3"> s </td><td class="col4"></td>
+	</tr>
+	<tr class="row51">
+		<td class="col0"> <a href="#pla" title="processor ↵" class="wikilink1">PLA</a> </td><td class="col1"> </td><td class="col2"> Pull A </td><td class="col3"> s </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row52">
+		<td class="col0"> <a href="#plb" title="processor ↵" class="wikilink1">PLB</a> </td><td class="col1"> </td><td class="col2"> Pull DBR </td><td class="col3"> s </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row53">
+		<td class="col0"> <a href="#pld" title="processor ↵" class="wikilink1">PLD</a> </td><td class="col1"> </td><td class="col2"> Pull D </td><td class="col3"> s </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row54">
+		<td class="col0"> <a href="#plp" title="processor ↵" class="wikilink1">PLP</a> </td><td class="col1"> </td><td class="col2"> Pull P </td><td class="col3"> s </td><td class="col4"> NVMXDIZC </td>
+	</tr>
+	<tr class="row55">
+		<td class="col0"> <a href="#plx" title="processor ↵" class="wikilink1">PLX</a> </td><td class="col1"> </td><td class="col2"> Pull X </td><td class="col3"> s </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row56">
+		<td class="col0"> <a href="#ply" title="processor ↵" class="wikilink1">PLY</a> </td><td class="col1"> </td><td class="col2"> Pull Y </td><td class="col3"> s </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row57">
+		<td class="col0"> <a href="#rep" title="processor ↵" class="wikilink1">REP</a> </td><td class="col1"> </td><td class="col2"> Reset Status Bits </td><td class="col3"> # </td><td class="col4"></td>
+	</tr>
+	<tr class="row58">
+		<td class="col0"> <a href="#rol" title="processor ↵" class="wikilink1">ROL</a> </td><td class="col1"> </td><td class="col2"> Rotate Left/Shift left with carry </td><td class="col3"> a, a,x, A, d, d,x </td><td class="col4"> N—–ZC </td>
+	</tr>
+	<tr class="row59">
+		<td class="col0"> <a href="#ror" title="processor ↵" class="wikilink1">ROR</a> </td><td class="col1"> </td><td class="col2"> Rotate Right/Shift Right with carry </td><td class="col3"> a, a,x, A, d, d,x </td><td class="col4"> N—–ZC </td>
+	</tr>
+	<tr class="row60">
+		<td class="col0"> <a href="#rti" title="processor ↵" class="wikilink1">RTI</a> </td><td class="col1"> </td><td class="col2"> Return from interrupt </td><td class="col3"> s </td><td class="col4"> NVMXDIZC </td>
+	</tr>
+	<tr class="row61">
+		<td class="col0"> <a href="#rtl" title="processor ↵" class="wikilink1">RTL</a> </td><td class="col1"> </td><td class="col2"> Return from subroutine long </td><td class="col3"> s </td><td class="col4"> </td>
+	</tr>
+	<tr class="row62">
+		<td class="col0"> <a href="#rts" title="processor ↵" class="wikilink1">RTS</a> </td><td class="col1"> </td><td class="col2"> Return from subroutine </td><td class="col3"> s </td><td class="col4"> </td>
+	</tr>
+	<tr class="row63">
+		<td class="col0"> <a href="#sbc" title="processor ↵" class="wikilink1">SBC</a> </td><td class="col1"> </td><td class="col2"> Subtract with carry </td><td class="col3"> a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, #, d,s, (d,s),y </td><td class="col4 rightalign">  NV—-ZC </td>
+	</tr>
+	<tr class="row64">
+		<td class="col0"> <a href="#sep" title="processor ↵" class="wikilink1">SEP</a> </td><td class="col1"> </td><td class="col2"> Set status bits </td><td class="col3"> # </td><td class="col4"></td>
+	</tr>
+	<tr class="row65">
+		<td class="col0"> <a href="#sec" title="processor ↵" class="wikilink1">SEC</a> </td><td class="col1"> </td><td class="col2"> Set carry flag </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row66">
+		<td class="col0"> <a href="#sed" title="processor ↵" class="wikilink1">SED</a> </td><td class="col1"> </td><td class="col2"> Set decimal flag </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row67">
+		<td class="col0"> <a href="#sei" title="processor ↵" class="wikilink1">SEI</a> </td><td class="col1"> </td><td class="col2"> Set interrupt flag </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row68">
+		<td class="col0"> <a href="#sta" title="processor ↵" class="wikilink1">STA</a> </td><td class="col1"> </td><td class="col2"> Store A </td><td class="col3"> a, a,x, a,y, al, al,x, d, (d,x), d,x, (d), (d),y, [d], [d],y, d,s, (d,s),y </td><td class="col4"></td>
+	</tr>
+	<tr class="row69">
+		<td class="col0"> <a href="#stp" title="processor ↵" class="wikilink1">STP</a> </td><td class="col1"> </td><td class="col2"> Stop the clock </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row70">
+		<td class="col0"> <a href="#stx" title="processor ↵" class="wikilink1">STX</a> </td><td class="col1"> </td><td class="col2"> Store X </td><td class="col3"> a, d, d,y </td><td class="col4"></td>
+	</tr>
+	<tr class="row71">
+		<td class="col0"> <a href="#sty" title="processor ↵" class="wikilink1">STY</a> </td><td class="col1"> </td><td class="col2"> Store Y </td><td class="col3"> a, d, d,x </td><td class="col4"></td>
+	</tr>
+	<tr class="row72">
+		<td class="col0"> <a href="#stz" title="processor ↵" class="wikilink1">STZ</a> </td><td class="col1"> </td><td class="col2"> Store zero </td><td class="col3"> a, a,x, d, d,x </td><td class="col4"></td>
+	</tr>
+	<tr class="row73">
+		<td class="col0"> <a href="#tax" title="processor ↵" class="wikilink1">TAX</a> </td><td class="col1"> </td><td class="col2"> Transfer A to X </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row74">
+		<td class="col0"> <a href="#tay" title="processor ↵" class="wikilink1">TAY</a> </td><td class="col1"> </td><td class="col2"> Transfer A to Y </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row75">
+		<td class="col0"> <a href="#tcd" title="processor ↵" class="wikilink1">TCD</a> </td><td class="col1"> </td><td class="col2"> Transfer C(A) to D </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row76">
+		<td class="col0"> <a href="#tcs" title="processor ↵" class="wikilink1">TCS</a> </td><td class="col1"> </td><td class="col2"> Transfer C(A) to S </td><td class="col3"> i </td><td class="col4"> </td>
+	</tr>
+	<tr class="row77">
+		<td class="col0"> <a href="#tdc" title="processor ↵" class="wikilink1">TDC</a> </td><td class="col1"> </td><td class="col2"> Transfer D to C(A) </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row78">
+		<td class="col0"> <a href="#trb" title="processor ↵" class="wikilink1">TRB</a> </td><td class="col1"> </td><td class="col2"> Test and reset Bits </td><td class="col3"> a, d </td><td class="col4"> ——Z- </td>
+	</tr>
+	<tr class="row79">
+		<td class="col0"> <a href="#tsb" title="processor ↵" class="wikilink1">TSB</a> </td><td class="col1"> </td><td class="col2"> Test and set bits </td><td class="col3"> a, d </td><td class="col4"> ——Z- </td>
+	</tr>
+	<tr class="row80">
+		<td class="col0"> <a href="#tsc" title="processor ↵" class="wikilink1">TSC</a> </td><td class="col1"> </td><td class="col2"> Transfer S to C(A) </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row81">
+		<td class="col0"> <a href="#tsx" title="processor ↵" class="wikilink1">TSX</a> </td><td class="col1"> </td><td class="col2"> Transfer S to X </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row82">
+		<td class="col0"> <a href="#txa" title="processor ↵" class="wikilink1">TXA</a> </td><td class="col1"> </td><td class="col2"> Transfer X to A </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row83">
+		<td class="col0"> <a href="#txs" title="processor ↵" class="wikilink1">TXS</a> </td><td class="col1"> </td><td class="col2"> Transfer X to S </td><td class="col3"> i </td><td class="col4"> </td>
+	</tr>
+	<tr class="row84">
+		<td class="col0"> <a href="#txy" title="processor ↵" class="wikilink1">TXY</a> </td><td class="col1"> </td><td class="col2"> Transfer X to Y </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row85">
+		<td class="col0"> <a href="#tya" title="processor ↵" class="wikilink1">TYA</a> </td><td class="col1"> </td><td class="col2"> Transfer Y to A </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row86">
+		<td class="col0"> <a href="#tyx" title="processor ↵" class="wikilink1">TYX</a> </td><td class="col1"> </td><td class="col2"> Transfer Y to X </td><td class="col3"> i </td><td class="col4"> N—–Z- </td>
+	</tr>
+	<tr class="row87">
+		<td class="col0"> <a href="#wai" title="processor ↵" class="wikilink1">WAI</a> </td><td class="col1"> </td><td class="col2"> Wait for interrupt </td><td class="col3"> i </td><td class="col4"> </td>
+	</tr>
+	<tr class="row88">
+		<td class="col0"> <a href="#wdm" title="processor ↵" class="wikilink1">WDM</a> </td><td class="col1"> </td><td class="col2"> Reserved for future use </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row89">
+		<td class="col0"> <a href="#xba" title="processor ↵" class="wikilink1">XBA</a> </td><td class="col1"> </td><td class="col2"> Exchange B and A in Accumulator </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+	<tr class="row90">
+		<td class="col0"> <a href="#xce" title="processor ↵" class="wikilink1">XCE</a> </td><td class="col1"> </td><td class="col2"> Exchange Carry and emulation flag </td><td class="col3"> i </td><td class="col4"></td>
+	</tr>
+</table></div>
+<!-- EDIT{&quot;target&quot;:&quot;table&quot;,&quot;name&quot;:&quot;&quot;,&quot;hid&quot;:&quot;table2&quot;,&quot;secid&quot;:17,&quot;range&quot;:&quot;10231-15241&quot;} -->
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Operationen&quot;,&quot;hid&quot;:&quot;operationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:16,&quot;range&quot;:&quot;10173-15242&quot;} -->
+<h2 class="sectionedit18" id="bitoperationen">Bitoperationen</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Bitoperationen&quot;,&quot;hid&quot;:&quot;bitoperationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:18,&quot;range&quot;:&quot;15243-15268&quot;} -->
+<h3 class="sectionedit19" id="and">AND</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;AND&quot;,&quot;hid&quot;:&quot;and&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:19,&quot;range&quot;:&quot;15269-15282&quot;} -->
+<h3 class="sectionedit20" id="eor">EOR</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;EOR&quot;,&quot;hid&quot;:&quot;eor&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:20,&quot;range&quot;:&quot;15283-15296&quot;} -->
+<h3 class="sectionedit21" id="ora">ORA</h3>
+<div class="level3">
+
+<p>
+Führt eine Bitweise- Verknüpfung mit A durch und speichert das Ergebnis in A.
+AND ist and Und-Verknüpfung, EOR ist exklusiv-oder und ORA ist eine Oder-Verknüpfung.
+In jedem Fall wird das Zero-Flag gesetzt wenn A 0 wird und das Negative-Flag wenn A negativ wird (höchstes Bit ist 1)
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;ORA&quot;,&quot;hid&quot;:&quot;ora&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:21,&quot;range&quot;:&quot;15297-15598&quot;} -->
+<h3 class="sectionedit22" id="asl">ASL</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;ASL&quot;,&quot;hid&quot;:&quot;asl&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:22,&quot;range&quot;:&quot;15599-15612&quot;} -->
+<h3 class="sectionedit23" id="lsr">LSR</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;LSR&quot;,&quot;hid&quot;:&quot;lsr&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:23,&quot;range&quot;:&quot;15613-15626&quot;} -->
+<h3 class="sectionedit24" id="rol">ROL</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;ROL&quot;,&quot;hid&quot;:&quot;rol&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:24,&quot;range&quot;:&quot;15627-15640&quot;} -->
+<h3 class="sectionedit25" id="ror">ROR</h3>
+<div class="level3">
+
+<p>
+Führt eine Bitverschiebung vom Operand aus und speichert das Ergebnis im Operanden.
+Das Zero-Flag wird gesetzt, wenn das Ergebnis 0 ist und das Negative-Flag wenn es negativ ist.
+Das Carry-Flag wird auf das Bit gesetzt, welches “rausfällt”.
+</p>
+
+<p>
+Das letzte Zeichen der Operation zeigt die Richtung der Bitverschiebung (R = right-shift, L = left-shift).
+Bei den R-Operationen wird bei der Verschiebung das Carry-Flag eingefügt, bei den anderen fest eine 0.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;ROR&quot;,&quot;hid&quot;:&quot;ror&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:25,&quot;range&quot;:&quot;15641-16110&quot;} -->
+<h3 class="sectionedit26" id="trb">TRB</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TRB&quot;,&quot;hid&quot;:&quot;trb&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:26,&quot;range&quot;:&quot;16111-16124&quot;} -->
+<h3 class="sectionedit27" id="tsb">TSB</h3>
+<div class="level3">
+
+<p>
+Zuerst wird ein Test mit A und dem Operanden durchgeführt.
+Dieser entspricht einer UND-Verknüpfung und setzt das Zero-Flag wenn das ERgebnis 0 ist.
+</p>
+
+<p>
+Anschließend werden alle Bits in A auf 0 (TRB) oder 1 (TSB) gesetzt, welche im Operanden 1 sind und das Ergebnis in den Operand zurück gespielt.
+</p>
+
+<p>
+Beipiel: TSB 0x05 setzt das 0. und 2. Bit von A auf 1, während TRB 0x07 das 0. 1. und 2. Bit auf 0 setzt.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TSB&quot;,&quot;hid&quot;:&quot;tsb&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:27,&quot;range&quot;:&quot;16125-16545&quot;} -->
+<h2 class="sectionedit28" id="register-operationen">Register-Operationen</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Register-Operationen&quot;,&quot;hid&quot;:&quot;register-operationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:28,&quot;range&quot;:&quot;16546-16578&quot;} -->
+<h3 class="sectionedit29" id="dec">DEC</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;DEC&quot;,&quot;hid&quot;:&quot;dec&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:29,&quot;range&quot;:&quot;16579-16592&quot;} -->
+<h3 class="sectionedit30" id="dex">DEX</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;DEX&quot;,&quot;hid&quot;:&quot;dex&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:30,&quot;range&quot;:&quot;16593-16606&quot;} -->
+<h3 class="sectionedit31" id="dey">DEY</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;DEY&quot;,&quot;hid&quot;:&quot;dey&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:31,&quot;range&quot;:&quot;16607-16620&quot;} -->
+<h3 class="sectionedit32" id="inc">INC</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;INC&quot;,&quot;hid&quot;:&quot;inc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:32,&quot;range&quot;:&quot;16621-16634&quot;} -->
+<h3 class="sectionedit33" id="inx">INX</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;INX&quot;,&quot;hid&quot;:&quot;inx&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:33,&quot;range&quot;:&quot;16635-16648&quot;} -->
+<h3 class="sectionedit34" id="iny">INY</h3>
+<div class="level3">
+
+<p>
+Senkt (D am Anfang) oder erhöht (I am Anfang) den Wert des Operanden um 1 und schreibt in zurück.
+DEX/INX geht auf das X-Register, DEY/INY auf das Y-Register und DEC/INC entweder auf eine Speicheradresse oder das A-Register.
+Anstelle von DEC/INC mit Adressmode A wird alternativ häufig auf DEA/INA genutzt.
+</p>
+
+<p>
+Entsprechend dem Wert nach der Anpassung wird bei 0 das Z-Flag gesetzt und das N-Flag wenn das höchste Bit 1 ist.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;INY&quot;,&quot;hid&quot;:&quot;iny&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:34,&quot;range&quot;:&quot;16649-17089&quot;} -->
+<h3 class="sectionedit35" id="lda">LDA</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;LDA&quot;,&quot;hid&quot;:&quot;lda&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:35,&quot;range&quot;:&quot;17090-17103&quot;} -->
+<h3 class="sectionedit36" id="ldx">LDX</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;LDX&quot;,&quot;hid&quot;:&quot;ldx&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:36,&quot;range&quot;:&quot;17104-17117&quot;} -->
+<h3 class="sectionedit37" id="ldy">LDY</h3>
+<div class="level3">
+
+<p>
+Lädt einen Wert aus dem Speicher in das X (LDX), Y (LDY) oder A (LDA) Register.
+Ist der WErt 0 wird das Zero-Flag gesetzt, ist das höchste Bit 1 wird das Negative-Flag gesetzt.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;LDY&quot;,&quot;hid&quot;:&quot;ldy&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:37,&quot;range&quot;:&quot;17118-17311&quot;} -->
+<h3 class="sectionedit38" id="sta">STA</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;STA&quot;,&quot;hid&quot;:&quot;sta&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:38,&quot;range&quot;:&quot;17312-17325&quot;} -->
+<h3 class="sectionedit39" id="stx">STX</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;STX&quot;,&quot;hid&quot;:&quot;stx&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:39,&quot;range&quot;:&quot;17326-17339&quot;} -->
+<h3 class="sectionedit40" id="sty">STY</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;STY&quot;,&quot;hid&quot;:&quot;sty&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:40,&quot;range&quot;:&quot;17340-17353&quot;} -->
+<h3 class="sectionedit41" id="stz">STZ</h3>
+<div class="level3">
+
+<p>
+Speichert einen Wert in den Speicher (Operand).
+STA, STX und STY speichern den Wert des jeweiligen Registers, STZ speichert immer 0
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;STZ&quot;,&quot;hid&quot;:&quot;stz&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:41,&quot;range&quot;:&quot;17354-17500&quot;} -->
+<h2 class="sectionedit42" id="transferoperationen">Transferoperationen</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Transferoperationen&quot;,&quot;hid&quot;:&quot;transferoperationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:42,&quot;range&quot;:&quot;17501-17532&quot;} -->
+<h3 class="sectionedit43" id="tax">TAX</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TAX&quot;,&quot;hid&quot;:&quot;tax&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:43,&quot;range&quot;:&quot;17533-17546&quot;} -->
+<h3 class="sectionedit44" id="tay">TAY</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TAY&quot;,&quot;hid&quot;:&quot;tay&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:44,&quot;range&quot;:&quot;17547-17560&quot;} -->
+<h3 class="sectionedit45" id="tcd">TCD</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TCD&quot;,&quot;hid&quot;:&quot;tcd&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:45,&quot;range&quot;:&quot;17561-17574&quot;} -->
+<h3 class="sectionedit46" id="tcs">TCS</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TCS&quot;,&quot;hid&quot;:&quot;tcs&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:46,&quot;range&quot;:&quot;17575-17588&quot;} -->
+<h3 class="sectionedit47" id="tdc">TDC</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TDC&quot;,&quot;hid&quot;:&quot;tdc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:47,&quot;range&quot;:&quot;17589-17602&quot;} -->
+<h3 class="sectionedit48" id="tsc">TSC</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TSC&quot;,&quot;hid&quot;:&quot;tsc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:48,&quot;range&quot;:&quot;17603-17616&quot;} -->
+<h3 class="sectionedit49" id="tsx">TSX</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TSX&quot;,&quot;hid&quot;:&quot;tsx&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:49,&quot;range&quot;:&quot;17617-17630&quot;} -->
+<h3 class="sectionedit50" id="txa">TXA</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TXA&quot;,&quot;hid&quot;:&quot;txa&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:50,&quot;range&quot;:&quot;17631-17644&quot;} -->
+<h3 class="sectionedit51" id="txs">TXS</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TXS&quot;,&quot;hid&quot;:&quot;txs&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:51,&quot;range&quot;:&quot;17645-17658&quot;} -->
+<h3 class="sectionedit52" id="txy">TXY</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TXY&quot;,&quot;hid&quot;:&quot;txy&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:52,&quot;range&quot;:&quot;17659-17672&quot;} -->
+<h3 class="sectionedit53" id="tya">TYA</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TYA&quot;,&quot;hid&quot;:&quot;tya&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:53,&quot;range&quot;:&quot;17673-17686&quot;} -->
+<h3 class="sectionedit54" id="tyx">TYX</h3>
+<div class="level3">
+
+<p>
+Bei einer Transferoperation wird der Wert eines Registers in ein anderes Register kopiert.
+Die Operation ist so benannt, dass das 2. Zeichen das Quell- und das 3. Zeichen das Zielregister beschreibt.
+Die zu kopierenden Bytes (1 oder 2) bestimmt das Ziel-Register.
+</p>
+
+<p>
+Bei einer Transferoperation werden das Negative und das Zero-Flag gesetzt (Ausnahme, wenn das Zielregister S ist wird kein Flag geändert).
+Zero wird gesetzt, wenn der betrachtete Teil des Zielregisters (z. B. wenn A im 8-Bit-Modus ist nur das Low-Byte von A) am Ende 0 ist.
+Analog dazu wird N auf 1 gesetzt, wenn das höchstwertige Bit des betrachteten Registers 1 ist.
+</p>
+
+<p>
+Beispiele:
+TCD immer 16 BIT von A (C) nach D (da C den Accumulator in 16-Bit meint und D immer 16-Bit ist).
+Im Native Mode kopiert TXS immer 16-Bit da S dort immer 16-Bit groß ist.
+TAX kopiert 8- oder 16-Bit je nach der Größe von X (ist X 16-Bit groß könnte man die Operation auch TCX nennen ungeachtet der Größe von A)
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;TYX&quot;,&quot;hid&quot;:&quot;tyx&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:54,&quot;range&quot;:&quot;17687-18665&quot;} -->
+<h2 class="sectionedit55" id="branch-_jumpoperationen">Branch-/Jumpoperationen</h2>
+<div class="level2">
+
+<p>
+Branch- und Jump-Operationen dienen dazu von einer Stelle zu einer beliebig anderen Stelle in der Ausführung zu springen.
+Der Unterschied ist, dass Branch-Operationen (starten mit B) eine einfache Abzweigung darstellen (if-else), welche immer relativ zum PC ist.
+Jump-Operationen (starten mit J) hingegen springen zu einer beliebigen absoluten Adresse unabhängig vom PC.
+Ein Sonderfall hiervon sind die Subroutine-Jumps (beginnen mit JS) , welche einen “Methodenaufruf darstellen, zu dem es analog auch immer ein Return (starten mit R) geben muss.
+</p>
+
+<p>
+Gleich ist allen Operationen, dass keinerlei Statusflags gesetzt werden.
+</p>
+
+<p>
+Bei Branch-Operationen wird der PC auf den Wert des Operanden gesetzt, wenn eine Bedingung zutrifft.
+JMP entspricht dabei BRA und JML einem BRL, wobei sich nur der Addressmode unterscheidet.
+Bei JSR wird zuerst der PC auf den Stack gelegt und anschließend gesprungen.
+Das Pendant dazu RTS list den PC vom Stack und macht dann weiter.
+JSL und RTL ist eine Sonderform von JSR und RTS bei der in eine beliebige Bank gesprungen werden kann. Dafür wird vor dem PC noch der PBR auf den Stack gelebt, bwz. nach dem PC noch der PBR vom Stack gelesen.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Branch-\/Jumpoperationen&quot;,&quot;hid&quot;:&quot;branch-_jumpoperationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:55,&quot;range&quot;:&quot;18666-19872&quot;} -->
+<h3 class="sectionedit56" id="bcc">BCC</h3>
+<div class="level3">
+
+<p>
+Branch wenn das Carry-Flag 0 ist
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BCC&quot;,&quot;hid&quot;:&quot;bcc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:56,&quot;range&quot;:&quot;19873-19920&quot;} -->
+<h3 class="sectionedit57" id="bcs">BCS</h3>
+<div class="level3">
+
+<p>
+Branch wenn das Carry-Flag 1 ist
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BCS&quot;,&quot;hid&quot;:&quot;bcs&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:57,&quot;range&quot;:&quot;19921-19968&quot;} -->
+<h3 class="sectionedit58" id="beq">BEQ</h3>
+<div class="level3">
+
+<p>
+Branch wenn das Zero-Flag 1 ist (für weiter Infos siehe Vergleichsoperationen)
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BEQ&quot;,&quot;hid&quot;:&quot;beq&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:58,&quot;range&quot;:&quot;19969-20063&quot;} -->
+<h3 class="sectionedit59" id="bmi">BMI</h3>
+<div class="level3">
+
+<p>
+Branch wenn Negative-Flag 1 ist
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BMI&quot;,&quot;hid&quot;:&quot;bmi&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:59,&quot;range&quot;:&quot;20064-20110&quot;} -->
+<h3 class="sectionedit60" id="bne">BNE</h3>
+<div class="level3">
+
+<p>
+Branch wenn Zero-Flag 0 ist (für weiter Infos size Vergleichsoperationen)
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BNE&quot;,&quot;hid&quot;:&quot;bne&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:60,&quot;range&quot;:&quot;20111-20200&quot;} -->
+<h3 class="sectionedit61" id="bpl">BPL</h3>
+<div class="level3">
+
+<p>
+Branch wenn Negative-Flag 0 ist
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BPL&quot;,&quot;hid&quot;:&quot;bpl&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:61,&quot;range&quot;:&quot;20201-20247&quot;} -->
+<h3 class="sectionedit62" id="bra">BRA</h3>
+<div class="level3">
+
+<p>
+Branch immer
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BRA&quot;,&quot;hid&quot;:&quot;bra&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:62,&quot;range&quot;:&quot;20248-20275&quot;} -->
+<h3 class="sectionedit63" id="brl">BRL</h3>
+<div class="level3">
+
+<p>
+Branch immer Long.
+Dies ist die einzige Branch-Operation, bei der auch der PBR gesetzt wird.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BRL&quot;,&quot;hid&quot;:&quot;brl&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:63,&quot;range&quot;:&quot;20276-20383&quot;} -->
+<h3 class="sectionedit64" id="bvc">BVC</h3>
+<div class="level3">
+
+<p>
+Branch wenn Overflow-Flag 0 ist
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BVC&quot;,&quot;hid&quot;:&quot;bvc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:64,&quot;range&quot;:&quot;20384-20430&quot;} -->
+<h3 class="sectionedit65" id="bvs">BVS</h3>
+<div class="level3">
+
+<p>
+Branch wenn Overflow-Flag 0 ist
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BVS&quot;,&quot;hid&quot;:&quot;bvs&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:65,&quot;range&quot;:&quot;20431-20477&quot;} -->
+<h3 class="sectionedit66" id="jmp">JMP</h3>
+<div class="level3">
+
+<p>
+Branch zur Adresse
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;JMP&quot;,&quot;hid&quot;:&quot;jmp&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:66,&quot;range&quot;:&quot;20478-20511&quot;} -->
+<h3 class="sectionedit67" id="jml">JML</h3>
+<div class="level3">
+
+<p>
+Branch zur Adresse in einer beliebigen Bank
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;JML&quot;,&quot;hid&quot;:&quot;jml&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:67,&quot;range&quot;:&quot;20512-20570&quot;} -->
+<h3 class="sectionedit68" id="jsl">JSL</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;JSL&quot;,&quot;hid&quot;:&quot;jsl&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:68,&quot;range&quot;:&quot;20571-20584&quot;} -->
+<h3 class="sectionedit69" id="jsr">JSR</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;JSR&quot;,&quot;hid&quot;:&quot;jsr&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:69,&quot;range&quot;:&quot;20585-20598&quot;} -->
+<h3 class="sectionedit70" id="rtl">RTL</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;RTL&quot;,&quot;hid&quot;:&quot;rtl&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:70,&quot;range&quot;:&quot;20599-20612&quot;} -->
+<h3 class="sectionedit71" id="rts">RTS</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;RTS&quot;,&quot;hid&quot;:&quot;rts&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:71,&quot;range&quot;:&quot;20613-20627&quot;} -->
+<h2 class="sectionedit72" id="interruptoperationen">Interruptoperationen</h2>
+<div class="level2">
+
+<p>
+Bei einem Interrupt springt die CPU temporär zu einer anderen Stelle, um zeitkritische Aktionen auszuführen (z. B. Rendering).
+Am Ende des Interrupt-Handlers steht somit immer ein RTI, um zurück zuspringen und die Bearbeitung fortzusetzen.
+</p>
+
+<p>
+Wird ein Interrupt ausgelöst (per Hardware, z. B. IRQ oder NMI) wird im Native-Mode zuerst der PBR auf den Stack gelegt.
+Anschließend wird immer der PC und danach P auf den Stack gelegt.
+Nun wird das Decimal-Flag auf 0 und das IRQ-Flag auf 1 gesetzt und der PC wird auf den Interrupt-Handler gesetzt.
+Befindet sich die CPU im Native-Mode wird zusätzlich der PBR auf 0 gesetzt.
+Abschließend arbeitet die CPU den Interrupt-Handler ab.
+</p>
+
+<p>
+Ist das IRQ-Flag gesetzt kann/wird kein Interrupt ausgeführt.
+Die einzige Ausnahme hierzu ist der NMI, welcher immer stattfindet.
+</p>
+
+<p>
+Der zugehörige Return (RTI) arbeitet auch hier wieder umgekehrt: P vom Stack lesen, PC vom Stack lesen, falls im Native-Mode PBR vom Stack lesen.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Interruptoperationen&quot;,&quot;hid&quot;:&quot;interruptoperationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:72,&quot;range&quot;:&quot;20628-21622&quot;} -->
+<h3 class="sectionedit73" id="brk">BRK</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BRK&quot;,&quot;hid&quot;:&quot;brk&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:73,&quot;range&quot;:&quot;21623-21636&quot;} -->
+<h3 class="sectionedit74" id="cop">COP</h3>
+<div class="level3">
+
+<p>
+BRK und COP sind spezielle Interrupts, welcher per Software ausgelöst werden können.
+Obwohl sie nur 1 Byte bräuchten (kein Operand) bestehen ihre Instruktionen immer aus 2 Byte.
+So kann das 2.Byte als Deskriptor verwendet werden.
+</p>
+
+<p>
+Speziell bei BRK wird zusätzlich das BRK-Flag gesetzt.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;COP&quot;,&quot;hid&quot;:&quot;cop&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:74,&quot;range&quot;:&quot;21637-21941&quot;} -->
+<h3 class="sectionedit75" id="wai">WAI</h3>
+<div class="level3">
+
+<p>
+Bei WAI wird die CPU “angehalten” und wartet bis ein Interrupt ausgelöst wird.
+Nach einem Interrupt läuft die CPU wie gewohnt nach WAI weiter.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;WAI&quot;,&quot;hid&quot;:&quot;wai&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:75,&quot;range&quot;:&quot;21942-22101&quot;} -->
+<h3 class="sectionedit76" id="rti">RTI</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;RTI&quot;,&quot;hid&quot;:&quot;rti&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:76,&quot;range&quot;:&quot;22102-22116&quot;} -->
+<h2 class="sectionedit77" id="statusflag-operationen">Statusflag-Operationen</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Statusflag-Operationen&quot;,&quot;hid&quot;:&quot;statusflag-operationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:77,&quot;range&quot;:&quot;22117-22151&quot;} -->
+<h3 class="sectionedit78" id="clc">CLC</h3>
+<div class="level3">
+
+<p>
+Setze Carry-Flag auf 0
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;CLC&quot;,&quot;hid&quot;:&quot;clc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:78,&quot;range&quot;:&quot;22152-22189&quot;} -->
+<h3 class="sectionedit79" id="cld">CLD</h3>
+<div class="level3">
+
+<p>
+Setze Decimal-Flag auf 0
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;CLD&quot;,&quot;hid&quot;:&quot;cld&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:79,&quot;range&quot;:&quot;22190-22229&quot;} -->
+<h3 class="sectionedit80" id="cli">CLI</h3>
+<div class="level3">
+
+<p>
+Setze IRQ-Flag auf 0
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;CLI&quot;,&quot;hid&quot;:&quot;cli&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:80,&quot;range&quot;:&quot;22230-22265&quot;} -->
+<h3 class="sectionedit81" id="clv">CLV</h3>
+<div class="level3">
+
+<p>
+Setze Overflow-Flag auf 0
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;CLV&quot;,&quot;hid&quot;:&quot;clv&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:81,&quot;range&quot;:&quot;22266-22306&quot;} -->
+<h3 class="sectionedit82" id="sec">SEC</h3>
+<div class="level3">
+
+<p>
+Setze Carry-Flag auf 1
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;SEC&quot;,&quot;hid&quot;:&quot;sec&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:82,&quot;range&quot;:&quot;22307-22344&quot;} -->
+<h3 class="sectionedit83" id="sed">SED</h3>
+<div class="level3">
+
+<p>
+Setze Decimal-Flag auf 1
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;SED&quot;,&quot;hid&quot;:&quot;sed&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:83,&quot;range&quot;:&quot;22345-22384&quot;} -->
+<h3 class="sectionedit84" id="sei">SEI</h3>
+<div class="level3">
+
+<p>
+Setze IRQ-Flag auf 1
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;SEI&quot;,&quot;hid&quot;:&quot;sei&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:84,&quot;range&quot;:&quot;22385-22420&quot;} -->
+<h3 class="sectionedit85" id="rep">REP</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;REP&quot;,&quot;hid&quot;:&quot;rep&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:85,&quot;range&quot;:&quot;22421-22434&quot;} -->
+<h3 class="sectionedit86" id="sep">SEP</h3>
+<div class="level3">
+
+<p>
+Setze alle Bits, welche in dem Operand 1 sind auf 0 bei REP bzw. 1 bei SEP.
+</p>
+
+<p>
+Beispiel: REP 0x30 setzt das 4, und 5. Status-Bit/Flag auf 0 und lässt die anderen, wie sie sind.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;SEP&quot;,&quot;hid&quot;:&quot;sep&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:86,&quot;range&quot;:&quot;22435-22625&quot;} -->
+<h2 class="sectionedit87" id="vergleichsoperationen">Vergleichsoperationen</h2>
+<div class="level2">
+
+<p>
+Bei Vergleichsoperationen werden Register und Speicherstellen (oder Immediate) miteinander verglichen, um entsprechend Status-Flags zu setzen.
+Hierbei wird weder das REgister noch der Speicher verändert, lediglich das Status-Register passt sich an.
+</p>
+
+<p>
+Sind z. B. die zu vergleichenden Werte gleich wird zumeist das Z-Flag gesetzt so dass anschließend mit BEQ (Branch if equal, daher der Name) ein Sprung ausgeführt werden kann.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Vergleichsoperationen&quot;,&quot;hid&quot;:&quot;vergleichsoperationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:87,&quot;range&quot;:&quot;22626-23089&quot;} -->
+<h3 class="sectionedit88" id="cmp">CMP</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;CMP&quot;,&quot;hid&quot;:&quot;cmp&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:88,&quot;range&quot;:&quot;23090-23103&quot;} -->
+<h3 class="sectionedit89" id="cpx">CPX</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;CPX&quot;,&quot;hid&quot;:&quot;cpx&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:89,&quot;range&quot;:&quot;23104-23117&quot;} -->
+<h3 class="sectionedit90" id="cpy">CPY</h3>
+<div class="level3">
+
+<p>
+Bei diesen Operationen wird ein Register (A bei CMP, X bei CPX, Y bei CPY) mit dem Wert im Speicher (Operand) verglichen.
+Man kann sich den Compare so vorstellen, das das WErt des Registers Minus den Operand-Wert genommen wird.
+Ist das Ergbeniss hieraus 0 so wird das Z-Flag gesetzt, ist es Negativ wird das Negative-Flag gesetzt.
+Das Carry-Flag wird immer gesetzt, wenn das ERgebnis nicht negativ ist.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;CPY&quot;,&quot;hid&quot;:&quot;cpy&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:90,&quot;range&quot;:&quot;23118-23535&quot;} -->
+<h3 class="sectionedit91" id="bit">BIT</h3>
+<div class="level3">
+
+<p>
+Bei einem BIT-Test wird A mit dem Operandwert verundet (Bit-weises UND).
+Ist das Ergebnis 0 so wird das Zero-Flag gesetzt, das Negative-Flag wird gesetzt, wenn das höchste Bit des Ergbnisse (Bit 7 im 8-Bit-Modus und BIT 15 im 16-BIT modus) 1 ist.
+Zusätzlich wird das Carry-Bit auf 1 gesetzt, wenn der Wert in A größer ist als der Operand.
+</p>
+
+<p>
+<strong>Achtung Falle</strong> Wird BIT mit dem Addressmodus Immediate genutzt (Instruktion 0x89) wird ausschließlich das Zero-Flag angepasst, alles andere bleibt unangetastet.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;BIT&quot;,&quot;hid&quot;:&quot;bit&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:91,&quot;range&quot;:&quot;23536-24059&quot;} -->
+<h2 class="sectionedit92" id="stackoperationen">Stackoperationen</h2>
+<div class="level2">
+
+<p>
+Es gibt essentiell nur 2 Arten von Stackoperationen: Push-Operationen, welche etwas auf den Stack ablegen (beginnen mit PE oder PH) und Pull-Operationen, welche einen WErt vom Stack holen (beginnen mit PL).
+Während Push-Operationen auch “beliebige Werte” nutzen kann wird bei einem Pull immer ein Wert in ein Register gelegt.
+Bei einm Pull wird dabei zusätzlich immer das Zero-Flag gesetzt, wenn der WErt 0 ist und das Negative-Flag, wenn der WErt negativ ist (das höchste Bit ist 1).
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Stackoperationen&quot;,&quot;hid&quot;:&quot;stackoperationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:92,&quot;range&quot;:&quot;24060-24577&quot;} -->
+<h3 class="sectionedit93" id="pea">PEA</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PEA&quot;,&quot;hid&quot;:&quot;pea&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:93,&quot;range&quot;:&quot;24578-24591&quot;} -->
+<h3 class="sectionedit94" id="pei">PEI</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PEI&quot;,&quot;hid&quot;:&quot;pei&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:94,&quot;range&quot;:&quot;24592-24605&quot;} -->
+<h3 class="sectionedit95" id="per">PER</h3>
+<div class="level3">
+
+<p>
+PEA, PEI und PER machen effektiv das gleiche und unterscheiden sich nur durch ihren Addressmodus.
+In beiden Fällen wird ein 16-Bit-Wert auf den Stack gelegt
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PER&quot;,&quot;hid&quot;:&quot;per&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:95,&quot;range&quot;:&quot;24606-24778&quot;} -->
+<h3 class="sectionedit96" id="pha">PHA</h3>
+<div class="level3">
+
+<p>
+Lege A auf den Stack.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PHA&quot;,&quot;hid&quot;:&quot;pha&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:96,&quot;range&quot;:&quot;24779-24815&quot;} -->
+<h3 class="sectionedit97" id="phb">PHB</h3>
+<div class="level3">
+
+<p>
+Lege DBR auf den Stack.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PHB&quot;,&quot;hid&quot;:&quot;phb&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:97,&quot;range&quot;:&quot;24816-24854&quot;} -->
+<h3 class="sectionedit98" id="phd">PHD</h3>
+<div class="level3">
+
+<p>
+Lege D auf den Stack.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PHD&quot;,&quot;hid&quot;:&quot;phd&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:98,&quot;range&quot;:&quot;24855-24891&quot;} -->
+<h3 class="sectionedit99" id="phk">PHK</h3>
+<div class="level3">
+
+<p>
+Lege den PBR auf den Stack.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PHK&quot;,&quot;hid&quot;:&quot;phk&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:99,&quot;range&quot;:&quot;24892-24934&quot;} -->
+<h3 class="sectionedit100" id="php">PHP</h3>
+<div class="level3">
+
+<p>
+Lege P auf den Stack
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PHP&quot;,&quot;hid&quot;:&quot;php&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:100,&quot;range&quot;:&quot;24935-24970&quot;} -->
+<h3 class="sectionedit101" id="phx">PHX</h3>
+<div class="level3">
+
+<p>
+Lege X auf den Stack
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PHX&quot;,&quot;hid&quot;:&quot;phx&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:101,&quot;range&quot;:&quot;24971-25006&quot;} -->
+<h3 class="sectionedit102" id="phy">PHY</h3>
+<div class="level3">
+
+<p>
+Lege Y auf den Stack
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PHY&quot;,&quot;hid&quot;:&quot;phy&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:102,&quot;range&quot;:&quot;25007-25042&quot;} -->
+<h3 class="sectionedit103" id="pla">PLA</h3>
+<div class="level3">
+
+<p>
+Lies A vom Stack
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PLA&quot;,&quot;hid&quot;:&quot;pla&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:103,&quot;range&quot;:&quot;25043-25074&quot;} -->
+<h3 class="sectionedit104" id="plb">PLB</h3>
+<div class="level3">
+
+<p>
+Lies den DBR vom Stack
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PLB&quot;,&quot;hid&quot;:&quot;plb&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:104,&quot;range&quot;:&quot;25075-25112&quot;} -->
+<h3 class="sectionedit105" id="pld">PLD</h3>
+<div class="level3">
+
+<p>
+Lies D vom Stack
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PLD&quot;,&quot;hid&quot;:&quot;pld&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:105,&quot;range&quot;:&quot;25113-25144&quot;} -->
+<h3 class="sectionedit106" id="plp">PLP</h3>
+<div class="level3">
+
+<p>
+Lies P vom Stack
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PLP&quot;,&quot;hid&quot;:&quot;plp&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:106,&quot;range&quot;:&quot;25145-25176&quot;} -->
+<h3 class="sectionedit107" id="plx">PLX</h3>
+<div class="level3">
+
+<p>
+Lies X vom Stack
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PLX&quot;,&quot;hid&quot;:&quot;plx&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:107,&quot;range&quot;:&quot;25177-25208&quot;} -->
+<h3 class="sectionedit108" id="ply">PLY</h3>
+<div class="level3">
+
+<p>
+Lies Y vom Stack
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;PLY&quot;,&quot;hid&quot;:&quot;ply&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:108,&quot;range&quot;:&quot;25209-25240&quot;} -->
+<h2 class="sectionedit109" id="sonderoperationen">Sonderoperationen</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Sonderoperationen&quot;,&quot;hid&quot;:&quot;sonderoperationen&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:109,&quot;range&quot;:&quot;25241-25270&quot;} -->
+<h3 class="sectionedit110" id="adc">ADC</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;ADC&quot;,&quot;hid&quot;:&quot;adc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:110,&quot;range&quot;:&quot;25271-25284&quot;} -->
+<h3 class="sectionedit111" id="sbc">SBC</h3>
+<div class="level3">
+
+<p>
+ADC und SBC stellen die einfachsten arithmetischen Funktionen + und - dar.
+Ist das Decimal-Flag auf 0 wird hierbei eine einfache Binärrechnung mit A vollzogen.
+ADC rechnet A + Operand (+ a falls das Carry-Flag gesetzt ist) und schreibt das Ergebnis in A.
+SBC rechnet A - Operand (- A falls das Carry-Flag gesetzt ist) und schreibt das Ergebnis in A.
+</p>
+
+<p>
+Beispiel: LDA 0x25; ADC 0x04 → 0x29
+</p>
+
+<p>
+Ist das Decimal-Flag gesetzt wird A und der Operand als Binary Coded Decimal (BCD gewertet.
+Dass heißt rechnen wir z. B. 0x09 + 0x03 so ergibt dies nun 0x12 und nicht 0x0C.
+TODO weitere Informationen zum Rechnen in diesem Modus, falls z. B. 0x0A + 0x0B verwendet wird, etc.
+</p>
+
+<p>
+folgende flags werden gesetzt:
+</p>
+<ul>
+<li class="level1"><div class="li"> Carry-flag wenn das Ergbenis größer ist als in das Register passt</div>
+</li>
+<li class="level1"><div class="li"> Negative-Flag wenn das höchste Bit 1 ist</div>
+</li>
+<li class="level1"><div class="li"> Zero-Flag wenn das ERgebnis 0 ist</div>
+</li>
+<li class="level1"><div class="li"> Overflow-Flag wenn A und der Operand positiv waren und das Ergebnis Negativ wurde, oder umgekehrt</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;SBC&quot;,&quot;hid&quot;:&quot;sbc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:111,&quot;range&quot;:&quot;25285-26255&quot;} -->
+<h3 class="sectionedit112" id="mvn">MVN</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;MVN&quot;,&quot;hid&quot;:&quot;mvn&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:112,&quot;range&quot;:&quot;26256-26269&quot;} -->
+<h3 class="sectionedit113" id="mvp">MVP</h3>
+<div class="level3">
+
+<p>
+MVN und MVP dienen dazu große Mengen an Daten auf einmal zu kopieren.
+Der Aufrud von MVN/MVP muss im vorhinein vorbereitet werde.
+Das A-Register hält die Anzahl der zu kopierenden Bytes + 1, X zeigt auf die Quelladresse und Y auf die Zieladresse.
+Die Quellbank ist der 1. Parameter und die Zielbank ist der 2. Parameter.
+</p>
+
+<p>
+Zuerst wird die Zielbank in den DBR kopiert.
+Anschließend wird ein byte von der Quelladdresse zur Zieladresse kopiert.
+Nun wird A decrementiert und X und Y um 1 gesenkt (MVP) oder erhöht (MVN).
+Das Kopieren und Anpassen der Register wird solange wiederholt, bis A den Wert 0xFFFF hat.
+</p>
+
+<p>
+<strong>Achtung</strong> A wird in diesen Operationen immer als 16-Bit gewertet ungeachtet vom M-Flag
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;MVP&quot;,&quot;hid&quot;:&quot;mvp&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:113,&quot;range&quot;:&quot;26270-26985&quot;} -->
+<h3 class="sectionedit114" id="nop">NOP</h3>
+<div class="level3">
+
+<p>
+Bei NOP wird nichts gemacht
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;NOP&quot;,&quot;hid&quot;:&quot;nop&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:114,&quot;range&quot;:&quot;26986-27028&quot;} -->
+<h3 class="sectionedit115" id="stp">STP</h3>
+<div class="level3">
+
+<p>
+Durch STP soll die Ausführung der CPU beendet werden, bis zum nächten Reset (ausschalten)
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;STP&quot;,&quot;hid&quot;:&quot;stp&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:115,&quot;range&quot;:&quot;27029-27135&quot;} -->
+<h3 class="sectionedit116" id="wdm">WDM</h3>
+<div class="level3">
+
+<p>
+Platzhalter für evtl. noch hinzuzufügende Operation in der ZUkunft.
+Nicht genutzt.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;WDM&quot;,&quot;hid&quot;:&quot;wdm&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:116,&quot;range&quot;:&quot;27136-27235&quot;} -->
+<h3 class="sectionedit117" id="xce">XCE</h3>
+<div class="level3">
+
+<p>
+Tauscht das Carry-Flag mit dem Emulation-Flag.
+Ist die CPU im Emulation-Mode wird das Emulation-Flag als 1 angesehen oder ansonsten 0.
+Dies ist die einzige Möglichkeit, das CPU-Mode zu ändern
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;XCE&quot;,&quot;hid&quot;:&quot;xce&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:117,&quot;range&quot;:&quot;27236-27444&quot;} -->
+<h3 class="sectionedit118" id="xba">XBA</h3>
+<div class="level3">
+
+<p>
+Tausch das High- und Low-Byte von A.
+Mithilfe von XBA kann das High-Byte von A im Emulation-Mode (oder 8-Bit Modus) als zusätzlicher Speicher verwendet werden.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;XBA&quot;,&quot;hid&quot;:&quot;xba&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:118,&quot;range&quot;:&quot;27445-27620&quot;} -->
+<h1 class="sectionedit119" id="addressmodes">Addressmodes</h1>
+<div class="level1">
+
+<p>
+Der AddressMode zeigt an, welche Daten eine Operation nutzt, bzw. wie die Daten ermittelt werden.
+Es gibt für das SNES folgende Addressmodes:
+</p>
+<div class="table sectionedit120"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0"> Addressmode </th><th class="col1"> Schema </th><th class="col2"> Bytes </th><th class="col3"> Bank </th><th class="col4"> Operationen </th>
+	</tr>
+	</thead>
+	<tr class="row1">
+		<td class="col0"> <a href="#absolute_-_a" title="processor ↵" class="wikilink1">absolute</a> </td><td class="col1"> a </td><td class="col2"> 2 </td><td class="col3"> DBR </td><td class="col4 leftalign"> ADC, AND, ASL, BIT, CMP, CPX, CPY, DEC, EOR, INC, JMP, JSR, LDA, LDX, LDY, LSR, ORA, ROL, ROR, SBC, STA, STX, STY, STZ, TRB, TSB  </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> <a href="#absolute_indexed_indirect_-_a_x" title="processor ↵" class="wikilink1">absolute indexed indirect</a> </td><td class="col1"> (a,x) </td><td class="col2"> 2 </td><td class="col3"> PBR </td><td class="col4 leftalign"> JMP, JSR  </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"> <a href="#absolute_indexed_with_x_-_a_x" title="processor ↵" class="wikilink1">absolute indexed with x</a> </td><td class="col1"> a,x </td><td class="col2"> 2 </td><td class="col3"> DBR </td><td class="col4 leftalign"> ADC, AND, ASL, BIT, CMP, DEC, EOR, INC, LDA, LDY, LSR, ORA, ROL, ROR, SBC, STA, STZ  </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"> <a href="#absolute_indexed_with_y_-_a_y" title="processor ↵" class="wikilink1">absolute indexed with Y</a> </td><td class="col1"> a,y </td><td class="col2"> 2 </td><td class="col3"> DBR </td><td class="col4 leftalign"> ADC, AND, CMP, EOR, LDA, LDX, ORA, SBC, STA  </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"> <a href="#absolute_indirect_absolute_indirect_long_-_a_al" title="processor ↵" class="wikilink1">absolute indirect/absolute indirect long</a> </td><td class="col1"> (a)/(al) </td><td class="col2"> 2/3 </td><td class="col3"> 00/Param </td><td class="col4"> JML, JMP </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"> <a href="#absolute_long_indexed_with_x_-_al_x" title="processor ↵" class="wikilink1">absolute long indexed with x</a> </td><td class="col1"> al,x </td><td class="col2"> 3 </td><td class="col3"> Caluculated </td><td class="col4"> ADC, AND, CMP, EOR, LDA, ORA, SBC, STA </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"> <a href="#absolute_long_-_al" title="processor ↵" class="wikilink1">absolute long</a> </td><td class="col1"> al </td><td class="col2"> 3 </td><td class="col3"> Param </td><td class="col4"> ADC, AND, CMP, EOR, JMP, JSR, LDA, ORA, SBC, STA </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"> <a href="#accumulator_-_a" title="processor ↵" class="wikilink1">Accumulator</a> </td><td class="col1"> A </td><td class="col2"> 0 </td><td class="col3"> </td><td class="col4"> ASL, DEA, DEC, INA, INC, LSR, ROL, ROR </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"> <a href="#block_move_-_xyc" title="processor ↵" class="wikilink1">Block Move</a> </td><td class="col1"> xyc </td><td class="col2"> 2 </td><td class="col3"> </td><td class="col4"> MVN, MVP </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"> <a href="#direct_indexed_indirect_-_d_x" title="processor ↵" class="wikilink1">direct indexed indirect</a> </td><td class="col1"> (d,x) </td><td class="col2"> 1 </td><td class="col3"> DBR </td><td class="col4 leftalign"> ADC, AND, CMP, EOR, LDA, ORA, SBC, STA  </td>
+	</tr>
+	<tr class="row11">
+		<td class="col0"> <a href="#direct_indexed_with_x_-_d_x" title="processor ↵" class="wikilink1">direct indexed with X</a> </td><td class="col1"> d,x </td><td class="col2"> 1 </td><td class="col3"> 00 </td><td class="col4"> ADC, AND, ASL, BIT, CMP, DEC, EOR, INC, LDA, LDY, LSR, ORA, ROL, ROR, SBC, STA, STY, STZ </td>
+	</tr>
+	<tr class="row12">
+		<td class="col0"> <a href="#direct_indexed_with_y_-_d_y" title="processor ↵" class="wikilink1">direct indexed with Y</a> </td><td class="col1"> d,y </td><td class="col2"> 1 </td><td class="col3"> 00 </td><td class="col4"> LDX, STX </td>
+	</tr>
+	<tr class="row13">
+		<td class="col0"> <a href="#direct_indirect_indexed_-_d_y" title="processor ↵" class="wikilink1">direct indirect indexed</a> </td><td class="col1"> (d),y </td><td class="col2"> 1 </td><td class="col3"> calculated </td><td class="col4"> ADC, AND, CMP, EOR, LDA, ORA, SBC, STA </td>
+	</tr>
+	<tr class="row14">
+		<td class="col0"> <a href="#direct_indirect_long_indexed_-_d_y" title="processor ↵" class="wikilink1">direct indirect long indexed</a> </td><td class="col1"> [d],y </td><td class="col2"> 1 </td><td class="col3"> calculated </td><td class="col4"> ADC, AND, CMP, EOR, LDA, ORA, SBC, STA </td>
+	</tr>
+	<tr class="row15">
+		<td class="col0"> <a href="#direct_indirect_long_-_d" title="processor ↵" class="wikilink1">direct indirect long</a> </td><td class="col1"> [d] </td><td class="col2"> 1 </td><td class="col3"> loaded </td><td class="col4"> ADC, AND, CMP, EOR, LDA, ORA, SBC, STA </td>
+	</tr>
+	<tr class="row16">
+		<td class="col0"> <a href="#direct_indirect_-_d" title="processor ↵" class="wikilink1">direct indirect</a> </td><td class="col1"> (d) </td><td class="col2"> 1 </td><td class="col3"> DBR </td><td class="col4"> ADC, AND, CMP, EOR, LDA, ORA, SBC, STA </td>
+	</tr>
+	<tr class="row17">
+		<td class="col0"> <a href="#direct_-_d" title="processor ↵" class="wikilink1">direct</a> </td><td class="col1"> d </td><td class="col2"> 1 </td><td class="col3"> 00 </td><td class="col4"> ADC, AND, ASL, BIT, CMP, CPX, CPY, DEC, EOR, INC, LDA, LDX, LDY, LSR, ORA, ROL, ROR, SBC, STA, STX, STY, STZ, TRB, TSB </td>
+	</tr>
+	<tr class="row18">
+		<td class="col0"> <a href="#immediate" title="processor ↵" class="wikilink1">immediate</a> </td><td class="col1"> # </td><td class="col2"> 1/2 </td><td class="col3"> </td><td class="col4"> ADC, AND, BIT, CMP, CPX, CPY, EOR, LDA, LDX, LDY, ORA, REP, SBC, SEP </td>
+	</tr>
+	<tr class="row19">
+		<td class="col0"> <a href="#implied_-_i" title="processor ↵" class="wikilink1">implied</a> </td><td class="col1"> i </td><td class="col2"> 0 </td><td class="col3"> </td><td class="col4"> CLC, CLD, CLI, CLV, DEX, DEY, INX, INY, NOP, SEC, SED, SEI, STP, TAX, TAY, TCD, TCS, TDC, TSC, TSX, TXA, TXS, TXY, TYA, TYX, WAI, XBA, XCE </td>
+	</tr>
+	<tr class="row20">
+		<td class="col0"> <a href="#program_counter_relative_long_-_rl" title="processor ↵" class="wikilink1">program counter relative long</a> </td><td class="col1"> rl </td><td class="col2"> 2 </td><td class="col3"> PBR </td><td class="col4"> BRL </td>
+	</tr>
+	<tr class="row21">
+		<td class="col0"> <a href="#program_counter_relative_-_r" title="processor ↵" class="wikilink1">program counter relative</a> </td><td class="col1"> r </td><td class="col2"> 1 </td><td class="col3"> PBR </td><td class="col4"> BCC, BCS, BEQ, BMI, BNE, BPL, BRA, BVC, BVS </td>
+	</tr>
+	<tr class="row22">
+		<td class="col0"> <a href="#stack_-_s" title="processor ↵" class="wikilink1">Stack</a> </td><td class="col1"> s </td><td class="col2"> 0 </td><td class="col3"> </td><td class="col4"> BRK, COP, PEA, PEI, PER, PHA, PHB, PHD, PHK, PHP, PHX, PHY, PLA, PLB, PLD, PLP, PLX, PLY, RTI, RTL, RTS </td>
+	</tr>
+	<tr class="row23">
+		<td class="col0"> <a href="#stack_relative_-_d_s" title="processor ↵" class="wikilink1">stack relative</a> </td><td class="col1"> d,s </td><td class="col2"> 1 </td><td class="col3"> 00 </td><td class="col4"> ADC, AND, CMP, EOR, LDA, ORA, SBC, STA </td>
+	</tr>
+	<tr class="row24">
+		<td class="col0"> <a href="#stack_relative_indirect_indexed_-_d_s_y" title="processor ↵" class="wikilink1">stack relative indirect indexed</a> </td><td class="col1"> (d,s),y </td><td class="col2"> 1 </td><td class="col3"> Calculated </td><td class="col4"> ADC, AND, CMP, EOR, LDA, ORA, SBC, STA </td>
+	</tr>
+</table></div>
+<!-- EDIT{&quot;target&quot;:&quot;table&quot;,&quot;name&quot;:&quot;&quot;,&quot;hid&quot;:&quot;table3&quot;,&quot;secid&quot;:120,&quot;range&quot;:&quot;27792-30888&quot;} -->
+<p>
+Hierzu einige Regeln, welche man hieraus ableiten kann:
+</p>
+<ul>
+<li class="level1"><div class="li"> a (für absolute) heißt das die kommenden Bytes direkt genommen und ausgewertet werden </div>
+</li>
+<li class="level1"><div class="li"> d (für direct) im Vergleich zu a heißt immer, dass nur 1 Byte gebraucht wird und ein Register als &#039;Page&#039; draufgerechnet wird. Dieses Register ist immer D ausßer bei (d,s),y wo es S ist.</div>
+</li>
+<li class="level1"><div class="li"> eine Klammerung steht immer für einen Indirect-Zugriff. Das heißt es wird mit den Bytes eine Adresse aufgelöst, deren Inhalt wird als weitere Addresse verwendet, um den endgültigen Wert zu bestimmen.</div>
+</li>
+<li class="level1"><div class="li"> Die eckigen Klammern [] wurden verwendet um bei direct zwischen der normalen () und der long [] Variante zu unterschieden. Hier hätte man auch alternative dl verwenden können anstelle einer neuen Klammerart</div>
+</li>
+<li class="level1"><div class="li"> Ein Komma , bedeutet immer, dass das Register nach dem Komma auf den WErt aufgerechnet wird.</div>
+</li>
+<li class="level1"><div class="li"> Die Darstellung zeigt den Ablauf der Auflösung z. B (a,x) heißt, es wird zuerst x aufgerechnet und dann die indirekte Auslösung, während (d),y umgekehrt arbeitet</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Addressmodes&quot;,&quot;hid&quot;:&quot;addressmodes&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:119,&quot;range&quot;:&quot;27621-31920&quot;} -->
+<h2 class="sectionedit121" id="absolute_addresmodes">Absolute Addresmodes</h2>
+<div class="level2">
+
+<p>
+Bei Absolute AddressModes werden immer 2 oder 3 Bytes gelesen und weiterverarbeitet.
+Dies sind generell die am einfachsten zu verstehenden Modi.
+Die Varianten mit 3 Bytes werden dabei in der Regel mit dem Kürzel Long gekennzeichnet.
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute Addresmodes&quot;,&quot;hid&quot;:&quot;absolute_addresmodes&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:121,&quot;range&quot;:&quot;31921-32189&quot;} -->
+<h3 class="sectionedit122" id="absolute_-_a">Absolute - a</h3>
+<div class="level3">
+
+<p>
+Bei Absolute Addressing werden die kommenden 2 Bytes direkt als Addresse genommen.
+Der DBR enthält dabei die Bank.
+</p>
+
+<p>
+<a href="/lib/exe/fetch.php?media=addressmode_absolute.png" class="media" title="addressmode_absolute.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=489bc5&amp;media=addressmode_absolute.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+BEi Absolute Addressing passiert kein Wrap-around.
+Werden 2 Byte von Adresse $12FFFF gelesen, so befindet sich das erste in $12FFFF und das 2. in $130000
+</p>
+
+<p>
+Verwendende Operationen: ADC, AND, ASL, BIT, CMP, CPX, CPY, DEC, EOR, INC, JMP, JSR, LDA, LDX, LDY, LSR, ORA, ROL, ROR, SBC, STA, STX, STY, STZ, TRB, TSB
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute - a&quot;,&quot;hid&quot;:&quot;absolute_-_a&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:122,&quot;range&quot;:&quot;32190-32686&quot;} -->
+<h3 class="sectionedit123" id="absolute_indexed_indirect_-_a_x">Absolute indexed indirect - (a,x)</h3>
+<div class="level3">
+
+<p>
+Bei der Absolute indexed Indirect Adressierung werden die kommenden 2 Bytes als Basis genommen.
+Auf diese Adresse wird dann das X-Register aufgerechnet.
+Die Bank ist der PBR.
+</p>
+
+<p>
+<a href="/lib/exe/fetch.php?media=addressmode_absoluteindexedindirect.png" class="media" title="addressmode_absoluteindexedindirect.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=230999&amp;media=addressmode_absoluteindexedindirect.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+Bei Absolute Indexed Indirect Adressing passiert ein Bank Wrap Around.
+Sind dies nächsten 2 Byte $FFFF, X ist $06 und der PBR ist $12, sow ird das low-Byte von $120005 und das Hi-Byte von $120006 gelesen.
+Die Bank der endgültigen Adresse ist erneut der PBR.
+</p>
+
+<p>
+verwendende Operationen: JMP, JSR
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute indexed indirect - (a,x)&quot;,&quot;hid&quot;:&quot;absolute_indexed_indirect_-_a_x&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:123,&quot;range&quot;:&quot;32687-33264&quot;} -->
+<h3 class="sectionedit124" id="absolute_indexed_with_x_-_a_x">Absolute Indexed with X - a,x</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute Indexed with X - a,x&quot;,&quot;hid&quot;:&quot;absolute_indexed_with_x_-_a_x&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:124,&quot;range&quot;:&quot;33265-33304&quot;} -->
+<h3 class="sectionedit125" id="absolute_indexed_with_y_-_a_y">Absolute Indexed with Y - a,y</h3>
+<div class="level3">
+
+<p>
+Bei Absolute Indexed with X/Y-Addressing werden die kommenden 2 Byte als Basis genommen.
+Auf diese wird das X/Y-Register aufgerechnet.
+Die Bank ist der DBR.
+</p>
+
+<p>
+<a href="/lib/exe/fetch.php?media=addressmode_absoluteindexedwithx.png" class="media" title="addressmode_absoluteindexedwithx.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=82329e&amp;media=addressmode_absoluteindexedwithx.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+<a href="/lib/exe/fetch.php?media=addressmode_absoluteindexedwithy.png" class="media" title="addressmode_absoluteindexedwithy.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=4dd47f&amp;media=addressmode_absoluteindexedwithy.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+Bei diesem Modus passiert kein Wrap Around.
+Ist der DBR $12 und die nächsten 2 Byte geben 0xFFFF und X/Y ist 0x06 so ist das erste gelesene Byte in $130005 und das 2. in $130006.
+</p>
+
+<p>
+Verwendende Operationen X: ADC, AND, ASL, BIT, CMP, DEC, EOR, INC, LDA, LDY, LSR, ORA, ROL, ROR, SBC, STA, STZ
+Verwendende Operationen Y: ADC, AND, CMP, EOR, LDA, LDX, ORA, SBC, STA
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute Indexed with Y - a,y&quot;,&quot;hid&quot;:&quot;absolute_indexed_with_y_-_a_y&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:125,&quot;range&quot;:&quot;33305-33982&quot;} -->
+<h3 class="sectionedit126" id="absolute_indirect_absolute_indirect_long_-_a_al">Absolute indirect/Absolute indirect Long - (a)/(al)</h3>
+<div class="level3">
+
+<p>
+Bei Absolute indirect-Addressing wird aus den nächsten 2 Byte die Basisaddresse gebildet.
+Bei Absolute indirect Addressing ist die Bank 0, bei Absolute indirect long addressing wird sie durch das 3. kommende Byte bestimmt.
+</p>
+
+<p>
+Je nach  Dokument wird nicht zwischen diesen beiden unterschieden.
+Die Instruktion 6c entspricht einem JMP mit Absolute Indirect.
+Die Instruktion dc entspricht einem JMP mit Absolute Indirect Long (in diesem Fall dir die Operation häufig auch JML genannt)
+</p>
+
+<p>
+<a href="/lib/exe/fetch.php?media=addressmode_absoluteindirect.png" class="media" title="addressmode_absoluteindirect.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=9b6962&amp;media=addressmode_absoluteindirect.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+Bei den Absolute Indirect Addressing passiert ein Bank Wrap.
+Sind die 2 kommenden Byte $FFFF so wird das low-Byte von $00FFFF und das hi-Byte von $000000 gelesen.
+In JML würde das 3 Byte von $000001 gelesen.
+</p>
+
+<p>
+verwendende Operationen: JML, JMP
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute indirect\/Absolute indirect Long - (a)\/(al)&quot;,&quot;hid&quot;:&quot;absolute_indirect_absolute_indirect_long_-_a_al&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:126,&quot;range&quot;:&quot;33983-34827&quot;} -->
+<h3 class="sectionedit127" id="absolute_long_indexed_with_x_-_al_x">Absolute long indexed with X - al,x</h3>
+<div class="level3">
+
+<p>
+Bei Absolute Long indexed with X-Addressing wird eine effektive Address aus den kommenden 3 Bytes gebildet.
+Auf dieses wird das X-Register aufgerechnet.
+Durch diese Rechnung kann sich die Bank der Addresse verändern (Sie ist nicht fest definiert).
+</p>
+
+<p>
+<a href="/lib/exe/fetch.php?media=addressmode_absolutelongindexedwithx.png" class="media" title="addressmode_absolutelongindexedwithx.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=8e989d&amp;media=addressmode_absolutelongindexedwithx.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+Beim Laden der Werte passiert hier kein Wrap Around.
+Ist der Operand $12FFFF und X $06 so wird aus $130005 und $130006 gelesen.
+</p>
+
+<p>
+verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute long indexed with X - al,x&quot;,&quot;hid&quot;:&quot;absolute_long_indexed_with_x_-_al_x&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:127,&quot;range&quot;:&quot;34828-35380&quot;} -->
+<h3 class="sectionedit128" id="absolute_long_-_al">Absolute Long - al</h3>
+<div class="level3">
+
+<p>
+Bei absolute Long-Addressing bildet sich die Addresse aus den kommenden 3 Parametern.
+</p>
+
+<p>
+<a href="/lib/exe/fetch.php?media=addressmode_absolutelong.png" class="media" title="addressmode_absolutelong.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=07ed65&amp;media=addressmode_absolutelong.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+Beim Laden der Werte passiert hier kein Wrap Around.
+Ist der Operand $12FFFF so wird aus $12FFFF und $130000 gelesen.
+</p>
+
+<p>
+verwendende Operationen: ADC, AND, CMP, EOR, JMP, JSR, LDA, ORA, SBC, STA
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Absolute Long - al&quot;,&quot;hid&quot;:&quot;absolute_long_-_al&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:128,&quot;range&quot;:&quot;35381-35741&quot;} -->
+<h2 class="sectionedit129" id="direct_addressmodes">Direct addressmodes</h2>
+<div class="level2">
+
+<p>
+Direct Addressmodes zeichnen sich dadurch aus, dass immer nur ein Byte als Parameter vorhanden ist und der Inhalt des D-Registers als Page verwendet wird.
+Hierbei fällt auf, dass das D-Register 16-Bit groß ist und nicht 8.
+Enthält das D-Register einen Wert != 0 im low-Byte so führt dies immer zu einem extra Cycle bei der Auswertung.
+</p>
+
+<p>
+Bei allen Direct-Addressmodes passiert u. U. ein Page Wrap Around, wenn das Low-Byte von D $00 ist, eine “alte” Operation genutzt wird und sich die CPU im Emulation-Mode befindet.
+Ist D $1200, un die Adresse $FF so wäre dann die nächste Adresse $0012FF und die danach $001200
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct addressmodes&quot;,&quot;hid&quot;:&quot;direct_addressmodes&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:129,&quot;range&quot;:&quot;35742-36393&quot;} -->
+<h3 class="sectionedit130" id="direct_indexed_indirect_-_d_x">Direct indexed indirect - (d,x)</h3>
+<div class="level3">
+
+<p>
+Bei Direct Indexed Indirect wird der Parameter mit D und X verrechnet.
+Dies bildet die unteren 16-Bit einer effektiven Addresse mit der Bank 00 (bis hier genau wie bei (d,x)).
+Aus dieser Addresse werden 2 Byte gelesen, welche mit dem DBR die Addresse bilden.
+</p>
+
+<p>
+<a href="/lib/exe/fetch.php?media=addressmode_directindexedindirect.png" class="media" title="addressmode_directindexedindirect.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=a2f4be&amp;media=addressmode_directindexedindirect.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+Beim lesen der Adresse passiert ein Bank Wrap Around.
+Zusätzlich dazu passiert ein Page Wrap Around, wenn bei einem “alten” OpCode, D den Wert $XX00 hat und wir uns im Emulation-Mode befinden.
+Beim anschließenden holen der WErte passiert kein Wrap Around.
+</p>
+
+<p>
+Im Emulation-Mode, D $1200, X $06 und der Parameter ist $FF, dann wir die Adresse aus $001205 und $001206 ausgelesen.
+</p>
+
+<p>
+Im Emulation-Mode, D $1201, X $06 und der Parameter ist $FF, dann wir die Adresse aus $001306 und $001307 ausgelesen.
+</p>
+
+<p>
+Im Emulation-Mode, D $FF00, X $06 und der Parameter ist $FF, dann wir die Adresse aus $00FF05 und $00FF06 ausgelesen.
+</p>
+
+<p>
+Im Emulation-Mode, D $FF01, X $06 und der Parameter ist $FF, dann wir die Adresse aus $000006 und $000007 ausgelesen.
+</p>
+
+<p>
+Im Native-Mode, D $1200, X $06 und der Parameter ist $FF, dann wir die Adresse aus $001305 und $001306 ausgelesen.
+</p>
+
+<p>
+Im Emulation-Mode, D $FF00, X $06 und der Parameter ist $FF, dann wir die Adresse aus $000005 und $000006 ausgelesen.
+</p>
+
+<p>
+Ist die ermittelte Adresse nun $FFFF und der DBR $34, so wird der Wert aus $34FFFF und $350000
+</p>
+
+<p>
+verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct indexed indirect - (d,x)&quot;,&quot;hid&quot;:&quot;direct_indexed_indirect_-_d_x&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:130,&quot;range&quot;:&quot;36394-37886&quot;} -->
+<h3 class="sectionedit131" id="direct_indexed_with_x_-_d_x">Direct indexed with X - d,x</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct indexed with X - d,x&quot;,&quot;hid&quot;:&quot;direct_indexed_with_x_-_d_x&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:131,&quot;range&quot;:&quot;37887-37924&quot;} -->
+<h3 class="sectionedit132" id="direct_indexed_with_y_-_d_y">Direct indexed with Y - d,y</h3>
+<div class="level3">
+
+<p>
+Bei Direct Indexed With X/Y werden die unteren 16-Bit gebildet, indem der Parameter mit D und X/Y verrechnet wird.
+Die Bank ist 00.
+</p>
+
+<p>
+<a href="/lib/exe/fetch.php?media=addressmode_directindexedwithx.png" class="media" title="addressmode_directindexedwithx.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=60a1fa&amp;media=addressmode_directindexedwithx.png" class="mediacenter" alt="" width="400" /></a>
+<a href="/lib/exe/fetch.php?media=addressmode_directindexedwithy.png" class="media" title="addressmode_directindexedwithy.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=742f78&amp;media=addressmode_directindexedwithy.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+Bei “alten” Operationen, im Emulation-Mode mit einem D von $XX00 passiert hier ein Page Wrap around.
+Ist D $1200, X/Y $06und wir befinden uns im Emulation-Mode, so ist das Low-Byte in $001205 und das High-Byte in $001206.
+Im Native-Mode wären es $001305 und $001306.
+Wäre D $1201, so wären die Adressen $001306 und $001307.
+</p>
+
+<p>
+Davon abgesehen passiert immer ein Bank Wrap Around.
+Bsp: Ist D $FF00 und der Parameter $FF und X/Y ist $06 im Native-Mode so sind die Adressen $000005 und $000006.
+</p>
+
+<p>
+verwendende Operationen X: ADC, AND, ASL, BIT, CMP, DEC, EOR, INC, LDA, LDY, LSR, ORA, ROL, ROR, SBC, STA, STY, STZ
+</p>
+
+<p>
+verwendende Operationen Y: LDX, STX
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct indexed with Y - d,y&quot;,&quot;hid&quot;:&quot;direct_indexed_with_y_-_d_y&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:132,&quot;range&quot;:&quot;37925-38855&quot;} -->
+<h3 class="sectionedit133" id="direct_indirect_indexed_-_d_y">Direct indirect indexed - (d),y</h3>
+<div class="level3">
+
+<p>
+Bei Direct Indirect Indexed-Addressing wird zuerst der Parameter mit D verrechnet um einen Pointer in der Bank 0 zu formen.
+Von dieser Addresse werden anschließend 16 Bit geladen mit dem DBR als Bank.
+Hierauf wird dann Y addiert.
+Dadurch kann sich die Bank ändern (Sie ist nicht genau definiert).
+</p>
+
+<p>
+Dieser Modus ist identisch mit [d],y mit der Ausnahme, dass DBR als Bank genutzt wird.
+</p>
+
+<p>
+<a href="/lib/exe/fetch.php?media=addressmode_directindirectindexed.png" class="media" title="addressmode_directindirectindexed.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=f2f607&amp;media=addressmode_directindirectindexed.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+Die Ermittlung der Adresse ist genau wie im Direct Indirect Adressing (D + Parameter, Page Wrap Around bei Emulation-Mode + D $XX00 und “altem” OpCode, ansonsten Bank Wrap Around).
+Bei der anschließenden Ermittlung des Wertes passiert ebenfalls kein Wrap Around.
+</p>
+
+<p>
+Ist die Adresse $FFFF, DBR $12 und Y $06 so wird aus $130005 und $130006 ausgelesen.
+</p>
+
+<p>
+verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct indirect indexed - (d),y&quot;,&quot;hid&quot;:&quot;direct_indirect_indexed_-_d_y&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:133,&quot;range&quot;:&quot;38856-39761&quot;} -->
+<h3 class="sectionedit134" id="direct_indirect_long_indexed_-_d_y">Direct Indirect Long Indexed - [d],y</h3>
+<div class="level3">
+
+<p>
+Bei Direct Indirect Long Indexed-Addressing wird zuerst der Parameter mit D verrechnet um einen Pointer in der Bank 0 zu formen.
+Von dieser Addresse werden anschließend eine effektive Addresse geladen (3 Byte) (Bis hierhin identisch mit [d]).
+Hierauf wird zuletzt Y addiert.
+Dadurch kann sich die Bank ändern (Sie ist nicht genau definiert).
+</p>
+
+<p>
+Dieser Modus ist identisch mit (d),y mit der Ausnahme, dass eine effektive Addresse geladen wird udn nicht nur 2 Byte.
+</p>
+
+<p>
+<a href="/lib/exe/fetch.php?media=addressmode_directindirectlongindexed.png" class="media" title="addressmode_directindirectlongindexed.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=d7e93f&amp;media=addressmode_directindirectlongindexed.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+Bzgl. Wrap Around ist dieser Modus identisch mit Direct Indirect Indexed Adressierung, mit den 2 Ausnahmen, dass es kein Page Wrap Aound beim ermitteln der Adresse gibt und das die Bank der Werte auch aus der Adresse ausgelesen wird.
+</p>
+
+<p>
+Bsp: D ist $1200 und der Parameter ist $FF.
+Die Adresse wird aus $0012FF, $001300 und $001301 ausgelesen.
+Hieraus lesen wir $12FFFF und Y ist $06 so wird der Wert aus $130005 und $130006 gelesen.
+</p>
+
+<p>
+verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct Indirect Long Indexed - [d],y&quot;,&quot;hid&quot;:&quot;direct_indirect_long_indexed_-_d_y&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:134,&quot;range&quot;:&quot;39762-40834&quot;} -->
+<h3 class="sectionedit135" id="direct_indirect_long_-_d">Direct indirect Long - [d]</h3>
+<div class="level3">
+
+<p>
+Bei Direct indirect long-indexing wird ein Pointer in Bank 0 gebildet, indem der Parameter mit D verrechnet wird.
+Aus dieser Address wird eine neue Addresse geladen (3 Byte).
+</p>
+
+<p>
+<a href="/lib/exe/fetch.php?media=addressmode_directindirectlong.png" class="media" title="addressmode_directindirectlong.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=63e4ec&amp;media=addressmode_directindirectlong.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+Beim lesen der Adresse passiert ein Page Wrap Around, anschließend beim lesen des Wertes hingegen passiert kein Wrap Around mehr.
+</p>
+
+<p>
+Ist D $FF00 und er Parameter $FE so wird die Adresse aus $00FFFE, $00FFFF und $000000 ausgelesen.
+Sagen wir, hier kommt $12FFFF raus, so wird der Wert aus $12FFFF und $130000 ausgelesen.
+</p>
+
+<p>
+verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct indirect Long - [d]&quot;,&quot;hid&quot;:&quot;direct_indirect_long_-_d&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:135,&quot;range&quot;:&quot;40835-41489&quot;} -->
+<h3 class="sectionedit136" id="direct_indirect_-_d">Direct indirect - (d)</h3>
+<div class="level3">
+
+<p>
+Bei der Direct Indirect-Addressierung wird der Parameter mit D verrechnet und als Basis für einen Point in der Pank 0 genutzt.
+Aus dieser Addresse werden 16 Bit geladen, welche mit dem DBR als Bank die endgültige Addresse bilden.
+</p>
+
+<p>
+<a href="/lib/exe/fetch.php?media=addressmode_directindirect.png" class="media" title="addressmode_directindirect.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=566479&amp;media=addressmode_directindirect.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+Befindet sich die CPU im Emulation-Mode, es wird ein “alter” OpCode verwendet und D ist $XX00, so passiert ein Page Wrap around beim ermitteln der Indirekten Adresse.
+Davon abgesehen passiert immer ein Bank Wrap around.
+Wird aus dieser Adresse gelesen, so passiert keine Wrap Around.
+</p>
+
+<p>
+Im Emulation-Mode bei D $1200 und dem Parameter $FF wäre die Adresse nun in $0012FF und $001200.
+Vorausgesetzt wir lesen der $FFFF und der DBR ist $34 so wird der WErt aus $34FFFF und $350000 gelesen.
+</p>
+
+<p>
+Im Emulation-Mode bei D $1201 und dem Parameter $FF wäre die Adresse nun in $001300 und $001301.
+Vorausgesetzt wir lesen der $FFFF und der DBR ist $34 so wird der WErt aus $34FFFF und $350000 gelesen.
+</p>
+
+<p>
+Im Emulation-Mode bei D $FF00 und dem Parameter $FF wäre die Adresse nun in $00FFFF und $00FF00.
+Vorausgesetzt wir lesen der $FFFF und der DBR ist $34 so wird der WErt aus $34FFFF und $350000 gelesen.
+</p>
+
+<p>
+Im Emulation-Mode bei D $FF01 und dem Parameter $FF wäre die Adresse nun in $000000 und $000001.
+Vorausgesetzt wir lesen der $FFFF und der DBR ist $34 so wird der WErt aus $34FFFF und $350000 gelesen.
+</p>
+
+<p>
+Im Native-Mode bei D $1200 und dem Parameter $FF wäre die Adresse nun in $0012FF und $001300.
+Vorausgesetzt wir lesen der $FFFF und der DBR ist $34 so wird der WErt aus $34FFFF und $350000 gelesen.
+</p>
+
+<p>
+Im Native-Mode bei D $FF00 und dem Parameter $FF wäre die Adresse nun in $00FFFF und $000000.
+Vorausgesetzt wir lesen der $FFFF und der DBR ist $34 so wird der WErt aus $34FFFF und $350000 gelesen.
+</p>
+
+<p>
+verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct indirect - (d)&quot;,&quot;hid&quot;:&quot;direct_indirect_-_d&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:136,&quot;range&quot;:&quot;41490-43369&quot;} -->
+<h3 class="sectionedit137" id="direct_-_d">Direct - d</h3>
+<div class="level3">
+
+<p>
+Bei Direct-Addressing bildet D zusammen mit dem Parameter die Addresse in der Bank 0.
+</p>
+
+<p>
+<a href="/lib/exe/fetch.php?media=addressmode_direct.png" class="media" title="addressmode_direct.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=9fe27a&amp;media=addressmode_direct.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+Im Direct Adressing passiert ein Bank Wrap.
+Ist D $FF und der Parameter ist $FF, so wird das erste Byte von $00FFFF und das zweite von $000000 gelesen.
+</p>
+
+<p>
+Ist der OPCode ein “alter” (bereits bekannt in CPU 6502), das Low-Byte von D ist $00 ($XX00) und die CPU befindet sich im Emulation-Mode, dann passiert ebenfalls ein Page Wrap Around (es gibt keine OP, die diese Bedingungen trifft).
+In dem Fall würde bei einem D von $34 und einem Parameter von $FF das Low-Byte aus $0034FF und das high-Byte aus $003400 gelesen.
+</p>
+
+<p>
+verwendende Operationen: ADC, AND, ASL, BIT, CMP, CPX, CPY, DEC, EOR, INC, LDA, LDX, LDY, LSR, ORA, ROL, ROR, SBC, STA, STX, STY, STZ, TRB, TSB
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Direct - d&quot;,&quot;hid&quot;:&quot;direct_-_d&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:137,&quot;range&quot;:&quot;43370-44185&quot;} -->
+<h2 class="sectionedit138" id="andere_addressmodes">Andere Addressmodes</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Andere Addressmodes&quot;,&quot;hid&quot;:&quot;andere_addressmodes&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:138,&quot;range&quot;:&quot;44186-44218&quot;} -->
+<h3 class="sectionedit139" id="accumulator_-_a">Accumulator - A</h3>
+<div class="level3">
+
+<p>
+Der Parameter ist der Wert des A-Registers.
+</p>
+
+<p>
+verwendende Operationen: ASL, DEA, DEC, INA, INC, LSR, ROL, ROR
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Accumulator - A&quot;,&quot;hid&quot;:&quot;accumulator_-_a&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:139,&quot;range&quot;:&quot;44219-44355&quot;} -->
+<h3 class="sectionedit140" id="block_move_-_xyc">Block Move - xyc</h3>
+<div class="level3">
+
+<p>
+Block Move-Addressing ist ein spezieller Addressmode, welche mit den MVN und MVP Operationen verwendet wird.
+Das erste folgende Byte wird dabei in den DBR kopiert und dient als Zielbank mit Y als Addresse.
+Das zweite folgende Byte dient als Quellbank und wir mit X als Addresse verwendet.
+</p>
+
+<p>
+<a href="/lib/exe/fetch.php?media=addressmode_blockmove.png" class="media" title="addressmode_blockmove.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=fa2a36&amp;media=addressmode_blockmove.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+Bei diesen Instruktionen/Addressmode passiert immer ein Bank Wrap Around.
+Ungeachtet der Situation bleiben die Ziel- und Quellbank unverändert.
+</p>
+
+<p>
+verwendende Operationen: MVN, MVP
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Block Move - xyc&quot;,&quot;hid&quot;:&quot;block_move_-_xyc&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:140,&quot;range&quot;:&quot;44356-44901&quot;} -->
+<h3 class="sectionedit141" id="immediate">Immediate - #</h3>
+<div class="level3">
+
+<p>
+Bei Immediate werden die kommenden Bytes direkt als Wert an die Operation weitergegeben ohne Verrechnung.
+Je nach Instruktion werden hierfür entweder die nächsten 2 oder nur das nächste 1 Byte geladen.
+Für P-Operationen (REP, SEP) wird immer nur 1 Byte geladen.
+Operationen auf X oder Y (CPX, CPY, LDX, LDY) brauchen 1 Byte, wenn das jeweilige Register im 8-Bit-Modus ist, ansonsten 2 Byte.
+Alle anderen Operationen beziehen sich auf A und brauchen entsprechend der größe von A.
+</p>
+
+<p>
+Beim Immediate Adressing passiert ein Bank Wrap Around.
+Ist der PBR $12 und der PC $FFFF so würde hier aus $12FFFF und $120000 gelesen werden.
+</p>
+
+<p>
+verwendende Operationen: ADC, AND, BIT, CMP, CPX, CPY, EOR, LDA, LDX, LDY, ORA, REP, SBC, SEP
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Immediate - #&quot;,&quot;hid&quot;:&quot;immediate&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:141,&quot;range&quot;:&quot;44902-45652&quot;} -->
+<h3 class="sectionedit142" id="implied_-_i">Implied - i</h3>
+<div class="level3">
+
+<p>
+Mit implied sind alle Operationen gekennzeichnet, welche keine weiteren Parameter brauchen, da sich alle benötigten Daten aus der Operation selbst ergeben.
+</p>
+
+<p>
+verwendende Operationen: CLC, CLD, CLI, CLV, DEX, DEY, INX, INY, NOP, SEC, SED, SEI, STP, TAX, TAY, TCD, TCS, TDC, TSC, TSX, TXA, TXS, TXY, TYA, TYX, WAI, XBA, XCE
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Implied - i&quot;,&quot;hid&quot;:&quot;implied_-_i&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:142,&quot;range&quot;:&quot;45653-45998&quot;} -->
+<h3 class="sectionedit143" id="program_counter_relative_long_-_rl">Program counter relative long - rl</h3>
+<div class="level3">
+
+<p>
+Bei der Program counter relative long-Addressierung werden die nächsten 2 Byte geladen und als vorzeichenbelastete Zahl gewertet.
+Diese Zahl ist ein Offset, welcher auf dern PC gerechnet wird, welcher bereits auf die nächte Instruktion zeigt.
+</p>
+
+<p>
+Hierbei passiert ein Bank Wrap Around, die Bank ist immer der PBR.
+</p>
+
+<p>
+verwendende Operationen: BRL
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Program counter relative long - rl&quot;,&quot;hid&quot;:&quot;program_counter_relative_long_-_rl&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:143,&quot;range&quot;:&quot;45999-46388&quot;} -->
+<h3 class="sectionedit144" id="program_counter_relative_-_r">Program counter relative - r</h3>
+<div class="level3">
+
+<p>
+Bei der Program counter relative long-Addressierung werden das nächste 1 Byte geladen und als vorzeichenbelastete Zahl gewertet.
+Diese Zahl ist ein Offset, welcher auf dern PC gerechnet wird, welcher bereits auf die nächste Instruktion zeigt.
+</p>
+
+<p>
+Hierbei passiert ein Bank Wrap Around, die Bank ist immer der PBR.
+</p>
+
+<p>
+verwendende Operationen: BCC, BCS, BEQ, BMI, BNE, BPL, BRA, BVC, BVS
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Program counter relative - r&quot;,&quot;hid&quot;:&quot;program_counter_relative_-_r&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:144,&quot;range&quot;:&quot;46389-46812&quot;} -->
+<h3 class="sectionedit145" id="stack_-_s">Stack - s</h3>
+<div class="level3">
+
+<p>
+Mit Stack werden alle Operationen gekennzeichnet, welche auf dem stack operieren.
+</p>
+
+<p>
+verwendende Operationen: BRK, COP, PEA, PEI, PER, PHA, PHB, PHD, PHK, PHP, PHX, PHY, PLA, PLB, PLD, PLP, PLX, PLY, RTI, RTL, RTS
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Stack - s&quot;,&quot;hid&quot;:&quot;stack_-_s&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:145,&quot;range&quot;:&quot;46813-47046&quot;} -->
+<h3 class="sectionedit146" id="stack_relative_-_d_s">Stack relative - d,s</h3>
+<div class="level3">
+
+<p>
+Stack relative-Addressing ist eine Sonderform des Direct-Addressing, bei dem S anstelle von D verwendet wird.
+Der Parameter (1 Byte) wird mit S addiert und die Bank ist 00.
+</p>
+
+<p>
+<a href="/lib/exe/fetch.php?media=addressmode_stackrelative.png" class="media" title="addressmode_stackrelative.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=b64220&amp;media=addressmode_stackrelative.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+Während bei der Adresse (wie erwartet) ein Bank Wrap Around passiert gibt es bei den Daten keinen Wrap Around
+</p>
+
+<p>
+Ist S $FFFF und der Parameter $06 so wird die Adresse aus $000005 und $000006 ausgelesen.
+Erhalten wir hier $FFFF, der DBR ist $12 und Y ist $06, so wird der Wert aus $130005 und $130006 ausgelesen.
+</p>
+
+<p>
+verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Stack relative - d,s&quot;,&quot;hid&quot;:&quot;stack_relative_-_d_s&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:146,&quot;range&quot;:&quot;47047-47680&quot;} -->
+<h3 class="sectionedit147" id="stack_relative_indirect_indexed_-_d_s_y">Stack relative indirect indexed - (d,s),y</h3>
+<div class="level3">
+
+<p>
+S wird mit dem nächsten Byte verrechnet, um einen Pointer in Bank 00 zu formen.
+Hier werden 16 Bit ausgelesen, welche die Basisadresse in Bank DBR bilden.
+Diese Addresse wird abschließend mit Y verrechnet.
+Dadurch kann sich die Bank ändern (Die Bank ist nicht genau definiert)
+</p>
+
+<p>
+<a href="/lib/exe/fetch.php?media=addressmode_stackrelativeindirectindexed.png" class="media" title="addressmode_stackrelativeindirectindexed.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=e2e906&amp;media=addressmode_stackrelativeindirectindexed.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+Die Verrechnung des Parameters mit S passiert immer in Bank 0 (Bank Wrap Around).
+Die daraus gelesenen 16-Bit werden mit dem DBR zu einer vollständigen Adresse verbunden und anschließend um Y erhöht.
+Hierbei und beim anschließenden holen der Daten gibt es kein Wrap Around.
+</p>
+
+<p>
+Sagen wir es ist Native-Mode, der Operand ist $FF und S ist $FF00, so würden die 16-Bit aus $00FFFF und $000000 ausgelesen.
+Anschießend lesen wir dort $FFFF, der DBR ist $12 und wir haben in Y $06, so werden die Daten aus $130005 und $130006 ausgelesen.
+</p>
+
+<p>
+Bsp 2: Im Emulation Mode ist S $0100 un der Operand $FF.
+Die zwischenadresse würde so aus $0001FF und $000100 ausgelesen.
+Hier lesen wir $FFFF bei DBR $12 und Y $06 und erhalten so die Datenaddressen $130005 und $130006.
+</p>
+
+<p>
+verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
+</p>
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Stack relative indirect indexed - (d,s),y&quot;,&quot;hid&quot;:&quot;stack_relative_indirect_indexed_-_d_s_y&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:147,&quot;range&quot;:&quot;47681-48904&quot;} -->
+<h1 class="sectionedit148" id="instructions">Instructions</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT{&quot;target&quot;:&quot;section&quot;,&quot;name&quot;:&quot;Instructions&quot;,&quot;hid&quot;:&quot;instructions&quot;,&quot;codeblockOffset&quot;:1,&quot;secid&quot;:148,&quot;range&quot;:&quot;48905-&quot;} -->

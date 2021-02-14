@@ -627,7 +627,7 @@ Die Bank ist der PBR.
 
 {{ ::addressmode_absoluteindexedindirect.png?direct&400 |}}
 
-Bei Absolute Indexed Indirect Adressing passier ein Bank Wrap Around.
+Bei Absolute Indexed Indirect Adressing passiert ein Bank Wrap Around.
 Sind dies nächsten 2 Byte $FFFF, X ist $06 und der PBR ist $12, sow ird das low-Byte von $120005 und das Hi-Byte von $120006 gelesen.
 Die Bank der endgültigen Adresse ist erneut der PBR.
 
@@ -660,7 +660,7 @@ Die Instruktion dc entspricht einem JMP mit Absolute Indirect Long (in diesem Fa
 
 {{ ::addressmode_absoluteindirect.png?direct&400 |}}
 
-Bei den Absolute Indirect Addressing passiert in Bank Wrap.
+Bei den Absolute Indirect Addressing passiert ein Bank Wrap.
 Sind die 2 kommenden Byte $FFFF so wird das low-Byte von $00FFFF und das hi-Byte von $000000 gelesen.
 In JML würde das 3 Byte von $000001 gelesen.
 
@@ -709,6 +709,7 @@ Aus dieser Addresse werden 2 Byte gelesen, welche mit dem DBR die Addresse bilde
 
 Beim lesen der Adresse passiert ein Bank Wrap Around.
 Zusätzlich dazu passiert ein Page Wrap Around, wenn bei einem "alten" OpCode, D den Wert $XX00 hat und wir uns im Emulation-Mode befinden.
+Beim anschließenden holen der WErte passiert kein Wrap Around.
 
 Im Emulation-Mode, D $1200, X $06 und der Parameter ist $FF, dann wir die Adresse aus $001205 und $001206 ausgelesen.
 
@@ -759,7 +760,7 @@ Dieser Modus ist identisch mit [d],y mit der Ausnahme, dass DBR als Bank genutzt
 {{ ::addressmode_directindirectindexed.png?direct&400 |}}
 
 Die Ermittlung der Adresse ist genau wie im Direct Indirect Adressing (D + Parameter, Page Wrap Around bei Emulation-Mode + D $XX00 und "altem" OpCode, ansonsten Bank Wrap Around).
-Bei der anschließenden Ermittlung des WErtes passiert ebenfalls kein Wrap Around.
+Bei der anschließenden Ermittlung des Wertes passiert ebenfalls kein Wrap Around.
 
 Ist die Adresse $FFFF, DBR $12 und Y $06 so wird aus $130005 und $130006 ausgelesen.
 
@@ -776,7 +777,7 @@ Dieser Modus ist identisch mit (d),y mit der Ausnahme, dass eine effektive Addre
 
 {{ ::addressmode_directindirectlongindexed.png?direct&400 |}}
 
-Bzgl Wrap Around ist dieser Modus identisch mit Direct Indirect Indexed Adressierung, Mit den 2 Ausnahmen, dass es kein Page Wrap Aound beim ermitteln der Adresse gibt und das die Bank der Werte auch aus der Adresse ausgelesen wird.
+Bzgl. Wrap Around ist dieser Modus identisch mit Direct Indirect Indexed Adressierung, mit den 2 Ausnahmen, dass es kein Page Wrap Aound beim ermitteln der Adresse gibt und das die Bank der Werte auch aus der Adresse ausgelesen wird.
 
 Bsp: D ist $1200 und der Parameter ist $FF.
 Die Adresse wird aus $0012FF, $001300 und $001301 ausgelesen.
@@ -872,8 +873,8 @@ Für P-Operationen (REP, SEP) wird immer nur 1 Byte geladen.
 Operationen auf X oder Y (CPX, CPY, LDX, LDY) brauchen 1 Byte, wenn das jeweilige Register im 8-Bit-Modus ist, ansonsten 2 Byte.
 Alle anderen Operationen beziehen sich auf A und brauchen entsprechend der größe von A.
 
-Beim Immediate Adressing passiert ein Page Wrap Around.
-Ist der PBR $12 und der PC $FFFF so würde hier aus $12FFFF und $130000 gelesen werden.
+Beim Immediate Adressing passiert ein Bank Wrap Around.
+Ist der PBR $12 und der PC $FFFF so würde hier aus $12FFFF und $120000 gelesen werden.
 
 verwendende Operationen: ADC, AND, BIT, CMP, CPX, CPY, EOR, LDA, LDX, LDY, ORA, REP, SBC, SEP
 
@@ -888,7 +889,7 @@ verwendende Operationen: CLC, CLD, CLI, CLV, DEX, DEY, INX, INY, NOP, SEC, SED, 
 Bei der Program counter relative long-Addressierung werden die nächsten 2 Byte geladen und als vorzeichenbelastete Zahl gewertet.
 Diese Zahl ist ein Offset, welcher auf dern PC gerechnet wird, welcher bereits auf die nächte Instruktion zeigt.
 
-Hierbei passiert ein Page Wrap Around, die Bank ist immer der PBR.
+Hierbei passiert ein Bank Wrap Around, die Bank ist immer der PBR.
 
 verwendende Operationen: BRL
 
@@ -897,7 +898,7 @@ verwendende Operationen: BRL
 Bei der Program counter relative long-Addressierung werden das nächste 1 Byte geladen und als vorzeichenbelastete Zahl gewertet.
 Diese Zahl ist ein Offset, welcher auf dern PC gerechnet wird, welcher bereits auf die nächste Instruktion zeigt.
 
-Hierbei passiert ein Page Wrap Around, die Bank ist immer der PBR.
+Hierbei passiert ein Bank Wrap Around, die Bank ist immer der PBR.
 
 verwendende Operationen: BCC, BCS, BEQ, BMI, BNE, BPL, BRA, BVC, BVS
 
@@ -912,12 +913,12 @@ verwendende Operationen: BRK, COP, PEA, PEI, PER, PHA, PHB, PHD, PHK, PHP, PHX, 
 Stack relative-Addressing ist eine Sonderform des Direct-Addressing, bei dem S anstelle von D verwendet wird.
 Der Parameter (1 Byte) wird mit S addiert und die Bank ist 00.
 
+{{ ::addressmode_stackrelative.png?direct&400 |}}
+
 Während bei der Adresse (wie erwartet) ein Bank Wrap Around passiert gibt es bei den Daten keinen Wrap Around
 
 Ist S $FFFF und der Parameter $06 so wird die Adresse aus $000005 und $000006 ausgelesen.
 Erhalten wir hier $FFFF, der DBR ist $12 und Y ist $06, so wird der Wert aus $130005 und $130006 ausgelesen.
-
-{{ ::addressmode_stackrelative.png?direct&400 |}}
 
 verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
 
@@ -929,6 +930,17 @@ Diese Addresse wird abschließend mit Y verrechnet.
 Dadurch kann sich die Bank ändern (Die Bank ist nicht genau definiert)
 
 {{ ::addressmode_stackrelativeindirectindexed.png?direct&400 |}}
+
+Die Verrechnung des Parameters mit S passiert immer in Bank 0 (Bank Wrap Around).
+Die daraus gelesenen 16-Bit werden mit dem DBR zu einer vollständigen Adresse verbunden und anschließend um Y erhöht.
+Hierbei und beim anschließenden holen der Daten gibt es kein Wrap Around.
+
+Sagen wir es ist Native-Mode, der Operand ist $FF und S ist $FF00, so würden die 16-Bit aus $00FFFF und $000000 ausgelesen.
+Anschießend lesen wir dort $FFFF, der DBR ist $12 und wir haben in Y $06, so werden die Daten aus $130005 und $130006 ausgelesen.
+
+Bsp 2: Im Emulation Mode ist S $0100 un der Operand $FF.
+Die zwischenadresse würde so aus $0001FF und $000100 ausgelesen.
+Hier lesen wir $FFFF bei DBR $12 und Y $06 und erhalten so die Datenaddressen $130005 und $130006.
 
 verwendende Operationen: ADC, AND, CMP, EOR, LDA, ORA, SBC, STA
 
